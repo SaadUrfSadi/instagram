@@ -1,0 +1,37 @@
+.explore-section-container{
+  /* display: flex; */
+    margin-top: 32px;
+    margin: 0 auto;
+}
+.explore-box-container{
+  position: relative;
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-rows: minmax(100px , 1fr);
+  gap: 3px; 
+  /* padding: 16px; */
+  margin-top: 12px;
+} 
+.span-box {
+  grid-row: span 2; 
+}
+ 
+/* .explore-box:nth-child(3),
+.explore-box:nth-child(6n + 3){
+  grid-row: span 2; 
+}
+.explore-box:nth-child(6){
+  grid-row: span 2;
+} */
+.explore-box {
+    background-color: #f0f0f0; 
+    overflow: hidden;
+    transition: 0.5s;
+}
+
+.explore-box img {
+    width: 100%;
+    height: 100%; 
+    object-fit: cover; 
+}

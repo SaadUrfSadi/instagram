@@ -1,0 +1,230 @@
+.setting-container{
+    padding: 10px;
+    margin: 0 auto;
+    /* width: 80%; */
+}
+.edit-profile h2{
+   font-size: 26px;
+   /* padding-left: 10px; */
+   /* margin-left: 22px; */
+}
+.setting-boxes-container{
+    padding: 32px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.handle-user-dp img{
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.setting-box{
+    background-color: #f1f1f1;
+    height: auto;
+    width: 100%;
+    margin:0 auto;
+    border-radius: 16px;
+}
+.setting-user-profile{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+}
+.handle-user-dp{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.setting-username h3{
+    font-size: 16px;
+}
+.setting-username span{
+    font-size: 15px;
+    margin-top: -3px;
+    color: #969696;
+    margin-left: 3px;
+    /* width: 70px; */
+}
+.setting-username p{
+    font-size: 15px;
+    margin-top: 3px;
+    color: #969696;
+    width: 80%;
+}
+.handler-dp-change button{
+    border: none;
+    background: none;
+    outline: none;
+    display: flex;
+    flex: 1;
+    color: white;
+    background-color: #007bff;
+    padding: 8px 22px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.handler-setting-submit{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    float: left;
+    float: inline-end;
+    margin-bottom: 22px;
+}
+.handler-setting-submit button{
+    border: none;
+    background: none;
+    outline: none;
+    color: white;
+    background-color: #007bff;
+    padding: 14px 42px;
+    border-radius: 10px;
+    margin-right: 26px;
+    cursor: pointer;
+}
+/* .set-website{
+    height: 32px;
+} */
+.setting-website p{
+    font-size: 16px;
+    color: #969696;
+    cursor: not-allowed;
+}
+.setting-web-info p{
+    margin-top: -10px;
+    font-size: 12px;
+    font-weight: 300;
+    color: #000;
+    margin-left: 10px;
+}
+.sett-text-area{
+    position: relative;
+    height: auto;
+    width: 100%;
+    margin:0 auto;
+    border-radius: 16px;
+    /* resize: none; */
+}
+.sett-text-area textarea{
+    position: relative;
+    height: auto;
+    width: 100%;
+    margin:0 auto;
+    border-radius: 13px;
+    resize: none;
+    padding: 13px;
+    font-size: 18px;
+    padding-right: 70px;
+}
+.sett-text-area label{
+    position: absolute;
+    top: 40px;
+    right: 30px;
+    bottom: 0px;
+}
+.help{
+    margin-top: 32px;
+}
+/* ======================================== */
+
+  .set-modal-content{
+    background-color: white;
+    padding: 10px 0px;
+    border-radius: 10px;
+    width: 400px;
+    height: 220px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease-out;
+  }
+  .profile-set-name h3{
+    padding: 10px 0;
+    font-size: 22px;
+    font-weight: 400;
+  }
+  .set-modal-content h3{
+    padding: 6px 0;
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 12px;
+  }
+  .set-width-line{
+    color: #eeeded;
+    border: 0.05px solid #eeeded;
+    width: 100%;
+    overflow: hidden;
+    /* margin-top: 4px; */
+  }
+  .set-box{
+    margin-top: 3px;
+  }
+  .set-box h3{
+    margin-top: 6px;
+    font-size: 16px;
+    font-weight:600;
+  }
+  .upload-dp h3{
+    color: #007bff;
+    cursor: pointer;
+  }
+  .remove-dp h3{
+    color: red;
+    cursor: pointer;
+  }
+  .cancel-dp h3{
+    color: #3d3d3d;
+    cursor: pointer;
+  }
+/* .change-photo-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-overlay-container {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    width: 100%;
+    height: auto;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-box {
+    position: relative;
+    top: 0;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 50%;
+    max-width: 500px;
+    text-align: center;
+}
+.x-mark-dp{
+    position: absolute;
+    font-size: 24px;
+    right: 30px;
+    top: 37px;
+    color: #fff;
+    cursor: pointer;
+}
+*/
+
+/* .x-mark p {
+    cursor: pointer;
+    font-size: 24px;
+    color: red;
+    margin-top: 10px;
+} */ 

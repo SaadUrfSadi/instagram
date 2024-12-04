@@ -1,0 +1,31 @@
+.insta-loading{
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+.icon{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* gap: 290px; */
+}
+.icon img{
+    width: 67px;
+    height: 67px;
+}
+.meta{
+    position: absolute;
+    bottom: 20px;
+}
+.meta p{
+    margin-left: 32px;
+    margin-top: 22px;
+    color: #6b6b6b;
+}
+.meta img{
+    width: 90px;
+    height: auto;
+    object-fit: cover;
+}

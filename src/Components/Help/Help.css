@@ -1,0 +1,35 @@
+.help-container{
+    padding: 25px;
+}
+.helps-tags{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+}
+.helps-tags a{
+    list-style-type: none;
+    text-decoration: none;
+    font-size: 13px;
+    color: rgb(94, 94, 94);
+}
+ a:hover{
+    border-bottom: 1px solid rgba(94, 94, 94);
+    overflow: hidden;
+}
+.copy-right{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 18px;
+}
+.copy-right p{
+    font-size: 13px;
+    color: rgb(94, 94, 94); 
+}
+@media(max-width:445px){
+    .helps-tags{
+        gap: 14px;
+    }
+}

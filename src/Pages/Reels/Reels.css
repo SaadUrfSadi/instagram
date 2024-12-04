@@ -1,0 +1,110 @@
+.reel-section{
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin: 10px auto;
+}
+.reel-box{
+    display: flex;
+    align-items: end;
+    gap: 28px;
+}
+.reel-video {
+    width: 100%; 
+    height: auto;       
+    object-fit: cover;  
+    max-width: 100%; 
+  }
+.reel-content video{
+    height: 550px;
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0 , 0, 0, 0.2), 0 6px 20px rgba(0,0,0,0.15);
+    overflow: hidden;
+    object-fit: cover;
+    margin-top: 12px;
+}
+.reel-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+  
+.reel-video {
+    width: 100%;
+    cursor: pointer;
+}
+  
+  .music-icon {
+    position: absolute;
+    top: 20px;
+    right: 10px;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .user-info {
+    position: absolute;
+    bottom: 40px;
+    left: 10px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .user-info img{
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .user-name {
+    margin-right: 10px;
+    font-weight: 500;
+    font-size: 15px;
+    margin-top: 1px;
+  }
+  
+  .follow-btn {
+    background: none;
+    border: 0.05px solid #ccc;
+    color: #fff;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 4px;
+  }
+  .reel-other-icon-box{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 16px;
+    padding: 4px;
+  }
+  .reel-icon-box{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: -2px;
+    cursor: pointer;
+  }
+  .reel-icon-box p{
+   font-size: 24px ;
+  }
+  .reel-icon-box span{
+    font-size: 12px;
+    font-weight: 390;
+  }
+  .ico{
+    margin-left: -4px;
+  }

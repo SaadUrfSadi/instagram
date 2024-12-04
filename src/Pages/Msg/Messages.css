@@ -1,0 +1,140 @@
+.msg-user-container{
+    margin: 0 auto;
+    width: 90%;
+    position: relative;
+    left: 65px;
+    display: flex;
+    height: 85vh;
+}
+.msg-main{
+    display: flex;
+}
+.msg-left-container{
+ padding: 20px 0px;
+ width: 450px;
+ margin-top: 18px;
+ height: 100%;
+ border: 2px solid #eeeded;;
+ border-top : none;
+ border-bottom: none;
+ border-left: none;
+
+}
+/* .fixed-user-name{
+    position: relative;
+    top: 0;
+    background-color: #af0000;
+    width: 350px;
+} */
+.msg-username-box{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    width: 300px;
+    max-width: 100%;
+    padding: 20px 0px;
+}
+.msg-username-box h2{
+    font-size: 20px;
+    font-weight: 700;
+}
+.msg-username-box h5{
+    margin-top: 8px;
+    font-weight: 300;
+}
+.msg-username-box p{
+    margin-top: 6px;
+    font-size: 22px;
+}
+.msg-all-username-box{
+   padding: 20px 0px;
+   padding-right: 16px;
+   margin-top: 28px;
+   overflow-y: auto;
+   height: 100%;
+}
+.msg-name{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.msg-name h4{
+    font-size: 17px;
+    font-weight: 700;
+}
+.msg-name p{
+    font-size: 14px;
+    font-weight: 500;
+    color: #969696;
+}
+.message-user img{
+    width: 60px;
+    height:60px;
+    border-radius: 50%;
+    margin-top: 10px;
+    object-fit: cover;
+}
+.msg-user-box{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 18px;
+}
+.msg-users{
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.msg-username-active p{
+    font-size: 17px;
+    font-weight: 500;
+}
+.msg-username-active span{
+    font-size: 14px;
+    color: #969696;
+}
+.msg-display{
+    display: flex;
+}
+.handle-user img{
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-top: 6px;
+}
+.msg-right-container{
+    width: 100%;
+    margin-top: 22px;
+}
+.handle-user-msg{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.msg-right-top{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #eeeded;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    padding: 20px;
+    background-color: #fff;
+}
+.handle-user-msg{
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+.handler-user-icon{
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+.handler-user-icon p{
+    font-size: 28px;
+}
