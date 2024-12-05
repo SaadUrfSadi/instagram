@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import './AllUser.css';
 import Dp from '../../images/dp1.png'
 import emptyImg from '../../images/empty.jpeg'
@@ -24,6 +24,8 @@ function AllUser() {
   const firebase = useFirebase();
   const {alluserId} = useParams();
 
+  const btnRef = useRef();
+
   const [userData, setUserData] = useState(null);
   const [postLoct, setPostLoct] = useState("");
   const [postdetail, setPostDetail] = useState("");
@@ -33,6 +35,7 @@ function AllUser() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [username, setUsername] = useState('');
+  const [userFollow ,setUserFollow] = useState("");
 
 
   useEffect(()=>{
@@ -69,10 +72,46 @@ function AllUser() {
     fetchBio();
   }, [firebase]);
 
+  useEffect(() => {
+    const fetchFollowStatus = async () => {
+        try {
+            const targetUserUID = userData.userUID; // Target user's UID
+            const currentUID = firebase.user.uid;
+
+            if (userData.followRequests?.includes(currentUID)) {
+                setUserFollow(true); // Mark as "Requested"
+            }
+        } catch (error) {
+            console.error("Error checking follow request status:", error);
+        }
+    };
+
+    if (userData) {
+        fetchFollowStatus();
+    }
+}, [userData, firebase.user]);
+
+  // Check initial follow status
+  useEffect(() => {
+    const checkFollowStatus = async () => {
+        if (!userData) return;
+        const currentUID = firebase.user.uid;
+
+        if (userData.followers?.some((follower) => follower.uid === currentUID)) {
+            setUserFollow("Unfollow"); // Already following
+        } else if (userData.followRequests?.includes(currentUID)) {
+            setUserFollow("Requested"); // Follow request sent
+        } else {
+            setUserFollow("Follow"); // Not following
+        }
+    };
+
+    checkFollowStatus();
+}, [userData, firebase.user]);
+
   const handlerListedData = (post) => {
     setPostLoct(post.postLocation);
     setPostDetail(post.detail);
-    // setPostShare(post)
   };
 
   const handleImageClick = (imageUrl) => {
@@ -83,6 +122,34 @@ function AllUser() {
 const closeModal = () => {
   setModalImage(null);
   setModalOpen(false); 
+};
+
+const followRequest = async () => {
+  try {
+      await firebase.sendFollowRequest(userData.userUID);
+      setUserFollow("Requested"); 
+      btnRef.current.classList.add("active");
+  } catch (error) {
+      console.error("Error sending follow request:", error);
+  }
+};
+
+ // Unfollow user
+ const unfollowUser = async () => {
+  try {
+      await firebase.unfollowUser(userData.userUID);
+      setUserFollow("Follow");
+  } catch (error) {
+      console.error("Error unfollowing user:", error);
+  }
+};
+
+const handleFollowButtonClick = () => {
+  if (userFollow === "Follow") {
+      followRequest();
+  } else if (userFollow === "Unfollow") {
+      unfollowUser();
+  }
 };
  
 
@@ -109,13 +176,26 @@ const closeModal = () => {
                    <div className="profile-container">
                    <div className="user-username-detail">
                     <h4>{userData.username}</h4>
-                    <button>Following</button>
+                    <button 
+                    id='follow-btn-users' 
+                    ref={btnRef} 
+                    onClick={handleFollowButtonClick}
+                    style={{
+                      background:
+                      userFollow === "Follow" ? "#007bff;" :
+                      userFollow === "Requested" ? "#e1e1e1" : 
+                     userFollow === "Unfollow" ? "#e1e1e1" : "transparent",
+                     color: 
+                     userFollow === "Follow" ? "white" : "black",
+                    }}
+                    >{userFollow}
+                    </button>
                     <button>Message</button>
                     <h3><FiSettings /></h3>
                    </div>
                    <div className="folling-followers-details">
-                    <h4>0 <span>post</span></h4>
-                    <h4>15 <span>followers</span></h4>
+                    <h4>{userData.posts ? userData.posts.length : "0"} <span>post</span></h4>
+                    <h4>{userData.followers ? userData.followers.length : "0"} <span>followers</span></h4>
                     <h4>360 <span>following</span></h4>
                    </div>
                    <div className="user-other-bio-details">

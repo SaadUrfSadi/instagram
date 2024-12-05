@@ -27,6 +27,7 @@ import { FaAngleDown } from 'react-icons/fa';
 import { FaRegShareSquare } from "react-icons/fa";
 import { CiLocationOn } from "react-icons/ci";
 import PostLoader from '../../Components/PostLoader/PostLoader';
+import emptyImg from "../../images/empty.jpeg"
 import { dpData } from '../../Data';
 
 function User() {
@@ -52,12 +53,14 @@ function User() {
   const [photo, setPhoto] = useState([]);
   const [posted , setPosted] = useState(true);
   const [listPost, setListPost] = useState([]);
-  const [modalImage, setModalImage] = useState(null); // Store the clicked image URL
+  const [modalImage, setModalImage] = useState(null); 
   const [isModalOpen, setModalOpen] = useState(false);
   const [postLoct, setPostLoct] = useState("");
   const [postdetail, setPostDetail] = useState("");
   const [postShare, setPostShare] = useState([]);
-  console.log(postShare);
+  const [followers, setFollowers] = useState([]);
+  const [post, setPost] = useState([]);
+  // console.log(followers);
 
 
   useEffect(()=>{
@@ -96,6 +99,32 @@ function User() {
 
     fetchBio();
   }, [firebase]);
+
+  useEffect(()=>{
+    const fetchFollowers = async () => {
+      try {
+        const allFollowers = await firebase.followersFetchData();
+        setFollowers(allFollowers);
+      } catch (error) {
+        console.log("err in fetch followers", error);
+        throw error
+      }
+    };
+    fetchFollowers();
+  },[]);
+
+  useEffect(()=>{
+    const fetchPosts = async () => {
+      try {
+        const allPosts = await firebase.postFetchData();
+        setPost(allPosts);
+      } catch (error) {
+        console.log("err in fetch posts", error);
+        throw error
+      }
+    };
+      fetchPosts();
+  },[])
 
   useEffect(()=> {
     if(selectedImageIndex === 0){
@@ -244,7 +273,7 @@ const handleShare = async () => {
       <div className="user-container">
          <div className="top-user-section">
                 <div className="logo-section">
-                 <img src={firebase.user.photoURL} alt="" />
+                 <img src={firebase.user.photoURL || emptyImg} alt="" />
                 </div>
                 <div className="profile-section">
                    <div className="profile-container">
@@ -255,14 +284,14 @@ const handleShare = async () => {
                     <h3><FiSettings /></h3>
                    </div>
                    <div className="folling-followers-details">
-                    <h4>0 <span>post</span></h4>
-                    <h4>15 <span>followers</span></h4>
+                    <h4>{post ? post.length : "0"} <span>post</span></h4>
+                    <h4>{followers ? followers.length : "0"} <span>followers</span></h4>
                     <h4>360 <span>following</span></h4>
                    </div>
                    <div className="user-other-bio-details">
                      <div className="user-name">
                       <h4 className='account-name'>{firebase.user.displayName}</h4>
-                      <p>{bio || "Loading..."}</p>
+                      <p>{bio || ""}</p>
                      </div>
                    </div>
                 </div>
@@ -369,7 +398,7 @@ const handleShare = async () => {
                          <div className="postview-comment-other-container">
                             <div className="postview-user-box">
                               <div className="postview-dp-username">
-                                <img src={firebase.user.photoURL} alt="" />
+                                <img src={firebase.user.photoURL || emptyImg} alt="" />
                                   <div className="post-view-city">
                                     <h5>{username}</h5>
                                     <p>{postLoct}</p>
@@ -384,7 +413,7 @@ const handleShare = async () => {
                              </div>
                              <div className="postreview-comment">
                              <div className="postview-users-comments">
-                                <img src={firebase.user.photoURL} alt="" />
+                                <img src={firebase.user.photoURL || emptyImg} alt="" />
                                   <div className="post-view-city">
                                     <h5>{username}</h5>
                                     <p>7 h</p>

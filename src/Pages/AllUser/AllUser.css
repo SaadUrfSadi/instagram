@@ -1,0 +1,8 @@
+#follow-btn-users{
+    background-color: #007bff;
+    color: #fff;
+}
+#follow-btn-users.active{
+    color: black;
+    background-color: #eee;
+}

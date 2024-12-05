@@ -286,6 +286,9 @@
     justify-content: space-between;
     width: 100%;
 }
+.follow-dps{
+    position: relative;
+}
 .follow-req{
     display: flex;
     align-items: center;
@@ -294,11 +297,11 @@
     width: 100%;
 }
 .follow-req img{
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     object-fit: cover;
-    margin-top: 4px;
+    margin-top: 2px;
 }
 .follow-reqested{
     cursor: pointer;
@@ -324,6 +327,12 @@
    border-radius: 50%;
    background-color: rgb(80, 80, 238);
 }
+/* .blue-ref.active{
+    height: 8px;
+   width: 8px;
+   border-radius: 50%;
+   background-color: rgb(80, 80, 238);
+} */
 .noti-arrow p{
     color: #414141;
     font-size: 18px;
@@ -460,7 +469,39 @@
 #del-btn:hover{
     background: #e3e3e3e3;
 }
-
+#second-noti-img{
+    position: absolute;
+    top: 11px;
+    left: 11px;
+    width: 32px;
+    height: 32px;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #fff;
+    border-top: 2px solid #fff;
+}
+#first-noti-img{
+    position: relative;
+    top: -6px;
+    width: 32px;
+    height: 32px;
+}
+.red-noti-icon{
+    position: relative;
+}
+.red-noti.active{
+    position: absolute;
+    top: 13px;
+    left: 27px;
+    border-radius: 50%;
+    height: 8px;
+    width: 8px;
+    background-color: rgb(245, 40, 40);
+    cursor: none;
+    pointer-events: none;
+}
+.follow-back-btn{
+    color: white;
+}
 
 
 

@@ -59,6 +59,8 @@ function Nav() {
    const pagesNameSevenRef = useRef();
    const pagesNameEightRef = useRef();
    const pagesNameNineRef = useRef();
+   const redNotiRef = useRef();
+  //  const blueRef = useRef();
 
 
    const [searchIcon, setSearchIcon] = useState(false);
@@ -190,8 +192,17 @@ const [input, setInput] = useState("");
 const [sharePost, setSharePost] = useState(false);
 const [isLoading, setIsLoading] = useState(false);
 const [photo, setPhoto] = useState([]);
+const [mulPhoto, setMulPhoto] = useState("");
+console.log(mulPhoto);
 
-console.log("file ha bhai",photo)
+useEffect(()=>{
+  if (firebase.followRequests.length > 0) {
+       const data = firebase.followRequests;
+       setMulPhoto(data.photoURL);
+       setNotiUser(data.username)
+  };
+},[])
+
 // getUsername k useEffect ha
 useEffect(() => {
   const fetchBio = async () => {
@@ -224,7 +235,25 @@ useEffect(()=> {
   if(selectedImageIndex === 0){
        setSelected(true)
   }
-},[])
+},[]);
+
+useEffect(()=>{
+  if (firebase.followRequests.length > 0) {
+    redNotiRef.current.classList.add("active");
+    // blueRef.current.classList.add("active");
+  }
+},[firebase.followRequests]);
+
+useEffect(()=>{
+  const req = async () => {
+    try {
+        await firebase.fetchFollowRequests();
+    } catch (error) {
+       console.log("fetchfollowErr")
+    }
+  }
+  req();
+},[]);
 
 const toggleModalDel = () => {
   setModalActive(prevState => !prevState); 
@@ -353,7 +382,17 @@ const handleDiscard = () => {
  const searchNavRemove = () => {
   searchRef.current.classList.remove('active');
   heightRef.current.classList.remove('active');
- }
+ };
+
+ const followRequest = async () => {
+  try {
+      await firebase.sendFollowRequest(firebase.user.uid);
+      // setUserFollow(true); 
+      // btnRef.current.classList.add("active");
+  } catch (error) {
+      console.error("Error sending follow request:", error);
+  }
+};
   
   return (
     <>
@@ -394,9 +433,10 @@ const handleDiscard = () => {
                <NavLink to="/messages" style={{textDecoration:"none", color:"black",  border:'none'}} ><p className='pages-name-none' ref={pagesNameFifthRef} onClick={msgActive}>Messages</p></NavLink>
             </div>
           
-            <div className="pages">
+            <div className="pages red-noti-icon">
                <h3  onClick={NotificationActive}><FaRegHeart /></h3>
                <p className='pages-name-none' onClick={NotificationActive}  ref={pagesNameSixRef}>Notification</p>
+               <p className='red-noti' ref={redNotiRef}></p>
             </div>
            <div className="pages" >
                <h3 onClick={toggleModal}><FiPlusSquare /></h3>
@@ -533,18 +573,34 @@ const handleDiscard = () => {
              <div className="follower-req-container">
                <div className="follower-req-box">
                {
-                  dpData.map((items, value)=>(
+                  firebase.followRequests.map((request, value)=>(
                     <div className="likes-container follower-req" key={value}>
                       <div className="likes-box follwer-req-img">
-                         <img src={items.img} alt="" />
+                         <img src={request.photoURL || emptyImg} alt="" />
                           <div className="user-likes-your-story follwer-username-req">
-                           <p>x_.bukhari</p>
-                           <span>..shah zada..</span>
+                           <p>{request.username}</p>
+                           <span>{request.fullName}</span>
                           </div>
                      </div>
                      <div className="your-story-item">
-                        <button className='confirm-btn'>Confirm</button>
-                        <button id='del-btn'>Delete</button>
+                     {!request.confirmed ? (
+                    <>
+                        <button
+                            className="confirm-btn"
+                            onClick={() => firebase.confirmFollow(request.userUID)}
+                        >
+                            Confirm
+                        </button>
+                        <button
+                            id="del-btn"
+                            onClick={() => firebase.deleteFollowRequest(request.userUID)}
+                        >
+                            Delete
+                        </button>
+                    </>
+                ) : (
+                    <button className="follow-back-btn" onClick={followRequest}>Follow Back</button>
+                )}
                      </div>
                     </div>
                   ))
@@ -563,11 +619,13 @@ const handleDiscard = () => {
             <div className="requested-container" onClick={handleFollowReq}>
             <div className="follow-req">
                <div className="follow-dps">
-                <img src={DpImg} alt="" />
+                <img src={emptyImg} alt="" id='first-noti-img' />
+                <img src={emptyImg} alt="" id='second-noti-img' />
                </div>
                   <div className="follow-reqested">
                   <h4>Follow requests</h4>
-                  <p>thairhussain113 + 11 others</p>
+                  <p>reqested + {firebase.followRequests.length} others</p>
+                  {/* <button onClick={()=> firebase.followersFetchData()}>Click</button> */}
                   </div>
                   </div>
                   <div className="noti-arrow">
