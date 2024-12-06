@@ -370,6 +370,7 @@
     width: 47px;
     height: 47px;
     border-radius: 3px;
+    cursor: pointer;
 }
 .username-likes-story{
     padding-top: 12px;
@@ -398,6 +399,7 @@
 .user-likes-your-story p{
     font-size: 13px;
     font-weight: 640;
+    cursor: pointer;
 }
 .user-likes-your-story span{
     font-size: 13px;
@@ -437,6 +439,7 @@
 .follwer-username-req{
     display: flex;
     flex-direction: column;
+    text-align: start;
     margin-top: 3px;
 }
 .follwer-username-req p{
@@ -454,6 +457,7 @@
     padding: 9px 18px;
     border-radius: 8px;
     background-color: #007bff;
+    cursor: pointer;
 }
 .follwer-req-img img{
     width: 52px;
@@ -527,7 +531,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; 
+    z-index: 1001; 
   }
 
   .modal-content {

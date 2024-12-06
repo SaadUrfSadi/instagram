@@ -67,6 +67,7 @@
 .folling-followers-details h4{
     font-size: 16px;
     font-weight: 510;
+    cursor: pointer;
 }
 .folling-followers-details span{
     font-size: 16px;
@@ -754,7 +755,33 @@
     padding-left: 12px;
     margin-left: 18px;
 }
-
+.follers-md-content{
+    height: 390px;
+    padding: 10px 0px;
+}
+.follwers-md-top-name{
+    font-weight: 600;
+    font-size: 17px;
+    color: #333333;
+    margin-bottom: 8px;
+}
+.follers-md-content{
+    overflow-y: auto;
+}
+.search-md-box{
+    padding: 12px 3px;
+}
+.search-md-box input{
+    width: 100%;
+    max-width: 330px;
+    border: none;
+    outline: none;
+    background: none;
+    border-radius: 8px;
+    padding: 8px 8px;
+    border: 1px solid #e1e1e1;;
+    background: #e1e1e1;
+}
 
 
 @keyframes fadeIn {

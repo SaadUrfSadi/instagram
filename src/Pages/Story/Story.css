@@ -1,0 +1,22 @@
+.story-page-conti{
+    background: rgba(0, 0, 0, .8);
+    height: 100vh;
+    width: 100%;
+}
+.story-pages-box-main{
+    padding: 18px 24px;
+}
+.story-instagram-name{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.story-instagram-name h2{
+    color: #f7f4f4;
+    font-size: 26px;
+}
+.story-instagram-name p{
+    font-size: 24px;
+    color: #f7f4f4;
+    cursor: pointer;
+}

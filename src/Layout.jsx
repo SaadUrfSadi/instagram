@@ -1,11 +1,13 @@
 import React from 'react'
 import Nav from './Pages/Nav/Nav'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 
 function Layout() {
+
+  const location = useLocation();
   return (
     <>
-    <Nav/>
+    {location.pathname !== "/story" && <Nav/> }
     <Outlet/>
     </>
   )

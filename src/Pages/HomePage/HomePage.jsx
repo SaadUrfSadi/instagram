@@ -10,6 +10,7 @@ import { BsThreeDots } from "react-icons/bs";
 import { FaRegComment } from "react-icons/fa";
 import { BsShare } from "react-icons/bs";
 import { FaRegBookmark } from "react-icons/fa6";
+import { NavLink } from 'react-router-dom';
 function HomePage() {
 
   const firebase = useFirebase();
@@ -39,7 +40,7 @@ function HomePage() {
                 dpData.map((items, value)=>(
                   <div className="dp-box">
                       <div className="dp" key={value}>
-                      <img src={items.img} alt="" />
+                      <NavLink to="/story" style={{border:"none", overflow:"hidden"}}><img src={items.img} alt="" /></NavLink>
                       </div>
                       <div className="name">
                       <p>{items.username}</p>

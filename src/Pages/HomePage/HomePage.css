@@ -35,8 +35,10 @@
     height: 70px;
     border-radius: 50%; 
     padding: 5px; 
-    background: linear-gradient(45deg, #e7a864, #ee9473, #e77c8c, #e9659a, #b65497);
-    border: 2px solid white;
+    background: 
+    radial-gradient(rgba(0,0,0,0.15) 60%, transparent 0),
+    radial-gradient(white 65%, transparent 0),
+    linear-gradient(to top right, orange, deeppink);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -44,10 +46,11 @@
   
   .dp img {
     width: 60px;
-  height: 60px;
-  border-radius: 50%; 
-  object-fit: cover; 
-  background-color: white;
+    height: 60px;
+    border-radius: 50%; 
+    object-fit: cover; 
+    clip-path: circle(48%);
+    overflow: hidden;
   }
   .name {
     margin-top: 5px; 

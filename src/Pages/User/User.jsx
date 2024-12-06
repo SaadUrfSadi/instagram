@@ -60,7 +60,8 @@ function User() {
   const [postShare, setPostShare] = useState([]);
   const [followers, setFollowers] = useState([]);
   const [post, setPost] = useState([]);
-  // console.log(followers);
+  const [isFollowerModal, setIsFollowerModal] = useState(false);
+  const [isFollowingModal, setIsFollowingModal] = useState(false);
 
 
   useEffect(()=>{
@@ -262,6 +263,22 @@ const handleShare = async () => {
     }, 5000); 
   };
 
+  const followerModal = () => {
+    setIsFollowerModal((prev)=> !prev);
+  };
+
+  const followingModal = () => {
+    setIsFollowingModal((prev)=> !prev);
+  }
+
+  const closeFollowerModal = () => {
+    setIsFollowerModal(false);
+  }
+
+  const closeFollowingModal = () => {
+    setIsFollowingModal(false);
+  }
+
   const handleDiscard = () => {
     setSelected(false);
     setModalActive(null)
@@ -285,8 +302,8 @@ const handleShare = async () => {
                    </div>
                    <div className="folling-followers-details">
                     <h4>{post ? post.length : "0"} <span>post</span></h4>
-                    <h4>{followers ? followers.length : "0"} <span>followers</span></h4>
-                    <h4>360 <span>following</span></h4>
+                    <h4 onClick={followerModal}>{followers ? followers.length : "0"} <span>followers</span></h4>
+                    <h4 onClick={followingModal}>360 <span>following</span></h4>
                    </div>
                    <div className="user-other-bio-details">
                      <div className="user-name">
@@ -297,6 +314,98 @@ const handleShare = async () => {
                 </div>
               </div>
               </div>
+              {/* followers modal */}
+
+              {
+                isFollowerModal && (
+                  <div className="modal-overlay" onClick={closeFollowerModal}>
+                  <div className="modal-content follers-md-content" onClick={(e) => e.stopPropagation()}>
+                      <div className="follwers-md-top-name">
+                          <p>Followers</p>
+                      </div>
+                      <div className="postview-line-width">
+                      
+                      </div>
+                      <div className="all-md-followers-container">
+                        <div className="search-md-box">
+                          <input type="text" placeholder='Search'/>
+                        </div>
+                        <div className="all-mdf-followers-box">
+                        {
+                         followers.map((request, value)=>(
+                          <div className="likes-container follower-req" key={value}>
+                              <div className="likes-box follwer-req-img">
+                                   <img src= {request.photoURL || emptyImg} alt="" />
+                                <div className="user-likes-your-story follwer-username-req">
+                                   <p>{request.username}</p>
+                                  <span>{request.fullName}</span>
+                                </div>
+                             </div>
+                              <div className="your-story-item">
+                                <button
+                                id="del-btn"
+                               // onClick={() => firebase.deleteFollowRequest(request.userUID)}
+                                >
+                                Remove
+                               </button>
+                             </div>
+                        </div>
+                         ))
+                       }
+                        </div>
+                      </div>
+                  </div>
+                  </div>
+                )
+              }
+
+              {/* following modal */}
+
+              {
+                isFollowingModal && (
+                  <div className="modal-overlay" onClick={closeFollowingModal}>
+                  <div className="modal-content follers-md-content" onClick={(e) => e.stopPropagation()}>
+                      <div className="follwers-md-top-name">
+                          <p>Following</p>
+                      </div>
+                      <div className="postview-line-width">
+                      
+                      </div>
+                      <div className="all-md-followers-container">
+                        <div className="search-md-box">
+                          <input type="text" placeholder='Search'/>
+                        </div>
+                        <div className="all-mdf-followers-box">
+                        {
+                         dpData.map((request, value)=>(
+                          <div className="likes-container follower-req" key={value}>
+                              <div className="likes-box follwer-req-img">
+                                   <img src= {request.img || emptyImg} alt="" />
+                                <div className="user-likes-your-story follwer-username-req">
+                                   <p>{request.username}</p>
+                                  <span>its_._.syedzada</span>
+                                </div>
+                             </div>
+                              <div className="your-story-item">
+                                <button
+                                id="del-btn"
+                               // onClick={() => firebase.deleteFollowRequest(request.userUID)}
+                                >
+                                Remove
+                               </button>
+                             </div>
+                        </div>
+                         ))
+                       }
+                        </div>
+                      </div>
+                  </div>
+                  </div>
+                )
+              }
+      {/* ======================================================= */}
+
+
 
 
               <div className="user-line">

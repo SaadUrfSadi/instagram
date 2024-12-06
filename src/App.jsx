@@ -13,6 +13,7 @@ import Reels from './Pages/Reels/Reels';
 import Messages from './Pages/Msg/Messages';
 import Setting from './Pages/Setting/Setting';
 import AllUser from './Pages/AllUser/AllUser';
+import Story from './Pages/Story/Story';
 
 function App() {
 
@@ -79,6 +80,11 @@ function App() {
         path:"/alluser/:alluserId",
         element:<AllUser/>
       },
+      {
+        path:"/story",
+        element:<Story/>
+      },
+
     ]
     }
 ])

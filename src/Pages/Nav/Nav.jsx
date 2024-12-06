@@ -199,7 +199,7 @@ useEffect(()=>{
   if (firebase.followRequests.length > 0) {
        const data = firebase.followRequests;
        setMulPhoto(data.photoURL);
-       setNotiUser(data.username)
+      //  setNotiUser(data.username)
   };
 },[])
 
