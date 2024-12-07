@@ -48,12 +48,10 @@ export const FirebaseProvider = (props) => {
     const [users, setUsers] = useState([]);
     const [followRequests, setFollowRequests] = useState([]);
     const [usersFollowers, setUsersFollowers] = useState([]);
-    // console.log(users)
-    // console.log(user);
-    console.log(usersFollowers)
-    // console.log(usernameUser)
-
-    // console.log(usersFollowers)
+    const [emptyURL, setEmptyURL] = useState("");
+    console.log(emptyURL);
+    console.log(user);
+    console.log(usersFollowers);
 
 const fetchUsername = async () => {
     try {
@@ -104,6 +102,17 @@ const fetchUsername = async () => {
     
     const signupUserWithEmail = async (email, password, fullname, username) => {
         try {
+
+                 const response = await fetch(emptyImg);
+                 const blob = await response.blob(); 
+                 const imgFile = new File([blob], "empty.jpeg", { type: "image/jpeg" });
+
+                 const storageRef = ref(storage, `insta Profile Img/${imgFile.name}`);
+                 await uploadBytes(storageRef, imgFile);
+                 const imageURL = await getDownloadURL(storageRef);
+                 setEmptyURL(imageURL);
+
+
             const querySnapshot = await getDocs(collection(firestore, "instagram username"));
             let usernameExists = false;
     
@@ -122,6 +131,7 @@ const fetchUsername = async () => {
             const user = userCredential.user;
             await updateProfile(user, {
               displayName: fullname,
+              photoURL: imageURL,
            });
 
            await addDoc(collection(firestore, "instagram username"),{
@@ -129,6 +139,7 @@ const fetchUsername = async () => {
              email: email,
              fullName: fullname,
              userUID: user.uid,
+             imgURL: imageURL,
            });
         } catch (error) {
             setSignupErr("Register Failed") 
@@ -441,6 +452,7 @@ const postData = async (photo, detail, input) => {
         } else {
             console.log("Target user not found!");
         }
+
     } catch (error) {
         console.error("Error sending follow request:", error);
         throw error;
@@ -481,7 +493,7 @@ const fetchFollowRequests = async () => {
   }
 };
 
-const confirmFollow = async (requesterUID) => {
+const confirmFollow = async (requesterUID, requesterURL, requesterUsername, requesterFullname) => {
     try {
 
         const currentUserQuery = query(
@@ -494,7 +506,12 @@ const confirmFollow = async (requesterUID) => {
             const currentUserDoc = currentUserSnapshot.docs[0].ref;
 
             await updateDoc(currentUserDoc, {
-                followers: arrayUnion(requesterUID),
+                followers: arrayUnion({
+                    uid: requesterUID,
+                    URL: requesterURL || emptyURL,
+                    username: requesterUsername,
+                    fullName: requesterFullname,
+                }),
                 followRequests: arrayRemove(requesterUID),
             });
 
@@ -508,7 +525,12 @@ const confirmFollow = async (requesterUID) => {
                 const requesterDoc = requesterSnapshot.docs[0].ref;
 
                 await updateDoc(requesterDoc, {
-                    followers: arrayUnion(user.uid),
+                    following: arrayUnion({
+                        uid: user.uid,
+                        photo: user.photoURL,
+                        username:usernameUser,
+                        fullName:user.displayName,
+                    }),
                 });
             }
 
@@ -544,6 +566,29 @@ const followersFetchData = async () => {
         }
     } catch (error) {
         console.error("Error fetching followers:", error);
+        throw error
+    }
+};
+
+
+const followingFetchData = async () => {
+    try {
+
+        const q = query(
+            collection(firestore, "instagram username"),
+            where("userUID", "==", user.uid)
+        );
+
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+            const userData = querySnapshot.docs[0].data(); 
+            return userData.following || [];
+        } else {
+            console.log("No such user document!");
+        }
+    } catch (error) {
+        console.error("Error fetching following:", error);
         throw error
     }
 };
@@ -611,7 +656,9 @@ const deleteFollowRequest = async (requesterUID) => {
             const currentUserDoc = currentUserSnapshot.docs[0].ref;
 
             await updateDoc(currentUserDoc, {
-                followers: arrayRemove(targetUID),
+                following: arrayRemove({
+                    uid: targetUID,
+                }),
             });
 
             const targetUserQuery = query(
@@ -691,6 +738,7 @@ const deleteFollowRequest = async (requesterUID) => {
                    followersFetchData,
                    unfollowUser,
                    postFetchData,
+                   followingFetchData,
                    }}>
             {props.children}
         </FirebaseContext.Provider>

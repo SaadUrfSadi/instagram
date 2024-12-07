@@ -72,24 +72,24 @@ function AllUser() {
     fetchBio();
   }, [firebase]);
 
-  useEffect(() => {
-    const fetchFollowStatus = async () => {
-        try {
-            const targetUserUID = userData.userUID; // Target user's UID
-            const currentUID = firebase.user.uid;
+//   useEffect(() => {
+//     const fetchFollowStatus = async () => {
+//         try {
+//             const targetUserUID = userData.userUID; // Target user's UID
+//             const currentUID = firebase.user.uid;
 
-            if (userData.followRequests?.includes(currentUID)) {
-                setUserFollow(true); // Mark as "Requested"
-            }
-        } catch (error) {
-            console.error("Error checking follow request status:", error);
-        }
-    };
+//             if (userData.followRequests?.includes(currentUID)) {
+//                 setUserFollow(true); // Mark as "Requested"
+//             }
+//         } catch (error) {
+//             console.error("Error checking follow request status:", error);
+//         }
+//     };
 
-    if (userData) {
-        fetchFollowStatus();
-    }
-}, [userData, firebase.user]);
+//     if (userData) {
+//         fetchFollowStatus();
+//     }
+// }, [userData, firebase.user]);
 
   // Check initial follow status
   useEffect(() => {
@@ -182,13 +182,13 @@ const handleFollowButtonClick = () => {
                     onClick={handleFollowButtonClick}
                     style={{
                       background:
-                      userFollow === "Follow" ? "#007bff;" :
+                      userFollow === "Follow" ? "#007bff" :
                       userFollow === "Requested" ? "#e1e1e1" : 
                      userFollow === "Unfollow" ? "#e1e1e1" : "transparent",
                      color: 
                      userFollow === "Follow" ? "white" : "black",
                     }}
-                    >{userFollow}
+                    >{userFollow || "Follow"}
                     </button>
                     <button>Message</button>
                     <h3><FiSettings /></h3>
@@ -196,7 +196,7 @@ const handleFollowButtonClick = () => {
                    <div className="folling-followers-details">
                     <h4>{userData.posts ? userData.posts.length : "0"} <span>post</span></h4>
                     <h4>{userData.followers ? userData.followers.length : "0"} <span>followers</span></h4>
-                    <h4>360 <span>following</span></h4>
+                    <h4>{userData.following ? userData.following.length : "0"} <span>following</span></h4>
                    </div>
                    <div className="user-other-bio-details">
                      <div className="user-name">

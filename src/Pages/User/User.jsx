@@ -59,6 +59,7 @@ function User() {
   const [postdetail, setPostDetail] = useState("");
   const [postShare, setPostShare] = useState([]);
   const [followers, setFollowers] = useState([]);
+  const [following, setFollowing] = useState([]);
   const [post, setPost] = useState([]);
   const [isFollowerModal, setIsFollowerModal] = useState(false);
   const [isFollowingModal, setIsFollowingModal] = useState(false);
@@ -115,6 +116,19 @@ function User() {
   },[]);
 
   useEffect(()=>{
+    const fetchFollowing = async () => {
+      try {
+        const allFollowing = await firebase.followingFetchData();
+        setFollowing(allFollowing);
+      } catch (error) {
+        console.log("err in fetch following", error);
+        throw error
+      }
+    };
+    fetchFollowing();
+  },[]);
+
+  useEffect(()=>{
     const fetchPosts = async () => {
       try {
         const allPosts = await firebase.postFetchData();
@@ -134,15 +148,13 @@ function User() {
   },[]);
 
   const handleImageClick = (imageUrl) => {
-    setModalImage(imageUrl); // Set the clicked image
-    setModalOpen(true); // Open the modal
-    // setPostLoct(imageUrl.postLocation)
+    setModalImage(imageUrl); 
+    setModalOpen(true);
 };
 
-// Function to close modal
 const closeModal = () => {
-    setModalImage(null); // Clear the modal image
-    setModalOpen(false); // Close the modal
+    setModalImage(null); 
+    setModalOpen(false); 
 };
 
 
@@ -303,7 +315,7 @@ const handleShare = async () => {
                    <div className="folling-followers-details">
                     <h4>{post ? post.length : "0"} <span>post</span></h4>
                     <h4 onClick={followerModal}>{followers ? followers.length : "0"} <span>followers</span></h4>
-                    <h4 onClick={followingModal}>360 <span>following</span></h4>
+                    <h4 onClick={followingModal}>{following ? following.length : "0"} <span>following</span></h4>
                    </div>
                    <div className="user-other-bio-details">
                      <div className="user-name">
@@ -335,7 +347,7 @@ const handleShare = async () => {
                          followers.map((request, value)=>(
                           <div className="likes-container follower-req" key={value}>
                               <div className="likes-box follwer-req-img">
-                                   <img src= {request.photoURL || emptyImg} alt="" />
+                                   <img src= {request.URL || emptyImg} alt="" />
                                 <div className="user-likes-your-story follwer-username-req">
                                    <p>{request.username}</p>
                                   <span>{request.fullName}</span>
@@ -377,13 +389,13 @@ const handleShare = async () => {
                         </div>
                         <div className="all-mdf-followers-box">
                         {
-                         dpData.map((request, value)=>(
+                         following.map((request, value)=>(
                           <div className="likes-container follower-req" key={value}>
                               <div className="likes-box follwer-req-img">
-                                   <img src= {request.img || emptyImg} alt="" />
+                                   <img src= {request.URL || emptyImg} alt="" />
                                 <div className="user-likes-your-story follwer-username-req">
                                    <p>{request.username}</p>
-                                  <span>its_._.syedzada</span>
+                                  <span>{request.fullName}</span>
                                 </div>
                              </div>
                               <div className="your-story-item">

@@ -587,7 +587,7 @@ const handleDiscard = () => {
                     <>
                         <button
                             className="confirm-btn"
-                            onClick={() => firebase.confirmFollow(request.userUID)}
+                            onClick={() => firebase.confirmFollow(request.userUID, request.photoURL, request.username, request.fullName)}
                         >
                             Confirm
                         </button>

@@ -1,6 +1,7 @@
 import React, { useState , useEffect, useRef} from 'react';
 import './Signup.css';
 import Login from '../Login/Login';
+// import emptyURL from '../../images/empty.jpeg'
 import Help from '../../Components/Help/Help';
 import { useFirebase } from '../../Firebase';
 
@@ -66,7 +67,7 @@ function Signup() {
            firebase.setSignupErr("")
             e.preventDefault();
             try {
-             await firebase.signupUserWithEmail(email, password, fullname, username, bio)
+             await firebase.signupUserWithEmail(email, password, fullname, username)
             } catch (error) {
                 console.log(`Error${error}`)
             }
