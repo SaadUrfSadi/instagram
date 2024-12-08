@@ -5,9 +5,12 @@ import { Outlet, useLocation } from 'react-router-dom'
 function Layout() {
 
   const location = useLocation();
+
+  const isStoryPage = location.pathname.startsWith('/story/');
   return (
     <>
-    {location.pathname !== "/story" && <Nav/> }
+    {!isStoryPage && <Nav />}
+    {/* {location.pathname !== `/story/` && <Nav/> } */}
     <Outlet/>
     </>
   )

@@ -81,7 +81,7 @@ function App() {
         element:<AllUser/>
       },
       {
-        path:"/story",
+        path:"/story/:storyId",
         element:<Story/>
       },
 

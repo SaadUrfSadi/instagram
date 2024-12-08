@@ -3,6 +3,7 @@ import './HomePage.css'
 import { useFirebase } from '../../Firebase'
 // import { NavLink } from 'react-router-dom';
 import { dpData, newsReels } from '../../Data';
+import emptyImg from "../../images/empty.jpeg" 
 import dpImg from '../../images/dp1.png'
 // icons
 import { FaRegHeart} from "react-icons/fa";
@@ -10,12 +11,24 @@ import { BsThreeDots } from "react-icons/bs";
 import { FaRegComment } from "react-icons/fa";
 import { BsShare } from "react-icons/bs";
 import { FaRegBookmark } from "react-icons/fa6";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 function HomePage() {
 
   const firebase = useFirebase();
 
+  const storyId = useParams();
+
   const [username, setUsername] = useState("");
+  const [randomProfiles, setRandomProfiles] = useState([]);
+  console.log(randomProfiles)
+
+  useEffect(() => {
+    if (firebase.frds.length > 5) {
+      const shuffled = firebase.frds.sort(() => Math.random() - 0.5);
+      setRandomProfiles(shuffled.slice(0, 5));
+    }
+  }, [firebase.frds]);
+  
 
   useEffect(() => {
     const fetchUsername = async () => {
@@ -30,6 +43,17 @@ function HomePage() {
     fetchUsername();
   }, [firebase]);
 
+  useEffect(()=>{
+    const fetchFrds = async () => {
+      try {
+        await firebase.suggestFrd()
+      } catch (error) {
+        console("fetch frds err", error)
+      }
+    }
+    fetchFrds();
+  },[])
+
   return (
     <>
     <section>
@@ -40,7 +64,7 @@ function HomePage() {
                 dpData.map((items, value)=>(
                   <div className="dp-box">
                       <div className="dp" key={value}>
-                      <NavLink to="/story" style={{border:"none", overflow:"hidden"}}><img src={items.img} alt="" /></NavLink>
+                      <NavLink to={`/story/${items.username}`} style={{border:"none", overflow:"hidden"}}><img src={items.img} alt="" /></NavLink>
                       </div>
                       <div className="name">
                       <p>{items.username}</p>
@@ -109,7 +133,7 @@ function HomePage() {
          <div className="third-box">
              <div className="profile">
                 <div className="profile-logo">
-                   <img src={dpImg} alt="" />
+                   <img src={firebase.user.photoURL || emptyImg} alt="" />
                    <div className="username">
                    <p>{username}</p>
                    <h6>{firebase.user.displayName}</h6>
@@ -126,13 +150,13 @@ function HomePage() {
               </div>
               <div className="suggest-profile-container">
                 {
-                  dpData.map((items, value)=>(
+                  randomProfiles.map((items, value)=>(
                     <div className="profile" key={value}>
                     <div className="profile-logo">
-                    <img src={items.img} alt="" />
+                    <img src={items.photoURL || emptyImg} alt="" />
                     <div className="username">
-                    <p>its_._.syedzada</p>
-                    <h6>..shah zada..</h6>
+                    <p>{items.username}</p>
+                    <h6>{items.fullName}</h6>
                     </div>
                  </div>
                  <div className="switch">

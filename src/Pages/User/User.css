@@ -19,6 +19,7 @@
     border-radius: 50%;
     height: 180px;
     width: 180px;
+    cursor: pointer;
 }
 .profile-section{
     /* width: 100%; */

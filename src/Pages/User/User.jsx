@@ -63,7 +63,10 @@ function User() {
   const [post, setPost] = useState([]);
   const [isFollowerModal, setIsFollowerModal] = useState(false);
   const [isFollowingModal, setIsFollowingModal] = useState(false);
-
+  const [followersFilter, setFollowersFilter] = useState([]);
+  const [followingFilter, setFollowingFilter] = useState([]);
+  const [followersTrim, setFollowersTrim] = useState("");
+  const [followingTrim, setFollowingTrim] = useState("");
 
   useEffect(()=>{
     const fetchPost = async () => {
@@ -296,14 +299,61 @@ const handleShare = async () => {
     setModalActive(null)
   };
 
+  const handleFollwersFilter = (e) => {
+    const input = e.target.value;
+    setFollowersTrim(input);
+    
+    if (input.trim() !== "") {
+      const filter = followers.filter((user) => 
+        user.username.toLowerCase().includes(input.toLowerCase())
+      );
+      setFollowersFilter(filter);  // Update followersFilter state
+    } else {
+      setFollowersFilter(followers);  // If input is empty, reset to all followers
+    }
+  };
+
+  const handleFollwingFilter = (e) => {
+    const input = e.target.value;
+    setFollowingTrim(input);
+    
+    if (input.trim() !== "") {
+      const filter = followers.filter((user) => 
+        user.username.toLowerCase().includes(input.toLowerCase())
+      );
+      setFollowingFilter(filter);  // Update followersFilter state
+    } else {
+      setFollowingFilter(following);  // If input is empty, reset to all followers
+    }
+  };
+  
+  const uploadStory = async (e) => {
+        const file = Array.from(e.target.files)
+        if(!file){
+          return
+        }
+        try {
+          await firebase.storyList(file, firebase.user.photoURL, username);
+          alert("story store in firebase")
+        } catch (error) {
+          console.log("story file error", error)
+        }
+  }
+
   return (
     <>
     <main>
       <div className="user-container">
          <div className="top-user-section">
                 <div className="logo-section">
-                 <img src={firebase.user.photoURL || emptyImg} alt="" />
+                 <img src={firebase.user.photoURL || emptyImg} alt="" onClick={()=> document.getElementById("story-input").click()}/>
                 </div>
+                <input 
+                type="file" 
+                id='story-input'
+                style={{display:"none"}}
+                onChange={uploadStory}
+                />
                 <div className="profile-section">
                    <div className="profile-container">
                    <div className="user-username-detail">
@@ -340,11 +390,17 @@ const handleShare = async () => {
                       </div>
                       <div className="all-md-followers-container">
                         <div className="search-md-box">
-                          <input type="text" placeholder='Search'/>
+                          <input 
+                          type="text" 
+                          placeholder='Search'
+                          value={followersTrim}
+                          onChange={(e)=> handleFollwersFilter(e)}
+                          onKeyUp={followersFilter}
+                          />
                         </div>
                         <div className="all-mdf-followers-box">
                         {
-                         followers.map((request, value)=>(
+                         followersFilter.map((request, value)=>(
                           <div className="likes-container follower-req" key={value}>
                               <div className="likes-box follwer-req-img">
                                    <img src= {request.URL || emptyImg} alt="" />
@@ -356,7 +412,7 @@ const handleShare = async () => {
                               <div className="your-story-item">
                                 <button
                                 id="del-btn"
-                               // onClick={() => firebase.deleteFollowRequest(request.userUID)}
+                               onClick={() => firebase.deleteFollowRequest(request.userUID)}
                                 >
                                 Remove
                                </button>
@@ -385,7 +441,12 @@ const handleShare = async () => {
                       </div>
                       <div className="all-md-followers-container">
                         <div className="search-md-box">
-                          <input type="text" placeholder='Search'/>
+                          <input 
+                          type="text" 
+                          placeholder='Search'
+                          value={followingTrim}
+                          onChange={handleFollwingFilter}
+                          />
                         </div>
                         <div className="all-mdf-followers-box">
                         {

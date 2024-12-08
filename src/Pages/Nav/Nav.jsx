@@ -18,7 +18,7 @@ import { MdOutlineReport } from "react-icons/md";
 import { MdOutlineSwitchAccessShortcut } from "react-icons/md";
 import { MdLogout } from "react-icons/md";
 import { FaAngleRight } from "react-icons/fa6";
-import { NavLink } from 'react-router-dom';
+import { NavLink} from 'react-router-dom';
 import { MdOutlineInsertPhoto } from "react-icons/md";
 import { FaXmark } from "react-icons/fa6";
 import { FaAngleLeft } from "react-icons/fa6";
@@ -60,6 +60,8 @@ function Nav() {
    const pagesNameEightRef = useRef();
    const pagesNameNineRef = useRef();
    const redNotiRef = useRef();
+
+  //  const storyId = useParams();
   //  const blueRef = useRef();
 
 
@@ -193,7 +195,12 @@ const [sharePost, setSharePost] = useState(false);
 const [isLoading, setIsLoading] = useState(false);
 const [photo, setPhoto] = useState([]);
 const [mulPhoto, setMulPhoto] = useState("");
+
 console.log(mulPhoto);
+
+useEffect(()=>{
+
+},[])
 
 useEffect(()=>{
   if (firebase.followRequests.length > 0) {
@@ -356,7 +363,7 @@ const handleDiscard = () => {
   };
 
 
-  const handleSearchInput = async (e) => {
+  const handleSearchInput = (e) => {
    const inputValue = e.target.value;
    setSearchTerm(inputValue);
 
