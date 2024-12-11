@@ -51,9 +51,8 @@ export const FirebaseProvider = (props) => {
     const [usersFollowers, setUsersFollowers] = useState([]);
     const [emptyURL, setEmptyURL] = useState("");
     const [frds, setFrds] = useState([]);
-    console.log(emptyURL);
-    console.log(user);
-    console.log(usersFollowers);
+    const [allStory, setAllStory] = useState([]);
+    const [likes, setLikes] = useState([]);
 
 const fetchUsername = async () => {
     try {
@@ -415,19 +414,19 @@ const postData = async (photo, detail, input) => {
 
 const storyList = async (story, photoURL, username) => {
     try {
-        if (!story && !photoURL && !username) {
-            console.log("failed data")
-        }else{
-            const uploadStory= [];
-            for(const selectImg of story){
+        if (!story || !photoURL || !username) {
+            console.log("failed data");
+        } else {
+            const uploadStory = [];
+            for (const selectImg of story) {
                 const imgRef = ref(storage, `instagram_users/story-${Date.now()}-${selectImg.name}`);
-
                 const uploadRes = await uploadBytes(imgRef, selectImg);
+                const downloadImg = await getDownloadURL(uploadRes.ref);
 
-                const dawnloadImg = await getDownloadURL(uploadRes.ref);
-
-                uploadStory.push(dawnloadImg);
-            };
+                if (!uploadStory.includes(downloadImg)) {
+                    uploadStory.push(downloadImg);
+                }
+            }
 
             const q = query(
                 collection(firestore, `instagram username`),
@@ -435,24 +434,111 @@ const storyList = async (story, photoURL, username) => {
             );
 
             const querySnapShot = await getDocs(q);
-            if(!querySnapShot.empty){
+            if (!querySnapShot.empty) {
                 const docRef = querySnapShot.docs[0].ref;
 
-                await updateDoc(docRef,{
-                    story: arrayUnion({
-                        storyURL: uploadStory,
-                        username: username,
-                        photoURL: photoURL,
-                    }),
+                const docSnap = await getDoc(docRef);
+                const existingStories = docSnap.data()?.story || [];
+                const existingURLs = existingStories.map(story => story.storyURL).flat();
+                
+                const updatedURLs = [...existingURLs, ...uploadStory];
+                const uniqueURLs = [...new Set(updatedURLs)]; // Remove duplicates
+
+                const newStory = {
+                    storyURL: uniqueURLs,
+                    username: username,
+                    photoURL: photoURL,
+                };
+
+                const updatedStories = existingStories.filter(story => story.username !== username);
+                updatedStories.push(newStory);
+
+                await updateDoc(docRef, {
+                    story: updatedStories,
                 });
             }
-            console.log("story data store in firebase")
 
+            console.log("Story data stored in Firebase");
         }
     } catch (error) {
-        console.log("story list error", error)
+        console.log("Story list error", error);
     }
-}
+};
+
+const storyFetch = async () => {
+    try {
+      const snapShot = await getDocs(collection(firestore, `instagram username`));
+  
+      if (!snapShot.empty) {
+        const allData = [];
+        snapShot.forEach((doc) => {
+          const storyData = doc.data().story;
+          
+          if (storyData) {
+            allData.push(...storyData);
+          } else {
+            // console.log(`No 'story' field found for document: ${doc.id}`);
+          }
+        });
+        
+        setAllStory(allData);
+      } else {
+        console.log("No stories found in Firestore.");
+      }
+    } catch (error) {
+      console.log("Error fetching stories:", error);
+    }
+  };
+
+  const likesStory = async (URL, photoURL, username) => {
+    try {
+        const q = query(
+            collection(firestore, `instagram username`),
+            where("username", "==", username)
+        );
+
+        const listLikes = await getDocs(q);
+        if (!listLikes.empty) {
+            const doc = listLikes.docs[0].ref;
+
+            await updateDoc(doc,{
+                likes: arrayUnion({
+                    URL: URL,
+                    photoURL: photoURL,
+                    username: username,
+                })
+            })
+        }else{
+            console.log("story likes err", err)
+        }
+
+    } catch (error) {
+        console.log("story list data error", error)
+    }
+  };
+
+  const fetchLikes = async () => {
+     try {
+        const q = query(
+            collection(firestore, `instagram username`),
+            where("userUID", "==", user.uid)
+        );
+        const snapShot = await getDocs(q);
+        if (!snapShot.empty) {
+            const doc = snapShot.docs[0].data();
+            const resultLikes = doc.likes || [];
+            setLikes(resultLikes)
+            // console.log(resultLikes);
+        }else{
+            console.log("no data in current user")
+        }
+        
+     } catch (error) {
+        console.log("fetch story likes error", error);
+        throw error;
+     }
+  }
+  
 
   const listAllPost = async  () => {
    try {
@@ -807,6 +893,11 @@ const unfollowUser = async (targetUID) => {
                    storyList,
                    suggestFrd,
                    frds,
+                   storyFetch,
+                   allStory,
+                   likesStory,
+                   fetchLikes,
+                   likes
                    }}>
             {props.children}
         </FirebaseContext.Provider>

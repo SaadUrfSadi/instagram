@@ -4,7 +4,7 @@ import { useFirebase } from '../../Firebase'
 // import { NavLink } from 'react-router-dom';
 import { dpData, newsReels } from '../../Data';
 import emptyImg from "../../images/empty.jpeg" 
-import dpImg from '../../images/dp1.png'
+// import dpImg from '../../images/dp1.png'
 // icons
 import { FaRegHeart} from "react-icons/fa";
 import { BsThreeDots } from "react-icons/bs";
@@ -20,7 +20,7 @@ function HomePage() {
 
   const [username, setUsername] = useState("");
   const [randomProfiles, setRandomProfiles] = useState([]);
-  console.log(randomProfiles)
+  // const [storyFetch ,setStoryFetch] = useState([]);
 
   useEffect(() => {
     if (firebase.frds.length > 5) {
@@ -28,6 +28,17 @@ function HomePage() {
       setRandomProfiles(shuffled.slice(0, 5));
     }
   }, [firebase.frds]);
+
+  useEffect(()=>{
+    const fetchStoryData = async () => {
+         try {
+           await firebase.storyFetch();
+         } catch (error) {
+           console.log("errin in home page fetch story data", error)
+         }
+    };
+    fetchStoryData()
+  },[firebase.storyFetch])
   
 
   useEffect(() => {
@@ -43,12 +54,13 @@ function HomePage() {
     fetchUsername();
   }, [firebase]);
 
+
   useEffect(()=>{
     const fetchFrds = async () => {
       try {
         await firebase.suggestFrd()
       } catch (error) {
-        console("fetch frds err", error)
+        console.log("fetch frds err", error)
       }
     }
     fetchFrds();
@@ -61,10 +73,10 @@ function HomePage() {
         <div className="second-box">
         <div className="story">
               {
-                dpData.map((items, value)=>(
-                  <div className="dp-box">
-                      <div className="dp" key={value}>
-                      <NavLink to={`/story/${items.username}`} style={{border:"none", overflow:"hidden"}}><img src={items.img} alt="" /></NavLink>
+                firebase.allStory.map((items, value)=>(
+                  <div className="dp-box" key={value}> 
+                      <div className="dp">
+                      <NavLink to={`/story/${items.username}`} style={{border:"none", overflow:"hidden"}}><img src={items.photoURL || emptyImg} alt="" /></NavLink>
                       </div>
                       <div className="name">
                       <p>{items.username}</p>

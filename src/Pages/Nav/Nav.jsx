@@ -18,7 +18,7 @@ import { MdOutlineReport } from "react-icons/md";
 import { MdOutlineSwitchAccessShortcut } from "react-icons/md";
 import { MdLogout } from "react-icons/md";
 import { FaAngleRight } from "react-icons/fa6";
-import { NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { MdOutlineInsertPhoto } from "react-icons/md";
 import { FaXmark } from "react-icons/fa6";
 import { FaAngleLeft } from "react-icons/fa6";
@@ -195,8 +195,10 @@ const [sharePost, setSharePost] = useState(false);
 const [isLoading, setIsLoading] = useState(false);
 const [photo, setPhoto] = useState([]);
 const [mulPhoto, setMulPhoto] = useState("");
+// const [likes, setLikes] = useState([]);
+// console.log(likes);
 
-console.log(mulPhoto);
+// console.log(mulPhoto);
 
 useEffect(()=>{
 
@@ -261,6 +263,18 @@ useEffect(()=>{
   }
   req();
 },[]);
+
+useEffect(()=>{
+   const fetchLikesData = async () => {
+    try {
+    const likes = await firebase.fetchLikes();
+    //  setLikes(likes);
+    } catch (error) {
+      console.log("not fetch data error", error)
+    }
+   }
+   fetchLikesData();
+},[firebase.fetchLikes])
 
 const toggleModalDel = () => {
   setModalActive(prevState => !prevState); 
@@ -632,7 +646,7 @@ const handleDiscard = () => {
                   <div className="follow-reqested">
                   <h4>Follow requests</h4>
                   <p>reqested + {firebase.followRequests.length} others</p>
-                  {/* <button onClick={()=> firebase.followersFetchData()}>Click</button> */}
+                  {/* <button onClick={()=> firebase.fetchLikes ()}>Click</button> */}
                   </div>
                   </div>
                   <div className="noti-arrow">
@@ -651,17 +665,17 @@ const handleDiscard = () => {
              </div>
              <div className="username-likes-story">
                {
-                  dpData.map((items, value)=>(
+                  firebase.likes.map((items, value)=>(
                     <div className="likes-container" key={value}>
                       <div className="likes-box">
-                         <img src={items.img} alt="" />
+                         <img src={items.photoURL} alt="" />
                           <div className="user-likes-your-story">
-                           <p>x_.bukhari</p>
+                           <p>{items.username}</p>
                            <span>liked your story</span>
                           </div>
                      </div>
                      <div className="your-story-item">
-                        <img src={DpImg6} alt="" />
+                        <img src={items.URL} alt="" />
                      </div>
                     </div>
                   ))
