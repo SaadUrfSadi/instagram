@@ -506,7 +506,10 @@
 .follow-back-btn{
     color: white;
 }
-
+.reel-video{
+    max-height: 398px;
+    height: 100%;
+}
 
 
 

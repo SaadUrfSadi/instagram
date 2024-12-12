@@ -195,9 +195,10 @@ const [sharePost, setSharePost] = useState(false);
 const [isLoading, setIsLoading] = useState(false);
 const [photo, setPhoto] = useState([]);
 const [mulPhoto, setMulPhoto] = useState("");
+const [videos, setVideos] = useState([]);
 // const [likes, setLikes] = useState([]);
 // console.log(likes);
-
+// console.log(username)
 // console.log(mulPhoto);
 
 useEffect(()=>{
@@ -292,16 +293,39 @@ const handlerSelectChange = () => {
 
 const uploadPhoto = (e) => {
   const files = Array.from(e.target.files);
-  setPhoto(prevPhotos=> [...prevPhotos, ...files])
+  setSelected(true);
 
-  if (files) {
-    setSelected(true);
-    const newPhotos = files.map(file => URL.createObjectURL(file));
-    setPhotos(prevPhotos => [...prevPhotos, ...newPhotos]);
-  } else {
-    console.log("Error in files");
-  }
+  // Separate arrays for images and videos
+  const newImages = [];
+  const newVideos = [];
+
+  files.forEach(file => {
+    const objectURL = URL.createObjectURL(file);
+    if (file.type.startsWith('image/')) {
+      newImages.push(objectURL);
+    } else if (file.type.startsWith('video/')) {
+      newVideos.push(objectURL);
+    }
+  });
+
+  // Update images and videos state
+  setPhotos(prevPhotos => [...prevPhotos, ...newImages]);
+  setVideos(prevVideos => [...prevVideos, ...newVideos]);
 };
+
+
+// const uploadPhoto = (e) => {
+//   const files = Array.from(e.target.files);
+//   setPhoto(prevPhotos=> [...prevPhotos, ...files])
+
+//   if (files) {
+//     setSelected(true);
+//     const newPhotos = files.map(file => URL.createObjectURL(file));
+//     setPhotos(prevPhotos => [...prevPhotos, ...newPhotos]);
+//   } else {
+//     console.log("Error in files");
+//   }
+// };
 
 const selectImage = (index) => {
   setSelectedImageIndex(index); 
@@ -345,11 +369,11 @@ const deleteImage = (index) => {
   setNextPostPage((prev)=> !prev);
  };
 
- const handlePost = async (photo, detail, input) => {
+ const handlePost = async (photos, videos, detail, input, photoURL, username) => {
   setIsLoading(true);
   setSharePost(true); 
 
- await firebase.postData(photo, detail, input)
+ await firebase.postData(photos, videos, detail, input, photoURL, username)
   
   setTimeout(() => {
     setIsLoading(false);
@@ -369,6 +393,11 @@ const handleDiscard = () => {
   setSelected(false);
   setModalActive(null)
 };
+
+const deleteVideo = (index) => {
+  setVideos(prevVideos => prevVideos.filter((video, i) => i !== index));
+};
+
 
   // =========================================
 
@@ -646,7 +675,7 @@ const handleDiscard = () => {
                   <div className="follow-reqested">
                   <h4>Follow requests</h4>
                   <p>reqested + {firebase.followRequests.length} others</p>
-                  {/* <button onClick={()=> firebase.fetchLikes ()}>Click</button> */}
+                  {/* <button onClick={()=> firebase.allPosts()}>Click</button>s */}
                   </div>
                   </div>
                   <div className="noti-arrow">
@@ -709,7 +738,7 @@ const handleDiscard = () => {
                   <div className="top-fetch">
                      <h2 onClick={handlerBack}><FaArrowLeft /></h2>
                      <p>Crop</p>
-                     <p id='modal-next' onClick={()=> handlePost(photo, detail, input)}>Share</p>
+                     <p id='modal-next' onClick={()=> handlePost(photos, videos, detail, input, firebase.user.photoURL, username)}>Share</p>
                   </div>
                   <div className="post-share-dec-container">
                     <div className="post-share-dec-username">
@@ -766,9 +795,9 @@ const handleDiscard = () => {
                   </div>
                   <div className="fetch-img-box">
                    <div className="modal-fetch-img">
-                     {photos.length > 0 && (
-                        <div className="image-slider">
-                        <Swiper
+                     {(photos.length > 0 || videos.length > 0) && (
+                      <div className="image-slider">
+                      <Swiper
                         key={photos.length}
                         modules={[Navigation, Pagination]}
                         spaceBetween={10}
@@ -776,21 +805,105 @@ const handleDiscard = () => {
                         navigation
                         pagination={{ clickable: true }}
                         loop
-                        >
-                    {photos.map((photo, index) => (
-                      <SwiperSlide key={index}>
-                         <div className="image-slide">
-                           <img src={photo} alt={`Slide ${index}`} />
-                         </div>
-                      </SwiperSlide>
-                     ))}
-                         </Swiper>
-                   </div>
+                      >
+                        {/* Displaying images */}
+                        {photos.map((photo, index) => (
+                          <SwiperSlide key={index}>
+                            <div className="image-slide">
+                              <img src={photo} alt={`Slide ${index}`} />
+                            </div>
+                          </SwiperSlide>
+                        ))}
+                    
+                        {/* Displaying videos */}
+                        {videos.map((video, index) => (
+                          <SwiperSlide key={index}>
+                            <div className="image-slide">
+                              <video
+                                src={video}
+                                muted
+                                autoPlay
+                                loop
+                                playsInline
+                                className="reel-video"
+                              />
+                            </div>
+                          </SwiperSlide>
+                        ))}
+                      </Swiper>
+                    </div>
+                    
+                  //       <di className="image-slider">
+                  //       <Swiper
+                  //       key={photos.length}
+                  //       modules={[Navigation, Pagination]}
+                  //       spaceBetween={10}
+                  //       slidesPerView={1}
+                  //       navigation
+                  //       pagination={{ clickable: true }}
+                  //       loop
+                  //       >
+                  //   {photos.map((photo, index) => (
+                  //     <SwiperSlide key={index}>
+                  //        <div className="image-slide">
+                  //          {<img src={photo} alt={`Slide ${index}`} /> ||
+                  //           <video
+                  //           src={photo}
+                  //           muted
+                  //           autoPlay
+                  //           loop
+                  //           playsInline
+                  //           className="reel-video"
+                  //           >
+                  //           </video>}
+                  //        </div>
+                  //     </SwiperSlide>
+                  //    ))}
+                  //        </Swiper>
+                  //  </di>
                        )}
                     </div>
                   </div>
 
                   <div className="so-on-pic-container" ref={soOnRef}>
+                       <div className="max-img-box">
+                          {photos.map((photo, index) => (
+                            <div key={index} className={`so-on-images ${selectedImageIndex === index ? 'selected' : ''}`} onClick={() => selectImage(index)}>
+                            <img src={photo} alt="" />
+                            <p onClick={(e) => { e.stopPropagation(); deleteImage(index); }}><FaXmark /></p>
+                            </div>
+                            ))}
+
+                            {videos.map((video, index) => (
+                            <div key={index} className={`so-on-images ${selectedImageIndex === index ? 'selected' : ''}`} onClick={() => selectImage(index)}>
+                            <video src={video} muted autoPlay loop playsInline alt={index} />
+                            <p onClick={(e) => { e.stopPropagation(); deleteVideo(index); }}><FaXmark /></p>
+                            </div>
+                            ))}
+
+                          {/* {videos.length > 0 && (
+                         <div className="so-on-video">
+                          <video src={videos[0]} muted autoPlay loop playsInline className="reels-videos-so-on" />
+                           <p onClick={() => deleteVideo(0)}><FaXmark /></p>
+                           </div>
+                           )} */}
+
+    {/* Add more files */}
+    <div className="added-img" onClick={() => document.getElementById('file-input').click()}>
+      <p><GoPlus /></p>
+    </div>
+    <input
+      type="file"
+      id="file-input"
+      style={{ display: 'none' }}
+      onChange={uploadPhoto}
+      multiple
+    />
+  </div>
+</div>
+
+
+                  {/* <div className="so-on-pic-container" ref={soOnRef}>
                      <div className="max-img-box">
                      {photos.map((photo, index) => (
                        <div key={index} className={`so-on-images ${selectedImageIndex === index ? 'selected' : ''}`} onClick={() => selectImage(index)}>
@@ -809,7 +922,7 @@ const handleDiscard = () => {
                       multiple
                   />
                      </div>
-                  </div>
+                  </div> */}
 
                   <div className="so-on-pic-box" onClick={soOnActive}>
                     <p className='copy-ref' ref={copyesRef}><FaRegCopy /></p>

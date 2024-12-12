@@ -98,11 +98,11 @@ function AllUser() {
         const currentUID = firebase.user.uid;
 
         if (userData.followers?.some((follower) => follower.uid === currentUID)) {
-            setUserFollow("Unfollow"); // Already following
+            setUserFollow("Unfollow");
         } else if (userData.followRequests?.includes(currentUID)) {
-            setUserFollow("Requested"); // Follow request sent
+            setUserFollow("Requested");
         } else {
-            setUserFollow("Follow"); // Not following
+            setUserFollow("Follow"); 
         }
     };
 

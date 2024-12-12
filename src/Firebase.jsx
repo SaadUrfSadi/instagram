@@ -53,6 +53,10 @@ export const FirebaseProvider = (props) => {
     const [frds, setFrds] = useState([]);
     const [allStory, setAllStory] = useState([]);
     const [likes, setLikes] = useState([]);
+    const [allPostsAndReels , setAllPostsAndReels] = useState([]);
+    // console.log(users)
+    // console.log(usernameUser)
+    // console.log(allPostsAndReels);
 
 const fetchUsername = async () => {
     try {
@@ -360,28 +364,147 @@ const fetchUsername = async () => {
     }
 };
 
-const postData = async (photo, detail, input) => {
-    // console.log(photo)
+// const postData = async (photo, videos, detail, input, photoURL, username) => {
+//     try {
+//         if (!detail && !input) {
+//             setPostError("Failed! Missing data!");
+//             return;
+//         }
+
+//         const uploadMediaURLs = [];
+
+//         // Handle photo upload (images)
+//         for (const selectedImg of photo) {
+//             const imageRef = ref(storage, `instagram_users/profile_photos/${Date.now()}-${selectedImg.name}`);
+//             const uploadRes = await uploadBytes(imageRef, selectedImg);
+//             const downloadURL = await getDownloadURL(uploadRes.ref);
+//             uploadMediaURLs.push(downloadURL);
+//         }
+
+//         // // Handle video upload (if there are any videos)
+//         // for (const selectedVideo of videos) {
+//         //     const videoRef = ref(storage, `instagram_users/profile_videos/${Date.now()}-${selectedVideo.name}`);
+//         //     const uploadRes = await uploadBytes(videoRef, selectedVideo);
+//         //     const downloadURL = await getDownloadURL(uploadRes.ref);
+//         //     uploadMediaURLs.push(downloadURL);
+//         // }
+
+//         // Update Firestore with the uploaded media URLs
+//         const q = query(
+//             collection(firestore, "instagram username"),
+//             where("userUID", "==", user.uid)
+//         );
+
+//         const querySnapshot = await getDocs(q);
+
+//         if (!querySnapshot.empty) {
+//             const docRef = querySnapshot.docs[0].ref;
+
+//             await updateDoc(docRef, {
+//                 posts: arrayUnion({
+//                     postURL: uploadMediaURLs,
+//                     detail: detail,
+//                     postLocation: input,
+//                     photoURL: photoURL,
+//                     username: username,
+//                 }),
+//             });
+
+//             setPostError("POST updated successfully!");
+//         } else {
+//             console.log("POST Error: User not found!");
+//         }
+//     } catch (error) {
+//         console.log('Error in post', error);
+//         setPostError("Error in post");
+//     }
+// };
+
+
+// const postData = async (photo, videos, detail, input, photoURL, username) => {
+//     // console.log(photo)
    
-   try {
+//    try {
 
-    if (!detail && !input) {
-        setPostError("Faild Missing data!");
-      }else{
+//     if (!detail && !input) {
+//         setPostError("Faild Missing data!");
+//       }else{
 
-    const uploadImgURLs = [];
+//     const uploadImgURLs = [];
 
-    for(const selectedImg of photo){
-        const imageRef = ref(storage, `instagram_users/profile_photos/${Date.now()}-${selectedImg.name}`);
+//     for(const selectedImg of photo){
+//         const imageRef = ref(storage, `instagram_users/profile_photos/${Date.now()}-${selectedImg.name}`);
 
-        const uploadRes = await uploadBytes(imageRef, selectedImg);
+//         const uploadRes = await uploadBytes(imageRef, selectedImg);
     
+//         const downloadURL = await getDownloadURL(uploadRes.ref);
+
+//         uploadImgURLs.push(downloadURL);
+//     };
+
+//     const q = query(
+//         collection(firestore, "instagram username"),
+//         where("userUID", "==", user.uid)
+//       );
+  
+//       const querySnapshot = await getDocs(q);
+  
+//       if (!querySnapshot.empty) {
+//         const docRef = querySnapshot.docs[0].ref;
+
+//         await updateDoc(docRef, {
+//             posts: arrayUnion({
+//                 postURL: uploadImgURLs,
+//                 detail: detail,
+//                 postLocation: input,
+//                 photoURL: photoURL,
+//                 username: username,
+//             }),
+//         });
+
+  
+//         setPostError("POST updated successfully!");
+//       } else {
+//         console.log("POST Error!");
+//       }
+//     }
+
+//    } catch (error) {
+//     console.log('err in post', error)
+//     setPostError("Error in post", error)
+//    }
+// };
+
+const postData = async (photos, videos, detail, input, photoURL, username) => {
+    try {
+      if (!detail && !input) {
+        setPostError("Failed, Missing data!");
+        return;
+      }
+  
+      const uploadImgURLs = [];
+      const uploadVideoURLs = [];
+  
+      // Upload photos
+      for (const selectedImg of photos) {
+        const imageRef = ref(storage, `instagram_users/profile_photos/${Date.now()}-${selectedImg.name}`);
+        const uploadRes = await uploadBytes(imageRef, selectedImg);
         const downloadURL = await getDownloadURL(uploadRes.ref);
-
         uploadImgURLs.push(downloadURL);
-    };
-
-    const q = query(
+      }
+  
+      // Upload videos
+      for (const selectedVideo of videos) {
+        const videoRef = ref(storage, `instagram_users/profile_videos/${Date.now()}-${selectedVideo.name}`);
+        const uploadRes = await uploadBytes(videoRef, selectedVideo);
+        const downloadURL = await getDownloadURL(uploadRes.ref);
+        uploadVideoURLs.push(downloadURL);
+      }
+  
+      // Combine both URLs
+      const allURLs = [...uploadImgURLs, ...uploadVideoURLs];
+  
+      const q = query(
         collection(firestore, "instagram username"),
         where("userUID", "==", user.uid)
       );
@@ -390,27 +513,27 @@ const postData = async (photo, detail, input) => {
   
       if (!querySnapshot.empty) {
         const docRef = querySnapshot.docs[0].ref;
-
+  
         await updateDoc(docRef, {
-            posts: arrayUnion({
-                postURL: uploadImgURLs,
-                detail: detail,
-                postLocation: input,
-            }),
+          posts: arrayUnion({
+            postURL: allURLs,
+            detail: detail,
+            postLocation: input,
+            photoURL: photoURL,
+            username: username,
+          }),
         });
-
   
         setPostError("POST updated successfully!");
       } else {
         console.log("POST Error!");
       }
+    } catch (error) {
+      console.log('Error in post', error);
+      setPostError("Error in post", error);
     }
-
-   } catch (error) {
-    console.log('err in post', error)
-    setPostError("Error in post", error)
-   }
-};
+  };
+  
 
 const storyList = async (story, photoURL, username) => {
     try {
@@ -836,6 +959,32 @@ const unfollowUser = async (targetUID) => {
     }
 };
 
+
+const allPosts = async () => {
+    try {
+        const querySnapshot = await getDocs(collection(firestore, "instagram username"));
+        const usersPosts = [];
+        
+        querySnapshot.forEach((doc) => {
+            const posts = doc.data().posts;
+            
+            if (posts && Array.isArray(posts) && posts.length > 0) {
+                usersPosts.push(...posts); // Spread operator to add posts directly to the array
+            }
+        });
+
+        // Update state with all the posts
+        if (usersPosts.length > 0) {
+            setAllPostsAndReels(usersPosts);  // Now this will only contain valid posts
+        } else {
+            console.log("No posts found");
+        }
+    } catch (error) {
+        console.log("searchPosts error", error);
+    }
+};
+
+
   
     const isLoggedIn = user ? true : false;
 
@@ -897,7 +1046,9 @@ const unfollowUser = async (targetUID) => {
                    allStory,
                    likesStory,
                    fetchLikes,
-                   likes
+                   likes,
+                   allPostsAndReels,
+                   allPosts,
                    }}>
             {props.children}
         </FirebaseContext.Provider>

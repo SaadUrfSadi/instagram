@@ -125,6 +125,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 4px;
   }
   .share-comment-box{
     display: flex;
@@ -213,7 +214,8 @@
     margin-left: 1px;
     cursor: pointer;
   }
-  .switch a{
+  .switch button{
+    background: none;
      text-decoration: none;
      list-style: none;
      border: none;
@@ -221,8 +223,9 @@
      color: rgb(51, 188, 212);
      font-weight: 500;
      font-size: 13px;
+     cursor: pointer;
   }
-  .switch a:hover{
+  .switch button:hover{
     color: #6e6e6e;
  }
  .other-frds-container{

@@ -20,6 +20,9 @@ function HomePage() {
 
   const [username, setUsername] = useState("");
   const [randomProfiles, setRandomProfiles] = useState([]);
+  const [userFollow ,setUserFollow] = useState("");
+  console.log(firebase.allPostsAndReels)
+
   // const [storyFetch ,setStoryFetch] = useState([]);
 
   useEffect(() => {
@@ -64,7 +67,47 @@ function HomePage() {
       }
     }
     fetchFrds();
+  },[]);
+
+  useEffect(()=>{
+    const allReels = async () => {
+      try {
+        await firebase.allPosts()
+      } catch (error) {
+        console.log("errin in all reels", error)
+      }
+    }
+    allReels();
   },[])
+
+
+  // const followRequest = async () => {
+  //   try {
+  //       await firebase.sendFollowRequest(firebase.user.uid);
+  //       setUserFollow("Requested"); 
+  //       // btnRef.current.classList.add("active");
+  //   } catch (error) {
+  //       console.error("Error sending follow request:", error);
+  //   }
+  // };
+  
+  //  // Unfollow user
+  //  const unfollowUser = async () => {
+  //   try {
+  //       await firebase.unfollowUser(userData.userUID);
+  //       setUserFollow("Follow");
+  //   } catch (error) {
+  //       console.error("Error unfollowing user:", error);
+  //   }
+  // };
+  
+  // const handleFollowButtonClick = () => {
+  //   if (userFollow === "Follow") {
+  //       followRequest();
+  //   } else if (userFollow === "Unfollow") {
+  //       unfollowUser();
+  //   }
+  // };
 
   return (
     <>
@@ -88,11 +131,11 @@ function HomePage() {
             <div className="news">
                 <div className="reels">
                   {
-                    newsReels.map((items, value) => (
+                    firebase.allPostsAndReels.map((items, value) => (
                         <div className="new-reels-box"  key={value}>
                             <div className="reels-container">
                                <div className="img-box">
-                               <img src={items.img} alt="" />
+                               <img src={items.photoURL} alt="" />
                                 <p>{items.username}</p>
                                 <p className='time'>1 h</p>
                                </div>
@@ -152,7 +195,7 @@ function HomePage() {
                    </div>
                 </div>
                 <div className="switch">
-                  <a href="">Switch</a>
+                  <button href="">Switch</button>
                 </div>
              </div>
              <div className="other-frds-container">
@@ -172,7 +215,16 @@ function HomePage() {
                     </div>
                  </div>
                  <div className="switch">
-                   <a href="">Follow</a>
+                   <button 
+                  //  ref={btnRef} 
+                  //  onClick={handleFollowButtonClick}
+                   style={{
+                     background:
+                     userFollow === "Follow" ? "#007bff" :
+                     userFollow === "Requested" ? "#e1e1e1" : 
+                    userFollow === "Unfollow" ? "#e1e1e1" : "transparent",
+                   }}
+                   >Follow</button>
                  </div>
                  </div>
                   ))
