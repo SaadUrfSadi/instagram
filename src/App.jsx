@@ -19,18 +19,7 @@ function App() {
 
   const firebase = useFirebase();
   const [loading, setLoading] = useState(true);
-  // const [bio, setBio] = useState('');
-
-  // const submitInformation = async (handleDescription) => {
-  //   if (handleDescription.length <= 150) {
-  //     setBio(handleDescription); 
-  //     alert("Bio updated successfully!");
-  //   } else {
-  //     alert("Bio exceeds the 150 character limit.");
-  //   }
-  // };
   
-
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
@@ -68,10 +57,10 @@ function App() {
         path:"/reels",
         element:<Reels/>
       },
-      // {
-      //   path:"/messages",
-      //   element:<Messages/>
-      // },
+      {
+        path:"/messages",
+        element:<Messages/>
+      },
       {
         path:"/setting",
         element:<Setting/>

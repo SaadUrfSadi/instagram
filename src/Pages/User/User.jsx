@@ -22,6 +22,8 @@ import { FiMoreHorizontal } from "react-icons/fi";
 import { FiCamera } from "react-icons/fi";
 import { FaRegComment } from "react-icons/fa";
 import { useFirebase } from '../../Firebase';
+// import { MdOutlineCameraAlt } from "react-icons/md";
+import { FaCamera } from "react-icons/fa6";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaAngleDown } from 'react-icons/fa';
 import { FaRegShareSquare } from "react-icons/fa";
@@ -75,6 +77,8 @@ function User() {
     };
     fetchPost()
   },[]);
+
+  console.log(post)
 
 
   // getUsername k useEffect ha
@@ -135,6 +139,7 @@ function User() {
     const fetchPosts = async () => {
       try {
         const allPosts = await firebase.postFetchData();
+        console.log(allPosts)
         setPost(allPosts);
       } catch (error) {
         console.log("err in fetch posts", error);
@@ -309,7 +314,7 @@ const handleShare = async () => {
       );
       setFollowersFilter(filter);  // Update followersFilter state
     } else {
-      setFollowersFilter(followers);  // If input is empty, reset to all followers
+      setFollowersFilter(followers); 
     }
   };
 
@@ -321,9 +326,9 @@ const handleShare = async () => {
       const filter = followers.filter((user) => 
         user.username.toLowerCase().includes(input.toLowerCase())
       );
-      setFollowingFilter(filter);  // Update followersFilter state
+      setFollowingFilter(filter);
     } else {
-      setFollowingFilter(following);  // If input is empty, reset to all followers
+      setFollowingFilter(following); 
     }
   };
   
@@ -347,6 +352,9 @@ const handleShare = async () => {
          <div className="top-user-section">
                 <div className="logo-section">
                  <img src={firebase.user.photoURL || emptyImg} alt="" onClick={()=> document.getElementById("story-input").click()}/>
+                 <div className="logo-camera-img" onClick={()=> document.getElementById("story-input").click()}>
+                <h2><FaCamera /></h2>
+                </div>
                 </div>
                 <input 
                 type="file" 
@@ -462,7 +470,6 @@ const handleShare = async () => {
                               <div className="your-story-item">
                                 <button
                                 id="del-btn"
-                               // onClick={() => firebase.deleteFollowRequest(request.userUID)}
                                 >
                                 Remove
                                </button>
@@ -518,20 +525,38 @@ const handleShare = async () => {
                                                 navigation
                                                 pagination={{ clickable: true }}
                                             >
-                                                {
+                                                { 
                                                     post.postURL.map((url, urlIndex) => (
-                                                        <SwiperSlide key={urlIndex}>
-                                                            <div 
-                                                                className="url-post posted-images"
-                                                                onClick={() => handleImageClick(url)}
-                                                                >
-                                                                <img 
-                                                                src={url} 
-                                                                alt={`Post ${urlIndex}`} 
-                                                                
-                                                                />
-                                                            </div>
-                                                        </SwiperSlide>
+                                                      <SwiperSlide key={urlIndex}>
+                                                      <div 
+                                                        className="url-post posted-images"
+                                                        onClick={() => handleImageClick(url)}
+                                                      >
+                                                    
+                                                        {url.endsWith(".mp4") ? (
+                                                  
+                                                          <video 
+                                                          src={url}
+                                                          muted
+                                                          autoPlay
+                                                          loop
+                                                          controls 
+                                                          playsInline
+                                                          className="reel-video"
+                                                          alt={`Video ${urlIndex}`}
+                                                        >
+                                                          Your browser does not support this video format.
+                                                        </video>
+                                                        ) : (
+                                                        
+                                                          <img
+                                                            src={url}
+                                                            alt={`Post ${urlIndex}`}
+                                                            className="post-image"
+                                                          />
+                                                        )}
+                                                      </div>
+                                                    </SwiperSlide>
                                                     ))
                                                 }
                                             </Swiper>

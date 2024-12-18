@@ -4,8 +4,11 @@ import { useFirebase } from '../../Firebase'
 // import { NavLink } from 'react-router-dom';
 import { dpData, newsReels } from '../../Data';
 import emptyImg from "../../images/empty.jpeg" 
-// import dpImg from '../../images/dp1.png'
-// icons
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import { Navigation, Pagination } from 'swiper/modules';
 import { FaRegHeart} from "react-icons/fa";
 import { BsThreeDots } from "react-icons/bs";
 import { FaRegComment } from "react-icons/fa";
@@ -21,7 +24,7 @@ function HomePage() {
   const [username, setUsername] = useState("");
   const [randomProfiles, setRandomProfiles] = useState([]);
   const [userFollow ,setUserFollow] = useState("");
-  console.log(firebase.allPostsAndReels)
+  // console.log(firebase.allPostsAndReels)
 
   // const [storyFetch ,setStoryFetch] = useState([]);
 
@@ -143,16 +146,70 @@ function HomePage() {
                                <p><BsThreeDots /></p>
                                </div>
                             </div>
-                              <div className="reels-videos">
-                              <video 
-                               src={items.video}
-                               muted
-                               autoPlay
-                               loop
-                               playsInline
-                               className="reel-video">
-                               </video>
-                              </div>
+
+                            <div className="reels-videos">
+  {items.postURL.length > 1 ? (
+    <div className="image-slider">
+      <Swiper
+        modules={[Navigation, Pagination]}
+        spaceBetween={10}
+        slidesPerView={1}
+        navigation
+        pagination={{ clickable: true }}
+      >
+        {items.postURL.map((url, index) => (
+          <SwiperSlide key={index}>
+            <div className="home-pg-img-video">
+              {url.endsWith(".mp4") || url.endsWith(".webm") ? (
+                <video
+                  src={url}
+                  muted
+                  autoPlay
+                  loop
+                  controls
+                  playsInline
+                  alt={`Video ${index}`}
+                >
+                </video>
+              ) : (
+                <img
+                  src={url}
+                  alt={`Post ${index}`}
+                />
+              )}
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
+  ) : (
+    null
+  )}
+</div>
+                            
+                              {/* {items.postURL.map((url, index) => (
+                              <div className="context" key={index}>
+                                {url.endsWith(".mp4") || url.endsWith(".webm") ? (
+                                  <video
+                                  src={url}
+                                  muted
+                                  autoPlay
+                                  loop
+                                  playsInline
+                                  className="reel-video"
+                                  alt={`Video ${index}`}
+                                   ></video>
+                                   ) : (
+                                   <img
+                                   src={url}
+                                   alt={`Image ${index}`}
+                                   className="post-image"
+                                   />
+                                    )}
+                                  </div>
+                                  ))} */}
+
+                              {/* </div> */}
                               <div className="share-comment-box">
                                   <div className="share-comment-icon">
                                   <h2><FaRegHeart/></h2>
@@ -167,7 +224,7 @@ function HomePage() {
                               <h4>1455 likes</h4>
                               </div>
                               <div className="post-name">
-                              <p>{items.username}  <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia ipsum ullam ipsam, at maxime veritatis repellat a quod commodi facere alias. Cum numquam accusantium consequuntur cupiditate minus quae magnam mollitia.</span></p>                 
+                              <p>{items.username}  <span>{items.detail}</span></p>                 
                               </div>
                               <div className="add-comment">
                                  <p>View all three comments</p>
@@ -188,7 +245,7 @@ function HomePage() {
          <div className="third-box">
              <div className="profile">
                 <div className="profile-logo">
-                   <img src={firebase.user.photoURL || emptyImg} alt="" />
+                   <img src={firebase.user.photoURL} alt="" />
                    <div className="username">
                    <p>{username}</p>
                    <h6>{firebase.user.displayName}</h6>

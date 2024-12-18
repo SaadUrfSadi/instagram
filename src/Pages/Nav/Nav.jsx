@@ -42,6 +42,7 @@ import { FaArrowLeft } from "react-icons/fa6";
 import { FaAngleDown } from 'react-icons/fa';
 import { CiLocationOn } from "react-icons/ci";
 import PostLoader from '../../Components/PostLoader/PostLoader';
+import { use } from 'react';
 
 
 function Nav() {
@@ -60,7 +61,7 @@ function Nav() {
    const pagesNameEightRef = useRef();
    const pagesNameNineRef = useRef();
    const redNotiRef = useRef();
-
+   const hoverRef = useRef();
   //  const storyId = useParams();
   //  const blueRef = useRef();
 
@@ -129,7 +130,9 @@ function Nav() {
    pagesNameEightRef.current.classList.add('active')
    pagesNameNineRef.current.classList.add('active')
    heightRef.current.classList.add('active');
+   hoverRef.current.classList.toggle('active');
    setIsMessagesActive(!isMessagesActive);
+  //  setIsMsgActive((prev)=> !prev)
 
  };
 
@@ -194,8 +197,10 @@ const [input, setInput] = useState("");
 const [sharePost, setSharePost] = useState(false);
 const [isLoading, setIsLoading] = useState(false);
 const [photo, setPhoto] = useState([]);
+const [video, setVideo] = useState([]);
 const [mulPhoto, setMulPhoto] = useState("");
 const [videos, setVideos] = useState([]);
+const [isMsgActive, setIsMsgActive] = useState(false);
 // const [likes, setLikes] = useState([]);
 // console.log(likes);
 // console.log(username)
@@ -291,8 +296,29 @@ const handlerSelectChange = () => {
   setSelectChange((prev)=> !prev);
 };
 
+// const uploadPhoto = (e) => {
+//   const files = Array.from(e.target.files); 
+//   setSelected(true);
+
+//   const newImages = [];
+//   const newVideos = [];
+
+//   files.forEach(file => {
+//     if (file.type.startsWith('image/')) {
+//       newImages.push(file);  // Push the actual file object (not Blob URL)
+//     } else if (file.type.startsWith('video/')) {
+//       newVideos.push(file);  // Push the actual file object (not Blob URL)
+//     }
+//   });
+  
+//   setPhotos(prevPhotos => [...prevPhotos, ...newImages]);
+//   setVideos(prevVideos => [...prevVideos, ...newVideos]);
+// };
+
 const uploadPhoto = (e) => {
   const files = Array.from(e.target.files);
+  setPhoto(prevPhotos=> [...prevPhotos, ...files]);
+  setVideo(prevVideos => [...prevVideos, ...files]);
   setSelected(true);
 
   // Separate arrays for images and videos
@@ -369,15 +395,18 @@ const deleteImage = (index) => {
   setNextPostPage((prev)=> !prev);
  };
 
- const handlePost = async (photos, videos, detail, input, photoURL, username) => {
+ const handlePost = async (photo, video, detail, input, photoURL, username) => {
   setIsLoading(true);
   setSharePost(true); 
+  console.log(photos);
+  console.log(videos)
 
- await firebase.postData(photos, videos, detail, input, photoURL, username)
+ await firebase.postData(photo, video, detail, input, photoURL, username)
   
   setTimeout(() => {
     setIsLoading(false);
     setPhoto([]);
+    setVideo([]);
 
     setTimeout(()=>{
       setSelected(false);
@@ -456,15 +485,15 @@ const deleteVideo = (index) => {
             </div>
            <div className="pages-box">
             <div className="first-page-box">
-        
+      
            <div className="pages">
                <NavLink to="" style={{textDecoration:"none", color:"black",  border:'none'}}><h3 onClick={homeActive}><GoHome/></h3></NavLink>
                <NavLink to="" style={{textDecoration:"none", color:"black",  border:'none'}}><p className='pages-name-none' ref={pagesNameFirstRef} onClick={homeActive}>Home</p></NavLink>
             </div>
-           
-           <div className="pages">
+ 
+          <div className="pages">
                <h3 onClick={searchActive}><GoSearch /></h3>
-               <p className='pages-name-none' onClick={searchActive} ref={pagesNameSecRef} >Search</p>
+               <p className='pages-name-none' onClick={searchActive} ref={pagesNameSecRef}>Search</p>
             </div>
 
             <div className="pages">
@@ -477,9 +506,11 @@ const deleteVideo = (index) => {
                <NavLink to="/reels" style={{textDecoration:"none", color:"black",  border:'none'}} ><p className='pages-name-none' ref={pagesNameFourthRef} onClick={reelsActive}>Reels</p></NavLink>
             </div>
          
-         
-           <div className="pages">
+           <div className="pages msg-page" ref={hoverRef}>
                <NavLink to="/messages" style={{textDecoration:"none", color:"black",  border:'none'}}><h3 onClick={msgActive}><RiMessengerLine /></h3></NavLink>
+               <div className="msg-count">
+               <p>1</p>
+               </div>
                <NavLink to="/messages" style={{textDecoration:"none", color:"black",  border:'none'}} ><p className='pages-name-none' ref={pagesNameFifthRef} onClick={msgActive}>Messages</p></NavLink>
             </div>
           
@@ -488,14 +519,17 @@ const deleteVideo = (index) => {
                <p className='pages-name-none' onClick={NotificationActive}  ref={pagesNameSixRef}>Notification</p>
                <p className='red-noti' ref={redNotiRef}></p>
             </div>
-           <div className="pages" >
+
+          <div className="pages">
                <h3 onClick={toggleModal}><FiPlusSquare /></h3>
                <p className='pages-name-none' onClick={toggleModal} ref={pagesNameSevenRef}>Create</p>
             </div>
           
+            <div className="ref-ref">
             <div className="pages">
-               <NavLink to="/user" style={{textDecoration:"none", color:"black",  border:'none'}}><h3 onClick={userActive}><FaRegCircleUser /></h3></NavLink>
-               <NavLink to="/user" style={{textDecoration:"none", color:"black",  border:'none'}}><p className='pages-name-none' ref={pagesNameEightRef} onClick={userActive}>User</p></NavLink>
+               <NavLink to="/user" style={{textDecoration:"none", color:"black",  border:'none'}}><h3 onClick={userActive}><FaRegCircleUser /></h3></NavLink>  
+                  <NavLink to="/user" style={{textDecoration:"none", color:"black",  border:'none'}}><p className='pages-name-none' ref={pagesNameEightRef} onClick={userActive}>User</p></NavLink>
+            </div>
             </div>
   
             </div>
@@ -675,7 +709,7 @@ const deleteVideo = (index) => {
                   <div className="follow-reqested">
                   <h4>Follow requests</h4>
                   <p>reqested + {firebase.followRequests.length} others</p>
-                  {/* <button onClick={()=> firebase.allPosts()}>Click</button>s */}
+                  {/* <button onClick={()=> firebase.fetchMessages()}>Click</button> */}
                   </div>
                   </div>
                   <div className="noti-arrow">
@@ -738,7 +772,7 @@ const deleteVideo = (index) => {
                   <div className="top-fetch">
                      <h2 onClick={handlerBack}><FaArrowLeft /></h2>
                      <p>Crop</p>
-                     <p id='modal-next' onClick={()=> handlePost(photos, videos, detail, input, firebase.user.photoURL, username)}>Share</p>
+                     <p id='modal-next' onClick={()=> handlePost(photo, video, detail, input, firebase.user.photoURL, username)}>Share</p>
                   </div>
                   <div className="post-share-dec-container">
                     <div className="post-share-dec-username">
@@ -798,13 +832,13 @@ const deleteVideo = (index) => {
                      {(photos.length > 0 || videos.length > 0) && (
                       <div className="image-slider">
                       <Swiper
-                        key={photos.length}
+                        key={(photos.length || videos.length)}
                         modules={[Navigation, Pagination]}
                         spaceBetween={10}
                         slidesPerView={1}
                         navigation
                         pagination={{ clickable: true }}
-                        loop
+                        // loop
                       >
                         {/* Displaying images */}
                         {photos.map((photo, index) => (

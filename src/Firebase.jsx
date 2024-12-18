@@ -54,6 +54,7 @@ export const FirebaseProvider = (props) => {
     const [allStory, setAllStory] = useState([]);
     const [likes, setLikes] = useState([]);
     const [allPostsAndReels , setAllPostsAndReels] = useState([]);
+    const [messages, setMessages] = useState([]);
     // console.log(users)
     // console.log(usernameUser)
     // console.log(allPostsAndReels);
@@ -475,7 +476,10 @@ const fetchUsername = async () => {
 //    }
 // };
 
-const postData = async (photos, videos, detail, input, photoURL, username) => {
+const postData = async (photo, video, detail, input, photoURL, username) => {
+
+    console.log(photo)
+    console.log(video)
     try {
       if (!detail && !input) {
         setPostError("Failed, Missing data!");
@@ -486,20 +490,25 @@ const postData = async (photos, videos, detail, input, photoURL, username) => {
       const uploadVideoURLs = [];
   
       // Upload photos
-      for (const selectedImg of photos) {
+      for (const selectedImg of photo) {
         const imageRef = ref(storage, `instagram_users/profile_photos/${Date.now()}-${selectedImg.name}`);
         const uploadRes = await uploadBytes(imageRef, selectedImg);
         const downloadURL = await getDownloadURL(uploadRes.ref);
+        // console.log(downloadURL)
         uploadImgURLs.push(downloadURL);
       }
   
       // Upload videos
-      for (const selectedVideo of videos) {
+      for (const selectedVideo of video) {
         const videoRef = ref(storage, `instagram_users/profile_videos/${Date.now()}-${selectedVideo.name}`);
         const uploadRes = await uploadBytes(videoRef, selectedVideo);
         const downloadURL = await getDownloadURL(uploadRes.ref);
+        // console.log(downloadURL)
         uploadVideoURLs.push(downloadURL);
       }
+
+    //   console.log(uploadImgURLs);
+    //   console.log(uploadVideoURLs)
   
       // Combine both URLs
       const allURLs = [...uploadImgURLs, ...uploadVideoURLs];
@@ -612,6 +621,63 @@ const storyFetch = async () => {
       console.log("Error fetching stories:", error);
     }
   };
+
+  const chating = async (chatText, username, uid) => {
+    try {
+       const q = query(
+           collection(firestore, `instagram username`),
+           where("userUID", "==", user.uid)
+       );
+
+       const snapShot = await getDocs(q);
+       if (!snapShot.empty) {
+           const doc = snapShot.docs[0].ref;
+           await updateDoc(doc,{
+               Mychats: arrayUnion({
+                    chatText,
+                    username: username,
+                    senderUID: user.uid,
+                    receiverUID: uid,
+                    // timestamp: serverTimestamp(),
+               })
+           })
+       }else{
+           console.log("snapshot chat error", error)
+       }
+    } catch (error) {
+       console.log("error in chating", error)
+    }
+};
+
+const fetchMessages = async (selectedUser) => {
+    try {
+      const q = query(
+        collection(firestore, 'instagram username'), 
+        where("userUID", "==", user.uid) 
+      );
+  
+      const snapShot = await getDocs(q);
+  
+      if (!snapShot.empty) {
+        let messages = [];
+        snapShot.forEach((doc) => {
+          const data = doc.data();
+          if (data.Mychats) {
+            const filteredMessages = data.Mychats.filter(chat => chat.receiverUID === selectedUser);
+            messages = [...messages, ...filteredMessages];
+          }
+        });
+  
+        console.log(messages);
+        setMessages(messages); 
+      } else {
+        console.log("No documents found.");
+      }
+    } catch (error) {
+      console.log("Error fetching messages:", error);
+    }
+  };
+  
 
   const likesStory = async (URL, photoURL, username) => {
     try {
@@ -909,9 +975,7 @@ const deleteFollowRequest = async (requesterUID) => {
 
 const unfollowUser = async (targetUID) => {
     try {
-        const currentUID = user.uid; // Ensure `user` is authenticated
-
-        // Query to find the current user's document
+        const currentUID = user.uid; 
         const currentUserQuery = query(
             collection(firestore, "instagram username"),
             where("userUID", "==", currentUID)
@@ -921,18 +985,13 @@ const unfollowUser = async (targetUID) => {
 
         if (!currentUserSnapshot.empty) {
             const currentUserDoc = currentUserSnapshot.docs[0].ref;
-
-            // Remove the target user from the current user's "following" array
             await updateDoc(currentUserDoc, {
                 following: arrayRemove({
                     uid: targetUID,
-                    // fullName: targetDisplayName || "",
-                    // photo: targetPhoto || null,
                 }),
             });
         }
 
-        // Query to find the target user's document
         const targetUserQuery = query(
             collection(firestore, "instagram username"),
             where("userUID", "==", targetUID)
@@ -943,12 +1002,9 @@ const unfollowUser = async (targetUID) => {
         if (!targetUserSnapshot.empty) {
             const targetUserDoc = targetUserSnapshot.docs[0].ref;
 
-            // Remove the current user from the target user's "followers" array
             await updateDoc(targetUserDoc, {
                 followers: arrayRemove({
                     uid: currentUID,
-                    // fullName: user.displayName || "",
-                    // URL: user.photoURL || null,
                 }),
             });
         }
@@ -969,13 +1025,12 @@ const allPosts = async () => {
             const posts = doc.data().posts;
             
             if (posts && Array.isArray(posts) && posts.length > 0) {
-                usersPosts.push(...posts); // Spread operator to add posts directly to the array
+                usersPosts.push(...posts);
             }
         });
 
-        // Update state with all the posts
         if (usersPosts.length > 0) {
-            setAllPostsAndReels(usersPosts);  // Now this will only contain valid posts
+            setAllPostsAndReels(usersPosts); 
         } else {
             console.log("No posts found");
         }
@@ -984,6 +1039,51 @@ const allPosts = async () => {
     }
 };
 
+const chatStore = async (photoURL, username, fullName, uid) => {
+    try {
+        const q = query(
+            collection(firestore, `instagram username`),
+            where("userUID", "==", user.uid)
+        );
+        const snapShot = await getDocs(q);
+
+        if (!snapShot.empty) {
+            const doc = snapShot.docs[0].ref;
+
+              await updateDoc(doc,{
+                   chating: arrayUnion({
+                     photoURL: photoURL || emptyImg,
+                     username: username ,
+                     fullName: fullName || "saad",
+                     UID: uid,
+                   })
+              })
+        }
+        console.log("succeess")
+    } catch (error) {
+        console.log("error in chat", error)
+    }
+};
+
+const fetchChat = async () => {
+    try {
+        const q = query(
+            collection(firestore, `instagram username`),
+            where("userUID", "==", user.uid)
+        );
+        const snapShot = await getDocs(q);
+
+        if (!snapShot.empty) {
+            const doc = snapShot.docs[0].data()
+            return doc.chating || []
+        }else{
+            console.log("error in post fetch")
+        }
+    } catch (error) {
+        console.log("error in fetch chating", error);
+        throw error;
+    }
+};
 
   
     const isLoggedIn = user ? true : false;
@@ -1049,6 +1149,11 @@ const allPosts = async () => {
                    likes,
                    allPostsAndReels,
                    allPosts,
+                   chatStore,
+                   fetchChat,
+                   chating,
+                   fetchMessages,
+                   messages,
                    }}>
             {props.children}
         </FirebaseContext.Provider>

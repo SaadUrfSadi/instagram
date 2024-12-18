@@ -70,17 +70,19 @@
     display: flex;
     align-items: center;
     gap: 22px;
-    /* cursor: pointer; */
     border: none;
     padding-top: 6px;
     padding-bottom: 6px;
     padding-left: 12px;
     transition: 0.4s ease;
 }
-.pages:hover{
+/* .ref-ref:hover{
     background-color: #eeeded;
     border-radius: 12px;
 }
+/* .pages p.active{
+    background: none
+} */ 
 .pages h3{
     margin-top: 2px;
     font-size: 26px;
@@ -88,9 +90,10 @@
     transition: 0.4s ease;
     cursor: pointer;
 }
-.pages:hover h3{
+.pages h3:hover{
     transform: scale(1.08);
 }
+
 .pages p{
     font-size: 18px;
     font-weight: 495;

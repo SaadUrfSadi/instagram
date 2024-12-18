@@ -131,6 +131,7 @@
     justify-content: center;
     align-items: center;
     margin-top: 15px;
+    position: relative;
   }
   .login-btn button{
     border: none;
@@ -142,6 +143,7 @@
     max-width: 295;
     padding: 8px 16px;
     border-radius: 8px;
+    height: 32px ;
     cursor: pointer;
   }
   .lines{
@@ -268,9 +270,4 @@
       border: none;
     }
   }
-  /* @media(max-width:335px){
-    .microsoft-playstore{
-        flex-direction: column;
-    }
-  } */
   

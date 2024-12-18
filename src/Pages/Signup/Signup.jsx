@@ -4,6 +4,7 @@ import Login from '../Login/Login';
 // import emptyURL from '../../images/empty.jpeg'
 import Help from '../../Components/Help/Help';
 import { useFirebase } from '../../Firebase';
+import LoginLoader from '../../Components/LoginLoader/LoginLoader';
 
 function Signup() {
     // useState
@@ -13,6 +14,7 @@ function Signup() {
     const [password, setPassword] = useState("");
     const [fullname, setFullname] = useState("");
     const [username, setUsername] = useState("");
+    const [signupLoader, setSignupLoader] = useState(false);
 // ==================================================== 
     // ref
     const emailRef = useRef();
@@ -66,8 +68,12 @@ function Signup() {
         const register = async (e) => {
            firebase.setSignupErr("")
             e.preventDefault();
+            setSignupLoader(true)
             try {
-             await firebase.signupUserWithEmail(email, password, fullname, username)
+              setTimeout( async () => {
+                await firebase.signupUserWithEmail(email, password, fullname, username);
+                setSignupLoader(false);
+              }, 4000)
             } catch (error) {
                 console.log(`Error${error}`)
             }
@@ -141,7 +147,7 @@ function Signup() {
                     <p>By signing up, you agree to our <span>Terms, Privacy Policy and Cookies Policy.</span></p>
                     </div>
                     <div className="login-btn">
-                    <button>Sign up</button>
+                    <button disabled={signupLoader}>{signupLoader ? <LoginLoader/> : "Signup"}</button>
                     </div>
                   </form>
                   
