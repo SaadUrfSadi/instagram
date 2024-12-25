@@ -70,6 +70,7 @@ function User() {
   const [followersTrim, setFollowersTrim] = useState("");
   const [followingTrim, setFollowingTrim] = useState("");
 
+
   useEffect(()=>{
     const fetchPost = async () => {
       const data = await firebase.listAllPost();
@@ -158,6 +159,7 @@ function User() {
   const handleImageClick = (imageUrl) => {
     setModalImage(imageUrl); 
     setModalOpen(true);
+    console.log(imageUrl);
 };
 
 const closeModal = () => {
@@ -312,7 +314,7 @@ const handleShare = async () => {
       const filter = followers.filter((user) => 
         user.username.toLowerCase().includes(input.toLowerCase())
       );
-      setFollowersFilter(filter);  // Update followersFilter state
+      setFollowersFilter(filter); 
     } else {
       setFollowersFilter(followers); 
     }
@@ -368,7 +370,7 @@ const handleShare = async () => {
                     <h4>{username}</h4>
                    <NavLink to="/setting" style={{textDecoration:'none', color:'black', whiteSpace:"nowrap"}}><button>Edit Profile</button></NavLink>
                     <button>View archive</button>
-                    <h3><FiSettings /></h3>
+                    <NavLink to="/setting" style={{textDecoration:"none", color:"black"}}><h3><FiSettings /></h3></NavLink>
                    </div>
                    <div className="folling-followers-details">
                     <h4>{post ? post.length : "0"} <span>post</span></h4>
@@ -533,7 +535,7 @@ const handleShare = async () => {
                                                         onClick={() => handleImageClick(url)}
                                                       >
                                                     
-                                                        {url.endsWith(".mp4") ? (
+                                                        {url.includes("mp4") ? (
                                                   
                                                           <video 
                                                           src={url}
@@ -542,10 +544,10 @@ const handleShare = async () => {
                                                           loop
                                                           controls 
                                                           playsInline
-                                                          className="reel-video"
+                                                          className="user-post-reel-video"
                                                           alt={`Video ${urlIndex}`}
                                                         >
-                                                          Your browser does not support this video format.
+                                                         
                                                         </video>
                                                         ) : (
                                                         
@@ -673,7 +675,6 @@ const handleShare = async () => {
                         </div>
                        </div>
                     </div>
-                // </div>
              )}
 
 

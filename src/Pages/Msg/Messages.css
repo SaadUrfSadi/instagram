@@ -136,27 +136,11 @@
     margin-top: 22px;
     display: flex;
     flex-direction: column;
-    /* position: relative; */
-    /* align-items: center; */
-    /* justify-content: space-between; */
 }
 .handle-user-msg{
     display: flex;
     align-items: center;
     justify-content: space-between;
-}
-.msg-right-top{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    /* max-width: 1200px; */
-    border: 1px solid #eeeded;
-    border-top: none;
-    border-right: none;
-    border-left: none;
-    padding: 14px;
-    background-color: #fff;
 }
 .handle-user{
     padding-bottom: 4px;
@@ -202,10 +186,22 @@
     flex-direction: column;
     text-align: center;
     width: 100%;
+    height: 100vh;
+    margin-top: -20px;
 }
-.msgg-others{
+/* .msgg-others{
     margin-top: 15px;
-}
+} */
+ .msgg-others{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    /* gap: 8px; */
+ }
+ .msgg-others h1{
+    margin-bottom: 8px;
+ }
 .msgg-others h3{
     margin-bottom: 8px;
     font-weight: 600;
@@ -227,25 +223,13 @@
     margin-top: 8px;
     cursor: pointer;
 }
-.msg-mid-container{
-    height: 460px;
-    overflow-y: auto;
-    padding: 25px 14px;
-    position: relative;
-}
 .msg-third-container{
     margin-top: 12px;
     padding: 12px 6px ;
     position: relative;
 }
-/* .msg-third-container textarea::-webkit-scrollbar{
-    width: 0;
-    background: none;
-    outline: none;
-} */
 .msg-third-container textarea{
-    /* width: 100%; */
-    width: 750px;
+    width: 100%;
     resize: none;
     border: none;
     background: none;
@@ -253,13 +237,14 @@
     padding: 12px 14px;
     border: 1px solid black;
     border-radius: 30px;
-    /* padding: 12px 0; */
     padding-top: 12px;
     padding-bottom: 12px;
     padding-right: 115px;
     padding-left: 30px;
     height: 50px;
     font-size: 16px;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent; 
     /* position: relative; */
     
 }
@@ -279,8 +264,6 @@
 .all-msgs-user{
     width: 100%;
     padding: 0;
-    /* max-width: 650px; */
-    /* height: 650px; */
 }
 .modal-msgg-name{
     padding: 10px 0px;
@@ -392,21 +375,25 @@
 .btn-msgg-chat.active{
     background-color: rgb(3, 138, 248);
 }
-.msgg-in-user{
+/* .msgg-in-user{
    display: flex;
    flex-direction: column;
-   align-items: center;
-   justify-content: center;
    gap: 12px;
    margin-top: 22px;
-   padding-bottom: 70px;
-   /* position: absolute; */
-}
+} */
 .msgg-in-user img{
-    width: 90px;
-    height: 90px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
 }
+/* .type-users{
+    margin-right: 250px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+} */
 /* .msgg-in-user button{
     display: flex;
     align-items: center;
@@ -458,49 +445,25 @@
     font-size: 14px;
     border-left: 1px solid #fff;
 }
-.chats-user{
-    position: absolute;
-    left: 6px;
-    top: 105%;
+@media(max-width:677px){
+    .msgg-box-icon{
+        display: none;
+    }
+    .msg-left-container{
+        border: none;
+       
+   }
+   .msg-user-container{
+    height: 80vh;
+   }
+   .msg-user-name{
+    margin-top: 40px;
+   }
+   .msg-username-box{
+    margin-left:-16px ;
+   }
+   .msg-all-username-box{
+    margin-left: -15px;
+   }
 }
-.photo-chat-user{
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    position: relative;
-}
-.photo-chat-user img{
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    margin-top: 3px;
-}
-.photo-chat-user p{
-    padding: 10px 16px;
-    background: #eeeded;
-    border-radius: 25px;
-}
-.chat-frds{
-    position: absolute;
-    right: 22px;
-    bottom: 0px;
-    display: flex;
-    align-items: flex-end;
-    flex-direction: column;
-    /* padding-top: 180px; */
-}
-.chat-me p{
-    display: inline-block;
-    padding: 10px 16px;
-    background: #0084ff;;
-    border-radius: 25px;
-    color: #fff;
-    margin-top: 10px;
-    white-space: normal; /* Allow wrapping to the next line */
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    max-width: 270px;
-    /* width: 100%;
-    width: 180px; */
-}
-
+/* @media(max-width:677) */

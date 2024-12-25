@@ -21,8 +21,9 @@ import { FaAngleRight } from "react-icons/fa6";
 import { NavLink } from 'react-router-dom';
 import { MdOutlineInsertPhoto } from "react-icons/md";
 import { FaXmark } from "react-icons/fa6";
+import { RxCross2 } from "react-icons/rx";
 import { FaAngleLeft } from "react-icons/fa6";
-import DpImg from '../../images/dp3.png'
+// import DpImg from '../../images/dp3.png'
 import DpImg6 from '../../images/dp6.png'
 import emptyImg from "../../images/empty.jpeg"
 import { dpData } from '../../Data';
@@ -61,6 +62,7 @@ function Nav() {
    const pagesNameEightRef = useRef();
    const pagesNameNineRef = useRef();
    const redNotiRef = useRef();
+   const redNotiRefMob = useRef();
    const hoverRef = useRef();
   //  const storyId = useParams();
   //  const blueRef = useRef();
@@ -131,7 +133,7 @@ function Nav() {
    pagesNameNineRef.current.classList.add('active')
    heightRef.current.classList.add('active');
    hoverRef.current.classList.toggle('active');
-   setIsMessagesActive(!isMessagesActive);
+  //  setIsMessagesActive(!isMessagesActive);
   //  setIsMsgActive((prev)=> !prev)
 
  };
@@ -255,6 +257,7 @@ useEffect(()=> {
 useEffect(()=>{
   if (firebase.followRequests.length > 0) {
     redNotiRef.current.classList.add("active");
+    redNotiRefMob.current.classList.add("active")
     // blueRef.current.classList.add("active");
   }
 },[firebase.followRequests]);
@@ -296,32 +299,12 @@ const handlerSelectChange = () => {
   setSelectChange((prev)=> !prev);
 };
 
-// const uploadPhoto = (e) => {
-//   const files = Array.from(e.target.files); 
-//   setSelected(true);
-
-//   const newImages = [];
-//   const newVideos = [];
-
-//   files.forEach(file => {
-//     if (file.type.startsWith('image/')) {
-//       newImages.push(file);  // Push the actual file object (not Blob URL)
-//     } else if (file.type.startsWith('video/')) {
-//       newVideos.push(file);  // Push the actual file object (not Blob URL)
-//     }
-//   });
-  
-//   setPhotos(prevPhotos => [...prevPhotos, ...newImages]);
-//   setVideos(prevVideos => [...prevVideos, ...newVideos]);
-// };
-
 const uploadPhoto = (e) => {
   const files = Array.from(e.target.files);
   setPhoto(prevPhotos=> [...prevPhotos, ...files]);
   setVideo(prevVideos => [...prevVideos, ...files]);
   setSelected(true);
 
-  // Separate arrays for images and videos
   const newImages = [];
   const newVideos = [];
 
@@ -338,20 +321,6 @@ const uploadPhoto = (e) => {
   setPhotos(prevPhotos => [...prevPhotos, ...newImages]);
   setVideos(prevVideos => [...prevVideos, ...newVideos]);
 };
-
-
-// const uploadPhoto = (e) => {
-//   const files = Array.from(e.target.files);
-//   setPhoto(prevPhotos=> [...prevPhotos, ...files])
-
-//   if (files) {
-//     setSelected(true);
-//     const newPhotos = files.map(file => URL.createObjectURL(file));
-//     setPhotos(prevPhotos => [...prevPhotos, ...newPhotos]);
-//   } else {
-//     console.log("Error in files");
-//   }
-// };
 
 const selectImage = (index) => {
   setSelectedImageIndex(index); 
@@ -427,6 +396,10 @@ const deleteVideo = (index) => {
   setVideos(prevVideos => prevVideos.filter((video, i) => i !== index));
 };
 
+// const modalClose = () => {
+//   setModalActive(false);
+// }
+
 
   // =========================================
 
@@ -466,8 +439,6 @@ const deleteVideo = (index) => {
  const followRequest = async () => {
   try {
       await firebase.sendFollowRequest(firebase.user.uid);
-      // setUserFollow(true); 
-      // btnRef.current.classList.add("active");
   } catch (error) {
       console.error("Error sending follow request:", error);
   }
@@ -475,14 +446,29 @@ const deleteVideo = (index) => {
   
   return (
     <>
-    <div className="nav-container">
+    <div className="nav-container-instagram">
         <div className="width-line">
           
         </div>
-        <div className="nav">
+        <div className="nav-box-for-insta">
+
             <div className="logo">
             { searchIcon ? <p><FaInstagram /></p> : <h1>Instagram</h1> }
             </div>
+
+            <div className="logo insta-icon-logo">
+            <p><FaInstagram /></p>
+            </div>
+
+            <div className="mob-tab-logo">
+            <h1>Instagram</h1>
+            <div className="create-and-notification">
+               <h3  onClick={NotificationActive}><FaRegHeart /></h3>
+               <h3 onClick={toggleModal}><FiPlusSquare /></h3>
+               <p className='red-noti-second' ref={redNotiRefMob}></p>
+            </div>
+            </div>
+
            <div className="pages-box">
             <div className="first-page-box">
       
@@ -491,7 +477,7 @@ const deleteVideo = (index) => {
                <NavLink to="" style={{textDecoration:"none", color:"black",  border:'none'}}><p className='pages-name-none' ref={pagesNameFirstRef} onClick={homeActive}>Home</p></NavLink>
             </div>
  
-          <div className="pages">
+          <div className="pages search-page-box">
                <h3 onClick={searchActive}><GoSearch /></h3>
                <p className='pages-name-none' onClick={searchActive} ref={pagesNameSecRef}>Search</p>
             </div>
@@ -514,13 +500,13 @@ const deleteVideo = (index) => {
                <NavLink to="/messages" style={{textDecoration:"none", color:"black",  border:'none'}} ><p className='pages-name-none' ref={pagesNameFifthRef} onClick={msgActive}>Messages</p></NavLink>
             </div>
           
-            <div className="pages red-noti-icon">
+            <div className="pages red-noti-icon red-circle-noti">
                <h3  onClick={NotificationActive}><FaRegHeart /></h3>
                <p className='pages-name-none' onClick={NotificationActive}  ref={pagesNameSixRef}>Notification</p>
                <p className='red-noti' ref={redNotiRef}></p>
             </div>
 
-          <div className="pages">
+          <div className="pages create-page">
                <h3 onClick={toggleModal}><FiPlusSquare /></h3>
                <p className='pages-name-none' onClick={toggleModal} ref={pagesNameSevenRef}>Create</p>
             </div>
@@ -533,15 +519,16 @@ const deleteVideo = (index) => {
             </div>
   
             </div>
-            <div className="second-page-box">
+            {/* <div className="second-page-box"> */}
             <div className="pages bar">
                <h3 onClick={moreActive}><FaBars /></h3>
                <p className='pages-name-none' ref={pagesNameNineRef} onClick={moreActive}>More</p>
             </div>
-            </div>
+            {/* </div> */}
            </div>
             
         </div>
+
         <div className="height-line" ref={heightRef}>
 
         </div>
@@ -681,6 +668,9 @@ const deleteVideo = (index) => {
                         >
                             Delete
                         </button>
+                        <div className="del-btn-followers">
+                        <p onClick={() => firebase.deleteFollowRequest(request.userUID)}><RxCross2 /></p>
+                        </div>
                     </>
                 ) : (
                     <button className="follow-back-btn" onClick={followRequest}>Follow Back</button>
@@ -709,7 +699,7 @@ const deleteVideo = (index) => {
                   <div className="follow-reqested">
                   <h4>Follow requests</h4>
                   <p>reqested + {firebase.followRequests.length} others</p>
-                  {/* <button onClick={()=> firebase.fetchMessages()}>Click</button> */}
+                  {/* <button onClick={()=> firebase.otherUserMsgFetch ()}>Click</button> */}
                   </div>
                   </div>
                   <div className="noti-arrow">
@@ -738,7 +728,11 @@ const deleteVideo = (index) => {
                           </div>
                      </div>
                      <div className="your-story-item">
-                        <img src={items.URL} alt="" />
+                        {
+                          <img src={items.URL} alt="" /> 
+                          ||
+                          <video src={items.URL}></video>
+                        }
                      </div>
                     </div>
                   ))
@@ -840,7 +834,6 @@ const deleteVideo = (index) => {
                         pagination={{ clickable: true }}
                         // loop
                       >
-                        {/* Displaying images */}
                         {photos.map((photo, index) => (
                           <SwiperSlide key={index}>
                             <div className="image-slide">
@@ -849,7 +842,6 @@ const deleteVideo = (index) => {
                           </SwiperSlide>
                         ))}
                     
-                        {/* Displaying videos */}
                         {videos.map((video, index) => (
                           <SwiperSlide key={index}>
                             <div className="image-slide">
@@ -936,28 +928,6 @@ const deleteVideo = (index) => {
   </div>
 </div>
 
-
-                  {/* <div className="so-on-pic-container" ref={soOnRef}>
-                     <div className="max-img-box">
-                     {photos.map((photo, index) => (
-                       <div key={index} className={`so-on-images ${selectedImageIndex === index ? 'selected' : ''}`} onClick={() => selectImage(index)}>
-                          <img src={photo} alt="" />
-                          <p onClick={(e) => { e.stopPropagation(); deleteImage(index); }}><FaXmark /></p>
-                       </div>
-                     ))}
-                      <div className="added-img" onClick={() => document.getElementById('file-input').click()}>
-                        <p><GoPlus /></p>
-                      </div>
-                      <input
-                      type="file"
-                      id="file-input"
-                      style={{ display: 'none' }}
-                      onChange={uploadPhoto}
-                      multiple
-                  />
-                     </div>
-                  </div> */}
-
                   <div className="so-on-pic-box" onClick={soOnActive}>
                     <p className='copy-ref' ref={copyesRef}><FaRegCopy /></p>
                   </div>
@@ -1003,6 +973,9 @@ const deleteVideo = (index) => {
           { modalActive && (
             <div className="modal-overlay">
             <div className="modal-content">
+              <div className="modal-close-btn">
+              <p onClick={toggleModal}><FaXmark /></p>
+              </div>
               <h3>Create new post</h3>
               <div className="modal-box">
                  <div className="modal-icon-first">
@@ -1012,7 +985,6 @@ const deleteVideo = (index) => {
                  <h2>Drag photos and videos here</h2>
               </div>
               <div className="modal-btn">
-                  {/* onClick={handlerSelect} */}
                  <button onClick={() => document.getElementById('file-input').click()}>Select from Computer</button>
                  <input
                      type="file"

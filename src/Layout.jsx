@@ -1,19 +1,20 @@
-import React from 'react'
-import Nav from './Pages/Nav/Nav'
-import { Outlet, useLocation } from 'react-router-dom'
+import React from 'react';
+import Nav from './Pages/Nav/Nav';
+import { Outlet, useLocation } from 'react-router-dom';
 
 function Layout() {
-
   const location = useLocation();
 
-  const isStoryPage = location.pathname.startsWith('/story/');
+  const excludeNavPaths = ['/story/', '/chats/'];
+
+  const hideNav = excludeNavPaths.some((path) => location.pathname.startsWith(path));
+
   return (
     <>
-    {!isStoryPage && <Nav />}
-    {/* {location.pathname !== `/story/` && <Nav/> } */}
-    <Outlet/>
+      {!hideNav && <Nav />}
+      <Outlet />
     </>
-  )
+  );
 }
 
-export default Layout
+export default Layout;

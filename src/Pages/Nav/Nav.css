@@ -1,9 +1,10 @@
-.nav-container{
+.nav-container-instagram{
     position: fixed;
     top: 0;
     z-index: 1001;
+    /* background-color: #414141; */
 }
-.nav{
+.nav-box-for-insta{
     padding-left: 8px;
     padding-top: 25px;
     padding-right: 8px;
@@ -58,6 +59,7 @@
     flex-direction: column;
     justify-content: space-between;
     gap: 20px;
+    position: relative;
 }
 .first-page-box{
     width: 100%;
@@ -205,8 +207,12 @@
     display: none;
     transition: 0.4s ease-in-out;
 }
+.apparance-container{
+    display: none;
+}
 /* ============================================= */
 .apparance-container.active{
+    display: block;
     position: absolute;
     left: 12px;
     height: 150px;
@@ -288,6 +294,8 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    /* margin-right: 80px; */
+    /* max-width: 400px; */
 }
 .follow-dps{
     position: relative;
@@ -370,6 +378,12 @@
     gap: 8px;
 }
 .your-story-item img{
+    width: 47px;
+    height: 47px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.your-story-item video{
     width: 47px;
     height: 47px;
     border-radius: 3px;
@@ -514,14 +528,6 @@
     height: 100%;
 }
 
-
-
-
-
-
-
-
-
 /* notification active */
 .notification-container.active{
     left: 76px;
@@ -541,6 +547,7 @@
   }
 
   .modal-content {
+    position: relative;
     background-color: white;
     padding: 10px 20px;
     border-radius: 10px;
@@ -549,6 +556,9 @@
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     animation: fadeIn 0.3s ease-out;
+  }
+  .modal-close-btn{
+    display: none;
   }
   .modal-content h3{
     font-size: 18px;
@@ -647,6 +657,188 @@
     font-weight: 400;
     color: #6e6e6e;
     margin-top: -3px;
+  }
+  .insta-icon-logo{
+    display: none;
+  }
+  .mob-tab-logo{
+    display: none;
+    z-index: 1002;
+  }
+  .del-btn-followers{
+    display: none;
+  }
+
+  @media(max-width:1120px){
+    .pages p{
+    display: none;
+    }
+    .logo{
+        display: none;
+    }
+    .insta-icon-logo{
+        display: block;
+    }
+    .height-line{
+        left: 30%;
+    }
+  }
+  @media(max-width:830px){
+    .first-page-box{
+        width: 100%;
+        max-width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: row;
+        margin: 0 auto;
+        gap: 10px;
+        position: fixed;
+        bottom: -1px;
+        right: 0;
+        left: 0;
+        background-color: #fff;
+        border-top: 1px solid #eeeded;
+    }
+    .nav-box-for-insta{
+        padding-left: 0px;
+        padding-top: 0px;
+        padding-right: 0px;
+        width: 0px;
+        height: 0vh;
+    }
+    .mob-tab-logo{
+        display: flex;
+        position: fixed;
+        top: 0px;
+        width: 100%;
+        padding: 10px 14px;
+        display: flex;
+        justify-content: space-between;
+        background-color: #fff;
+        border-bottom: 1px solid #eeeded;
+    }
+    .mob-tab-logo h1{
+        font-weight: 600;
+        margin-top: 3px;
+    }
+    .create-and-notification h3{
+        font-size: 32px;
+    }
+    .create-and-notification{
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        margin-top: 10px;
+        position: relative;
+    }
+    .create-and-notification p{
+        position: absolute;
+        top: 0px;
+        left: 20px;
+    }
+    .red-circle-noti{
+        display: none;
+    }
+    .search-page-box{
+        display: none;
+    }
+    .create-page{
+        display: none;
+    }
+    .height-line{
+        display: none;
+    }
+    .bar{
+        display: none;
+    }
+    .modal-close-btn{
+        display: block;
+        position: absolute;
+        right: 20px;
+        top: 16px;
+        cursor: pointer;
+  }
+  .notification-container{
+    width: 400px;
+    /* max-width: 100%; */
+    height: 99vh;
+    background-color: #fff;
+    position: absolute;
+    top: 6px;
+    left: -500px;
+    box-shadow: 5px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 0;
+    transition: 1s ease-out;
+    overflow-y: auto;
+}
+.notification-container.active{
+    position: absolute;
+    left: 0px;
+}
+.noti-arrow{
+    margin-right: 30px;
+}
+.follow-req{
+    margin-left: -10px;
+}
+.liked-story-section{
+    margin-left: -10px;
+}
+.your-story-item{
+    margin-right: 30px;
+}
+.back-noti{
+    margin-top: 33px;
+    margin-left: -16px;
+}
+.back-noti p{
+    font-weight: 400;
+    font-size: 18px;
+}
+.back-noti h3{
+    margin-right: 20px;
+    margin-top: 8px;
+    font-weight: 500;
+}
+.follower-req{
+  margin-left: -20px;
+}
+.del-btn-followers{
+    display: block;
+}
+#del-btn{
+    display: none;
+}
+.your-story-item{
+    gap: 12px;
+}
+.likestory-name h3{
+    font-size: 15px;
+    font-size: 400;
+    margin-left: 8px;
+}
+.red-noti-second.active{
+    position: absolute;
+    top: 6px;
+    left: 25px;
+    border-radius: 50%;
+    height: 9px;
+    width: 9px;
+    background-color: rgb(245, 40, 40);
+    cursor: none;
+    pointer-events: none;
+}
+
+  }
+  @media(max-width:500px){
+    .modal-content {
+        width: 350px;
+        height: 400px;
+      }
+      /* .set-modal-overlay{
+        width: 350px;
+        height: 400px;
+      } */
   }
 
   @keyframes fadeIn {

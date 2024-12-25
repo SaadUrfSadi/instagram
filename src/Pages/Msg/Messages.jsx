@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './Messages.css';
 import { FaAngleDown } from "react-icons/fa6";
 import { BsPencilSquare } from "react-icons/bs";
-import { dpData } from '../../Data';
+// import { dpData } from '../../Data';
 import { RiMessengerLine } from "react-icons/ri";
 import { FiPhoneCall } from "react-icons/fi";
 import { BsCameraVideo } from "react-icons/bs";
@@ -10,7 +10,6 @@ import { RiInformationLine } from "react-icons/ri";
 import { MdOutlineKeyboardVoice } from "react-icons/md";
 import { HiOutlinePhotograph } from "react-icons/hi";
 import { FaRegHeart } from "react-icons/fa";
-import dp1 from '../../images/dp1.png';
 import emptyImg from "../../images/empty.jpeg";
 import { useFirebase } from '../../Firebase';
 import { NavLink } from 'react-router-dom';
@@ -20,7 +19,6 @@ function Messages() {
   const firebase = useFirebase();
 
   const btnRef = useRef();
-  // State to track the selected user
   const [selectedUser, setSelectedUser] = useState(null);
   const [modalActive, setModalActive] = useState(false); 
   const [filteredUsers, setFilteredUsers] = useState([]); 
@@ -30,7 +28,44 @@ function Messages() {
   const [chat, setChat] = useState([]);
   const [chatUser, setChatUser] = useState([]);
   const [sendBtn, setSendBtn] = useState("");
-  console.log(firebase.messages);
+  const [msg, setMsg] = useState([]);
+  const [chatingUser, setChatingUser] = useState([]);
+  console.log(chatingUser);
+  // console.log(chatingUser[0]?.photoURL);
+  // console.log(chatingUser[0]?.username);
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        await firebase.chatingUser;
+        setChatingUser([...firebase.chatingUser]);
+      } catch (error) {
+        console.log("Error in store chats:", error);
+      }
+    };
+    fetch();
+  }, [firebase.chatingUser]);
+  
+  // useEffect(() => {
+  //   if (chatingUser.length > 0) {
+  //     console.log(chatingUser); 
+  //     console.log(chatingUser?.photoURL); 
+  //     console.log(chatingUser?.username); 
+  //   }
+  // }, [chatingUser]);
+  
+
+  useEffect(()=>{
+    const fetch = async () => {
+       try {
+        await firebase.chatingUser;
+        setChatingUser(firebase.chatingUser)
+       } catch (error) {
+        console.log("error in store chats", error)
+       }
+    }
+    fetch();
+  },[firebase.chatingUser])
 
   useEffect(()=>{
     const fetchChating = async () => {
@@ -39,7 +74,22 @@ function Messages() {
     } 
     fetchChating();
   },[]);
+
+  useEffect(()=>{
+    const dataMsg = () => {
+     setMsg(firebase.messages);
+    }
+    dataMsg ();
+  },[firebase.messages]);
+
+  // useEffect(()=>{
+  //   const autoStoreChating = async () => {
+  //     await firebase.chatStore(chatingUser[0]?.photoURL, chatingUser[0]?.username, chatingUser[0]?.displayName, chatingUser[0]?.senderUID)
+  //   }
+  //   autoStoreChating();
+  // },[])
   
+
   const startChat = async () => {
     if (userSelect) {
      await firebase.chatStore(userSelect.photoURL, userSelect.username, userSelect.fullName, userSelect.userUID);
@@ -48,7 +98,6 @@ function Messages() {
     }
   };
   
-
   const toggleModal = () => {
     setModalActive((prev)=> !prev)
   }
@@ -99,29 +148,25 @@ function Messages() {
     setSearchTerm("");
   };
 
-  const chatSend = async (e) => {
-    e.preventDefault();
-    setChatText("");
-    try {
-      await firebase.chating(chatText, selectedUser.username, selectedUser.UID);
-    } catch (error) {
-      console.log("error in chat", error)
-    }
-  };
-  
+   useEffect(()=>{
+          const fetchMsg = async () => {
+         const data =  await firebase.fetchMessages();
+        //  setChatingUser(data);
+          }
+          fetchMsg();
+        },[])
 
+  
   const handleUserClick = async (user) => {
     setSelectedUser(user);
     try {
-      const fetchedMessages = await firebase.fetchMessages(user.UID); 
-      // setMessages(fetchedMessages);
+       await firebase.fetchMessages(user.UID); 
+       setMsg(firebase.messages)
     } catch (error) {
       console.log("Error fetching messages:", error);
     }
   };
   
-
-
   return (
     <>
       <div className="msg-user-container">
@@ -145,7 +190,8 @@ function Messages() {
             <div className="msg-users">
               {
                 chatUser.map((items, index) => (
-                  <div 
+                 <NavLink to={`/chats/${items.username}`} style={{textDecoration:'none', color:'black', border:"none"}}>
+                   <div 
                     className="msg-user-box" 
                     key={index} 
                     onClick={() => handleUserClick(items)}
@@ -158,6 +204,7 @@ function Messages() {
                       <span>Active 12h ago</span>
                     </div>
                   </div>
+                 </NavLink>
                 ))
               }
             </div>
@@ -186,31 +233,11 @@ function Messages() {
             <div className="msg-mid-container">
               <div className="handler-msg-send">
                  <div className="msgg-in-user">
+                  <div className="type-users">
                   <img src={selectedUser.photoURL} alt="" />
                   <p>{selectedUser.username} . <span>Instagram</span></p> 
-                  <div className="chat-frds">
-                   {
-                     firebase.messages && firebase.messages.length > 0 ? (
-                     firebase.messages.map((chat, index) => (
-                     <div className="chat-me" key={index}>
-                     <p>{chat.chatText}</p>
-                      </div>
-                       ))
-                     ) : (
-                       <p></p>
-                     )
-                    }
-                    </div>
-
-                  {
-                    <div className="chats-user">
-                      <div className="photo-chat-user">
-                        <img src={selectedUser.photoURL} alt="" />
-                        <p>Dollars ni pounds</p>
-                      </div>
-                      
-                    </div>
-                  }
+                  </div>
+                  
                  </div>
               </div>
             </div>
@@ -235,6 +262,7 @@ function Messages() {
              }
             </div>
             </div>
+
           </div>
          </form>
         ) : (

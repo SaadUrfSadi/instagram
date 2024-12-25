@@ -1,18 +1,22 @@
 .setting-container{
-    padding: 10px;
+    padding: 10px 0px;
     margin: 0 auto;
-    /* width: 80%; */
+    width: 100%;
+    max-width:900px;
+    height: auto;
 }
 .edit-profile h2{
    font-size: 26px;
-   /* padding-left: 10px; */
-   /* margin-left: 22px; */
+   /* margin-left: 80px;
+    margin-right: -80px; */
 }
 .setting-boxes-container{
     padding: 32px 0px;
     display: flex;
     flex-direction: column;
     gap: 16px;
+    /* margin-left: 80px;
+    margin-right: -80px; */
 }
 .handle-user-dp img{
     width: 55px;
@@ -40,12 +44,14 @@
 }
 .setting-username h3{
     font-size: 16px;
+    word-break: break-all;
 }
 .setting-username span{
     font-size: 15px;
     margin-top: -3px;
     color: #969696;
     margin-left: 3px;
+    word-break: break-all;
     /* width: 70px; */
 }
 .setting-username p{
@@ -65,14 +71,17 @@
     padding: 8px 22px;
     border-radius: 10px;
     cursor: pointer;
+    word-break: break-all;
 }
 .handler-setting-submit{
     display: flex;
     justify-content: flex-end;
     align-items: center;
     float: left;
-    float: inline-end;
+    float: inline-end; 
     margin-bottom: 22px;
+    /* margin-left: 80px;
+    margin-right: -80px; */
 }
 .handler-setting-submit button{
     border: none;
@@ -82,7 +91,7 @@
     background-color: #007bff;
     padding: 14px 42px;
     border-radius: 10px;
-    margin-right: 26px;
+    /* margin-right: 26px; */
     cursor: pointer;
 }
 /* .set-website{
@@ -127,6 +136,8 @@
 }
 .help{
     margin-top: 32px;
+    /* margin-left: 80px;
+    margin-right: -80px; */
 }
 /* ======================================== */
 
@@ -177,6 +188,42 @@
   .cancel-dp h3{
     color: #3d3d3d;
     cursor: pointer;
+  }
+  @media(max-width:1440px){
+    .setting-container{
+        width:70%;
+    }
+    .help{
+        width: 95%;
+    }
+  }
+  @media(max-width:830px){
+    .setting-container{
+        padding: 90px 0px;
+        margin: 0 auto;
+        width: 96%;
+        /* max-width:900px; */
+    }
+     .help{
+        margin-top: 0px;
+        width: 100%;
+    }
+    .edit-profile h2{
+        margin-left: 16px;
+     }
+     .handler-setting-submit{
+        margin-right: 16px;
+     }
+     .setting-box{
+        border-radius: 7px;
+    }
+    .sett-text-area{
+        border-radius: 8px;
+    }
+    .sett-text-area textarea{
+        border-radius: 6px;
+        outline: none;
+    }
   }
 /* .change-photo-container {
     position: fixed;

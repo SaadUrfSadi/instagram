@@ -80,7 +80,8 @@ useEffect(() => {
 }, [firebase]);
 
   return (
-    <main>
+    // <main>
+    <>
         <div className="setting-container">
         <div className="edit-profile">
             <h2>Edit Profile</h2>
@@ -140,23 +141,21 @@ useEffect(() => {
                  </div>
                  </div>
                <div className="handler-dp-change">
-               {/* <Form>
-                 <Form.Check // prettier-ignore
-                   type="switch"
-                  id="custom-switch"
-                   />
-                 </Form> */}
             </div>
 
           </div>
             </div>
         </div>
+
+        <div className="handler-setting-submit">
+                  <button onClick={handleSubmit}>Submit</button>
+            </div> 
            
     </div>
       
-    <div className="handler-setting-submit">
+    {/* <div className="handler-setting-submit">
                   <button onClick={handleSubmit}>Submit</button>
-            </div> 
+            </div>  */}
 
             <div className="help">
                 <Help/>
@@ -200,8 +199,9 @@ useEffect(() => {
                   </div>
                 // </div>
             )} 
+            </>
     
-    </main>
+    // </main>
   )
 }
 

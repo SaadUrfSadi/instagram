@@ -1,95 +1,124 @@
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './Reels.css';
-import { GoUnmute } from "react-icons/go";
-import { GoMute } from "react-icons/go";
-import { FaRegHeart } from "react-icons/fa";
-import { FaRegComment } from "react-icons/fa";
-import { FiShare2 } from "react-icons/fi";
-import { FiBookmark } from "react-icons/fi";
+import { GoUnmute, GoMute } from "react-icons/go";
+import { FaRegHeart, FaRegComment } from "react-icons/fa";
+import { FiShare2, FiBookmark } from "react-icons/fi";
 import { BsThreeDots } from "react-icons/bs";
-import DpImgReel from '../../images/dp3.png';
-import { newsReels } from '../../Data';
+import { useFirebase } from '../../Firebase';
+import emptyImg from "../../images/empty.jpeg";
 
 function Reels() {
+  const firebase = useFirebase();
+  const [isPlaying, setIsPlaying] = useState({});
+  const videoRefs = useRef([]);
 
-    const [isPlaying, setIsPlaying] = useState(true);
-    const videoRef = useRef(null);
+  useEffect(() => {
+    const fetchReels = async () => {
+      try {
+        await firebase.allPosts();
+      } catch (error) {
+        console.error("Error in fetching reels:", error);
+      }
+    };
+    fetchReels();
+  }, [firebase]);
 
-    const handleTogglePlay = () => {
-        if (videoRef.current) {
-          if (videoRef.current.paused) {
-            videoRef.current.play();
-          } else {
-            videoRef.current.pause();
-          }
-          setIsPlaying(!isPlaying);
-        }
-      };
+  const videoPosts = firebase.allPostsAndReels.filter(
+    (post) =>
+      Array.isArray(post.postURL) &&
+      post.postURL.some((url) => url.includes('.mp4') || url.includes('.webm'))
+  );
+
+  const handleTogglePlay = (index) => {
+    const currentVideo = videoRefs.current[index];
+    if (currentVideo) {
+      if (currentVideo.paused) {
+        currentVideo.play();
+        setIsPlaying((prev) => ({ ...prev, [index]: true }));
+      } else {
+        currentVideo.pause();
+        setIsPlaying((prev) => ({ ...prev, [index]: false }));
+      }
+    }
+  };
+
   return (
-    <>
     <div className="reel-section">
-        <div className="reel-container">
-            {
-                newsReels.map((items, index)=>(
-                    <div className="reel-box" key={index}>
-                        <div className="reel-content">
-                        <video
-                        ref={videoRef}
-                        className="reel-video"
-                        src={items.video}
-                        title={`reel-video-${index}`}
-                        onClick={handleTogglePlay}
-                        autoPlay={false}  
-                        loop={true}
-                        muted={false}    
-                        controls={false}
-                        ></video>
-             <div className="music-icon" onClick={handleTogglePlay}>
-                {isPlaying ? (
-                  <span className="music-on"><GoUnmute /></span>
-                ) : (
-                  <span className="music-off"><GoMute /></span>
-                )}
-              </div>
-                {/* User info */}
+      <div className="reel-container">
+        {videoPosts.map((items, index) => {
+          const videoUrl = items.postURL.find(
+            (url) => url.includes('.mp4') || url.includes('.webm')
+          );
+          return (
+            <div className="reel-box" key={index}>
+              <div className="reel-content">
+                <video
+                  ref={(el) => (videoRefs.current[index] = el)}
+                  className="reel-video"
+                  src={videoUrl}
+                  title={`reel-video-${index}`}
+                  onClick={() => handleTogglePlay(index)}
+                  autoPlay={false}
+                  loop
+                  muted={!isPlaying[index]}
+                  controls={false}
+                />
+                <div
+                  className="music-icon"
+                  onClick={() => handleTogglePlay(index)}
+                >
+                  {isPlaying[index] ? (
+                    <span className="music-on">
+                      <GoUnmute />
+                    </span>
+                  ) : (
+                    <span className="music-off">
+                      <GoMute />
+                    </span>
+                  )}
+                </div>
                 <div className="user-info">
-                <img src={DpImgReel} alt="" />
-                <div className="user-name">its_._.syedzada</div>
-                <button className="follow-btn">Follow</button>
+                  <img src={items.photoURL || emptyImg} alt="" />
+                  <div className="user-name">{items.username}</div>
+                  <button className="follow-btn">Follow</button>
+                </div>
+                <div className="music-info">{/* Optional music info */}</div>
               </div>
-
-              {/* Music info */}
-              <div className="music-info">
-                {/* <span>song</span> */}
+              <div className="reel-other-icon-box">
+                <div className="reel-icon-box">
+                  <p>
+                    <FaRegHeart />
+                  </p>
+                  <span>1488</span>
+                </div>
+                <div className="reel-icon-box">
+                  <p>
+                    <FaRegComment />
+                  </p>
+                  <span>455</span>
+                </div>
+                <div className="reel-icon-box ico">
+                  <p>
+                    <FiShare2 />
+                  </p>
+                </div>
+                <div className="reel-icon-box ico">
+                  <p>
+                    <FiBookmark />
+                  </p>
+                </div>
+                <div className="reel-icon-box ico">
+                  <p>
+                    <BsThreeDots />
+                  </p>
+                </div>
               </div>
             </div>
-                    <div className="reel-other-icon-box">
-                        <div className="reel-icon-box">
-                            <p><FaRegHeart /></p>
-                            <span>2257</span>
-                        </div>
-                        <div className="reel-icon-box">
-                            <p><FaRegComment /></p>
-                            <span>578</span>
-                        </div>
-                        <div className="reel-icon-box ico">
-                            <p><FiShare2 /></p>
-                        </div>
-                        <div className="reel-icon-box ico">
-                            <p><FiBookmark /></p>
-                        </div>
-                        <div className="reel-icon-box ico">
-                            <p><BsThreeDots /></p>
-                        </div>
-
-                    </div>
-                        </div>
-                ))
-            }
-        </div>
+          );
+        })}
+      </div>
     </div>
-    </>
-  )
+  );
 }
 
-export default Reels
+export default Reels;

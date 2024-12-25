@@ -3,24 +3,29 @@
     position: absolute;
     left: 20%;
     top: 27px;
-    width: 80%;
+    width: 70%;
     display: flex;
     align-items: flex-start;
     gap: 142px;
-    padding-left: 10px;
+    /* padding-left: 10px; */
     z-index: 0;
+    margin: 0 auto;
 }
 .second-box {
     display: flex; 
     flex-direction: column;
     justify-content: center;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
     /* margin-top: 18px; */
   }
   
   .story {
     display: flex; 
     gap: 10px; 
-    width: 577px;
+    width: 100%;
+    min-width: 577px;
     overflow-x: auto;
     scrollbar-width: thin;
     scrollbar-color: transparent transparent; 
@@ -29,6 +34,7 @@
     display: flex;
     flex-direction: column; 
     align-items: center;
+    /* width: 100%; */
   }
   .dp{
     width: 70px;
@@ -60,9 +66,15 @@
   .news{
     margin-left: 72px;
     margin-top: 30px;
+    width: 100%;
+    /* margin: 0 auto; */
   }
   .new-reels-box{
-    width: 510px;
+    width: 100%;
+    max-width: 510px;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #fff;
   }
   .icon p{
     margin-top: 10px;
@@ -73,15 +85,13 @@
     flex-direction: column;
     gap: 20px;
     width: 100%;
+    max-width: 630px;
+    margin: 0 auto;
   }
-  
+/*   
   .new-reels-box {
-    /* border: 1px solid #ccc; */
-    border-radius: 3px;
-    overflow: hidden;
-    background: #fff;
-    /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); */
-  }
+
+  } */
   
   .reels-container {
     display: flex;
@@ -130,7 +140,7 @@
     width: 100%;
   }
   .home-pg-img-video video{
-    height: 530px;
+    max-height: 530px;
     width: 100%;
     object-fit: cover;
     border-radius: 4px;
@@ -210,6 +220,7 @@
     flex-direction: column;
     justify-content: center;
     width: 300px;
+    /* padding-right: 32px; */
   }
   .profile{
     display: flex;
@@ -234,7 +245,7 @@
     cursor: pointer;
   }
   .switch button{
-    background: none;
+     background: none;
      text-decoration: none;
      list-style: none;
      border: none;
@@ -302,5 +313,99 @@
     font-weight: 500;
     text-transform: uppercase;
   }
-
+  @media(max-width: 1230px){
+    .third-box{
+      display: none;
+    }
+    /* .story{
+      margin-left: 22px;
+    } */
+    .reels{
+      margin-top: -22px;
+    }
+  }
+  @media(max-width:750px){
+    .story {
+      min-width: 477px;
+    }
+  }
+  @media(max-width:830px){
+    .story {
+      width:65%;
+      margin: 12px auto;
+    }
+    .home-container{
+      top: 80px;
+      left: 0;
+      width: 100%;
+      padding-left: 0;
+      display: block;
+      align-items: center;
+      gap: 0px;
+      margin: 0 auto;
+  }
+  .reels {
+    margin: 0 auto;
+    width:65%;
+  }
+  .news{
+    margin: 0 auto;
+  }
+  .reels-container {
+    padding: 10px 20px;
+  }
+  }
+  @media(max-width:650px){
+    .story {
+      min-width:327px;
+    }
+    .reels {
+      width:80%;
+    }
+  }
+  @media(max-width:500px){
+    .story {
+      max-width:277px;
+      overflow-x: auto;
+    }
+    .reels {
+      width:100%;
+    }
+    .reels-videos {
+      height: 410px;
+      background: rgb(0, 0, 0);
+      /* overflow: hidden; */
+    }
+    .home-pg-img-video video{
+      max-height: auto;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+    .home-pg-img-video img{
+      max-height: auto;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+    .comt-box{
+      padding: 0 12px;
+    }
+    .hr{
+      display: none;
+    }
+    /* .share-comment-box{
+       padding: 0 12px;
+    } */
+  }
+  /* @media(max-width:430px){
+    .story {
+      min-width:227px;
+    }
+  } */
+  /* @media(max-width:360px){
+    .story {
+      max-width:140px;
+    }
+  } */
 

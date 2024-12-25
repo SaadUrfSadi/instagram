@@ -1,37 +1,131 @@
 .explore-section-container{
   /* display: flex; */
-    margin-top: 32px;
-    margin: 0 auto;
+    /* margin-top: 162px; */
+    margin: 50px auto;
+    width: 100%;
+    max-width: 1000px;
+    position: relative;
+    left: 120px;
+
 }
 .explore-box-container{
   position: relative;
   max-width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-template-rows: minmax(100px , 1fr);
   gap: 3px; 
-  /* padding: 16px; */
-  margin-top: 12px;
+  /* margin-top: 65px; */
+  width: 100%;
 } 
+.exp-search-box{
+  display: none;
+}
 .span-box {
   grid-row: span 2; 
 }
- 
-/* .explore-box:nth-child(3),
-.explore-box:nth-child(6n + 3){
-  grid-row: span 2; 
-}
-.explore-box:nth-child(6){
-  grid-row: span 2;
-} */
 .explore-box {
     background-color: #f0f0f0; 
     overflow: hidden;
     transition: 0.5s;
+    width: 100%;
 }
 
-.explore-box img {
+.explore-box video {
+    width: 100%;
+    height: 100%; 
+    /* max-width: 250px;
+    max-height: 250px; */
+    object-fit: cover; 
+}
+.search-all-usernames-show-box{
+  display: none;
+}
+/* .recent-explore-name{
+  display: none;
+} */
+/* .search-all-usernames-show-box{
+  position: absolute;
+  width: 100%;
+  max-width: 340px;
+  height: 280px;
+} */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@media(max-width:830px){
+  .explore-section-container{
+      position: none;
+      left: 0px;
+      margin-top: 110px;
+      position: relative;
+  }
+  .explore-box video {
     width: 100%;
     height: 100%; 
     object-fit: cover; 
+}
+.exp-search-box{
+  display: block;
+  margin-bottom: 80px;
+}
+.cross-ex p{
+  margin-top: -29px;
+}
+  .exp-search-box{
+   position: fixed;
+   top: 68px;
+   left: 0;
+   right: 0;
+   z-index: 1000;
+   width: 100%;
+}
+.search-input-ex input{
+  border: none;
+  outline: none;
+  background: none;
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid #e2e2e2;
+  border-radius: 6px;
+  background: #e2e2e2;
+  padding: 12px 8px;
+  padding-right: 37px;
+  position: relative;
+}
+.search-all-usernames-show-box.active{
+  display: block;
+  position: fixed;
+  top: 115px;
+  left: 0;
+  width: 100%;
+  max-width: 360px;
+  height: 360px;
+  z-index: 1002;
+  background-color: #fff;
+  transition: fadeIn 0.3s ease-in-out;
+}
+.recent-explore-name{
+  margin-left: -4px;
+}
+.no-recentsearch{
+   margin-left: -7px;
+}
+.search-user-ex{
+  margin-top: -20px;
+  margin-left: -10px;
+}
+
+}
+@media(max-width:360px){
+  .search-all-usernames-show-box.active{
+    max-width: 100%;
+  }
 }

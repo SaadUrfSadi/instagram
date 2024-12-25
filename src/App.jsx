@@ -14,6 +14,7 @@ import Messages from './Pages/Msg/Messages';
 import Setting from './Pages/Setting/Setting';
 import AllUser from './Pages/AllUser/AllUser';
 import Story from './Pages/Story/Story';
+import Chats from './Pages/Chats/Chats';
 
 function App() {
 
@@ -60,6 +61,10 @@ function App() {
       {
         path:"/messages",
         element:<Messages/>
+      },
+      {
+        path:"/chats/:chatsId",
+        element:<Chats/>
       },
       {
         path:"/setting",

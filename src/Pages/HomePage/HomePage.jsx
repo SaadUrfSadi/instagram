@@ -112,6 +112,14 @@ function HomePage() {
   //   }
   // };
 
+
+  const videoPosts = firebase.allPostsAndReels.filter(
+    (post) =>
+      Array.isArray(post.postURL) &&
+      post.postURL.some((url) => url.includes('.jpg') && url.includes('.jpg'))
+  );
+  // console.log(videoPosts)
+
   return (
     <>
     <section>
@@ -134,11 +142,11 @@ function HomePage() {
             <div className="news">
                 <div className="reels">
                   {
-                    firebase.allPostsAndReels.map((items, value) => (
+                    videoPosts.map((items, value) => (
                         <div className="new-reels-box"  key={value}>
                             <div className="reels-container">
                                <div className="img-box">
-                               <img src={items.photoURL} alt="" />
+                               <img src={items.photoURL || emptyImg} alt="" />
                                 <p>{items.username}</p>
                                 <p className='time'>1 h</p>
                                </div>
@@ -148,69 +156,47 @@ function HomePage() {
                             </div>
 
                             <div className="reels-videos">
-  {items.postURL.length > 1 ? (
-    <div className="image-slider">
-      <Swiper
-        modules={[Navigation, Pagination]}
-        spaceBetween={10}
-        slidesPerView={1}
-        navigation
-        pagination={{ clickable: true }}
-      >
-        {items.postURL.map((url, index) => (
-          <SwiperSlide key={index}>
-            <div className="home-pg-img-video">
-              {url.endsWith(".mp4") || url.endsWith(".webm") ? (
-                <video
-                  src={url}
-                  muted
-                  autoPlay
-                  loop
-                  controls
-                  playsInline
-                  alt={`Video ${index}`}
-                >
-                </video>
-              ) : (
-                <img
-                  src={url}
-                  alt={`Post ${index}`}
-                />
-              )}
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </div>
-  ) : (
-    null
-  )}
-</div>
-                            
-                              {/* {items.postURL.map((url, index) => (
-                              <div className="context" key={index}>
-                                {url.endsWith(".mp4") || url.endsWith(".webm") ? (
-                                  <video
-                                  src={url}
-                                  muted
-                                  autoPlay
-                                  loop
-                                  playsInline
-                                  className="reel-video"
-                                  alt={`Video ${index}`}
-                                   ></video>
-                                   ) : (
-                                   <img
+                              {items.postURL.length > 1 ? (
+                               <div className="image-slider">
+                                <Swiper
+                                 modules={[Navigation, Pagination]}
+                                 spaceBetween={10}
+                                 slidesPerView={1}
+                                 navigation
+                                 pagination={{ clickable: true }}
+                                >
+                         {items.postURL.map((url, index) => (
+                           <SwiperSlide key={index}>
+                             <div className="home-pg-img-video">
+                               {url.includes("mp4") || url.includes("webm") ? (
+                                   <video
                                    src={url}
-                                   alt={`Image ${index}`}
-                                   className="post-image"
-                                   />
-                                    )}
-                                  </div>
-                                  ))} */}
-
-                              {/* </div> */}
-                              <div className="share-comment-box">
+                                   muted
+                                   autoPlay
+                                   loop
+                                   controls
+                                   playsInline
+                                   alt={`Video ${index}`}
+                                   >
+                                 </video>
+                                    ) : (
+                                      <img
+                                      src={url}
+                                      alt={`Post ${index}`}
+                                      />
+                                       )}
+                              </div>
+                            </SwiperSlide>
+                           ))}
+                        </Swiper>
+                            </div>
+                            ) : (
+                           null
+                            )}
+                          </div>
+                            
+                             <div className="comt-box">
+                             <div className="share-comment-box">
                                   <div className="share-comment-icon">
                                   <h2><FaRegHeart/></h2>
                                   <h2><FaRegComment /></h2>
@@ -235,6 +221,7 @@ function HomePage() {
                               <div className="hr">
                               <hr />
                               </div>
+                             </div>
                         </div>
                     ))
                   }
@@ -245,7 +232,7 @@ function HomePage() {
          <div className="third-box">
              <div className="profile">
                 <div className="profile-logo">
-                   <img src={firebase.user.photoURL} alt="" />
+                   <img src={firebase.user.photoURL || emptyImg} alt="" />
                    <div className="username">
                    <p>{username}</p>
                    <h6>{firebase.user.displayName}</h6>
@@ -314,3 +301,4 @@ function HomePage() {
 }
 
 export default HomePage
+
