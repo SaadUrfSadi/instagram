@@ -228,12 +228,31 @@ const handleFollowButtonClick = () => {
             >
               {post.postURL.map((url, urlIndex) => (
                 <SwiperSlide key={urlIndex}>
-                  <img
-                    src={url}
-                    alt={`Post ${urlIndex}`}
-                    onClick={() => handleImageClick(url)}
-                  />
-                </SwiperSlide>
+                                <div 
+                                   className="url-post posted-images"
+                                   onClick={() => handleImageClick(url)}
+                                 >
+                                 {url.includes("mp4") ? (
+                                 <video 
+                                 src={url}
+                                 muted
+                                 autoPlay
+                                 loop
+                                 controls 
+                                 playsInline
+                                 className="user-post-reel-video"
+                                 alt={`Video ${urlIndex}`}
+                                 >
+                                 </video>
+                                 ) : (                
+                                   <img
+                                  src={url}
+                                  alt={`Post ${urlIndex}`}
+                                  className="post-image"
+                                  />
+                                  )}
+                              </div>
+                       </SwiperSlide>
               ))}
             </Swiper>
           </div>
@@ -242,6 +261,7 @@ const handleFollowButtonClick = () => {
             src={post.postURL}
             alt={`Post ${index}`}
             onClick={() => handleImageClick(post.postURL)}
+            className='#all-users-img'
           />
         )}
       </div>

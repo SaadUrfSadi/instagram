@@ -69,6 +69,7 @@ function User() {
   const [followingFilter, setFollowingFilter] = useState([]);
   const [followersTrim, setFollowersTrim] = useState("");
   const [followingTrim, setFollowingTrim] = useState("");
+  const [videoModal, setVideoModal] = useState([]);
 
 
   useEffect(()=>{
@@ -159,7 +160,10 @@ function User() {
   const handleImageClick = (imageUrl) => {
     setModalImage(imageUrl); 
     setModalOpen(true);
-    console.log(imageUrl);
+    if (imageUrl.includes("mp4")) {
+      setVideoModal(imageUrl)
+    }
+    // console.log(imageUrl);
 };
 
 const closeModal = () => {
@@ -368,10 +372,16 @@ const handleShare = async () => {
                    <div className="profile-container">
                    <div className="user-username-detail">
                     <h4>{username}</h4>
-                   <NavLink to="/setting" style={{textDecoration:'none', color:'black', whiteSpace:"nowrap"}}><button>Edit Profile</button></NavLink>
-                    <button>View archive</button>
+                   <NavLink to="/setting" className="edit-btn" style={{textDecoration:'none', color:'black', whiteSpace:"nowrap"}}><button>Edit Profile</button></NavLink>
+                    <button className='view-btn'>View archive</button>
                     <NavLink to="/setting" style={{textDecoration:"none", color:"black"}}><h3><FiSettings /></h3></NavLink>
                    </div>
+                   <div className="set-btns">
+                   <div className="set-btn user-username-detail" >
+                   <NavLink to="/setting" style={{textDecoration:'none', color:'black', whiteSpace:"nowrap"}}><button>Edit Profile</button></NavLink>
+                   <button>View archive</button>
+                   </div>
+                    </div>
                    <div className="folling-followers-details">
                     <h4>{post ? post.length : "0"} <span>post</span></h4>
                     <h4 onClick={followerModal}>{followers ? followers.length : "0"} <span>followers</span></h4>
@@ -487,9 +497,6 @@ const handleShare = async () => {
               }
       {/* ======================================================= */}
 
-
-
-
               <div className="user-line">
 
               </div>
@@ -518,7 +525,7 @@ const handleShare = async () => {
                             {items.posts.map((post, postIndex) => (
                                 <div key={postIndex}  onClick={()=> handlerListedData(post)}>
                                     {/* Check if postURL contains multiple images */}
-                                    {post.postURL.length > 1 ? (
+                                    {post.postURL.length > 0 ? (
                                         <div className="image-slider">
                                             <Swiper
                                                 modules={[Navigation, Pagination]}
@@ -569,10 +576,19 @@ const handleShare = async () => {
                                             className="url-post posted-images"
                                             onClick={() => handleImageClick(post.postURL[0])}
                                             >
-                                            <img 
+                                              {
+                                                modalImage ? 
+                                                 <img 
                                             src={post.postURL[0]} 
                                             alt="Single Image" 
-                                            />
+                                                /> 
+                                                : 
+                                                <video src={videoModal}></video>
+                                              }
+                                            {/* <img 
+                                            src={post.postURL[0]} 
+                                            alt="Single Image" 
+                                            /> */}
                                         </div>
                                     )}
                                 </div>
@@ -603,7 +619,7 @@ const handleShare = async () => {
                 <div className="postview-modal" onClick={closeModal}>
                     <div className="postview-content" onClick={(e) => e.stopPropagation()}>
                         <img src={modalImage} alt="Clicked Image" />
-                       {/* <div className="postview-main-container"> */}
+        
                          <div className="postview-comment-other-container">
                             <div className="postview-user-box">
                               <div className="postview-dp-username">
