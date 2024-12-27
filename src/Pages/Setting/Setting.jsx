@@ -6,9 +6,8 @@ import Help from '../../Components/Help/Help';
 import { useFirebase } from '../../Firebase';
 
 function Setting() {
-  // console.log(bio)
 
-  const firebase = useFirebase("");
+      const firebase = useFirebase("");
 
       const [dpChange, setDpChange] = useState(false);
       const [bio, setBio] = useState("");
@@ -48,7 +47,6 @@ function Setting() {
 const handleSubmit = async (e) => {
   e.preventDefault();
   try {
-    // Save bio to Firestore
     await firebase.updateUserBio(bio);
     alert("Bio updated successfully!");
   } catch (error) {
@@ -80,7 +78,6 @@ useEffect(() => {
 }, [firebase]);
 
   return (
-    // <main>
     <>
         <div className="setting-container">
         <div className="edit-profile">
@@ -152,10 +149,6 @@ useEffect(() => {
             </div> 
            
     </div>
-      
-    {/* <div className="handler-setting-submit">
-                  <button onClick={handleSubmit}>Submit</button>
-            </div>  */}
 
             <div className="help">
                 <Help/>
@@ -197,11 +190,9 @@ useEffect(() => {
                     
                   </div>
                   </div>
-                // </div>
             )} 
             </>
-    
-    // </main>
+
   )
 }
 
