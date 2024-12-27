@@ -575,7 +575,7 @@ const storyList = async (story, photoURL, username) => {
                 const newStory = {
                     storyURL: uniqueURLs,
                     username: username,
-                    photoURL: photoURL,
+                    photoURL: photoURL || emptyImg,
                 };
 
                 const updatedStories = existingStories.filter(story => story.username !== username);

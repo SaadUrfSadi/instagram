@@ -199,7 +199,7 @@
     position: absolute;
     left: 12px;
     height: 460px;
-    bottom: 200px;
+    bottom: 60px;
     width: 270px;
     background-color: #fff;
     border-radius: 16px;
@@ -228,6 +228,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 16px;
+    cursor: pointer;
     /* margin-left: 8px; */
 }
 .switch-apparance p{
@@ -239,6 +240,7 @@
 .dark-light-mode{
     padding:  16px;
     margin-top: 8px;
+    cursor: pointer;
 }
 /* ============================== */
 .more-box-section{
@@ -830,17 +832,6 @@
 }
 
   }
-  @media(max-width:500px){
-    .modal-content {
-        width: 350px;
-        height: 400px;
-      }
-      /* .set-modal-overlay{
-        width: 350px;
-        height: 400px;
-      } */
-  }
-
   @keyframes fadeIn {
     0% {
       opacity: 0;

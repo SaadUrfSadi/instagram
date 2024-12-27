@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './HomePage.css'
 import { useFirebase } from '../../Firebase'
 // import { NavLink } from 'react-router-dom';
-import { dpData, newsReels } from '../../Data';
+// import { dpData, newsReels } from '../../Data';
 import emptyImg from "../../images/empty.jpeg" 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';

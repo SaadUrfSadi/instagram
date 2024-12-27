@@ -179,6 +179,7 @@ const handleFollowButtonClick = () => {
                     <button 
                     id='follow-btn-users' 
                     ref={btnRef} 
+                    className='fo-fl-rq'
                     onClick={handleFollowButtonClick}
                     style={{
                       background:
@@ -190,9 +191,33 @@ const handleFollowButtonClick = () => {
                     }}
                     >{userFollow || "Follow"}
                     </button>
-                    <button>Message</button>
+                    <button className='mg'>Message</button>
                     <h3><FiSettings /></h3>
                    </div>
+
+
+                   <div className="set-btns users-all-set-btns">
+                                         <div className="set-btn user-username-detail" >
+                                         <button 
+                                         id='follow-btn-users' 
+                                         ref={btnRef} 
+                                         onClick={handleFollowButtonClick}
+                                         style={{
+                                         background:
+                                         userFollow === "Follow" ? "#007bff" :
+                                         userFollow === "Requested" ? "#e1e1e1" : 
+                                         userFollow === "Unfollow" ? "#e1e1e1" : "transparent",
+                                         color: 
+                                         userFollow === "Follow" ? "white" : "black",
+                                         }}
+                                         >{userFollow || "Follow"}
+                                         </button>
+                                         <button>Message</button>
+                                         </div>
+                                         </div>
+
+
+
                    <div className="folling-followers-details">
                     <h4>{userData.posts ? userData.posts.length : "0"} <span>post</span></h4>
                     <h4>{userData.followers ? userData.followers.length : "0"} <span>followers</span></h4>
@@ -217,7 +242,7 @@ const handleFollowButtonClick = () => {
   <div className="posted-container-user-section">
     {userData.posts.map((post, index) => (
       <div key={index} className="posted-images" onClick={()=> handlerListedData(post)}>
-        {Array.isArray(post.postURL) && post.postURL.length > 1? (
+        {Array.isArray(post.postURL) && post.postURL.length > 0 ? (
           <div className="image-slider">
             <Swiper
               modules={[Navigation, Pagination]}

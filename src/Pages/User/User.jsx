@@ -376,12 +376,14 @@ const handleShare = async () => {
                     <button className='view-btn'>View archive</button>
                     <NavLink to="/setting" style={{textDecoration:"none", color:"black"}}><h3><FiSettings /></h3></NavLink>
                    </div>
+
                    <div className="set-btns">
                    <div className="set-btn user-username-detail" >
                    <NavLink to="/setting" style={{textDecoration:'none', color:'black', whiteSpace:"nowrap"}}><button>Edit Profile</button></NavLink>
                    <button>View archive</button>
                    </div>
-                    </div>
+                   </div>
+
                    <div className="folling-followers-details">
                     <h4>{post ? post.length : "0"} <span>post</span></h4>
                     <h4 onClick={followerModal}>{followers ? followers.length : "0"} <span>followers</span></h4>

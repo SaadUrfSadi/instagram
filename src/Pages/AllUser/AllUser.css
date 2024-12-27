@@ -10,3 +10,24 @@
     height: 307px;
     width: 307px;
 }
+.users-all-set-btns{
+    display: none;
+}
+.posted-container-user-section{
+    padding-bottom: 70px;
+}
+@media(max-width:830px){
+    .fo-fl-rq{
+        display: none;
+    }
+    .mg{
+        display: none;
+    }
+    .users-all-set-btns{
+        display: block;
+        margin-left: -18px;
+    }
+    .user-username-detail{
+        margin-left: -18px;
+    }
+}

@@ -9,10 +9,12 @@ import { BsCameraVideo } from "react-icons/bs";
 import { RiInformationLine } from "react-icons/ri";
 import { MdOutlineKeyboardVoice } from "react-icons/md";
 import { HiOutlinePhotograph } from "react-icons/hi";
+import { FaXmark } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa";
 import emptyImg from "../../images/empty.jpeg";
 import { useFirebase } from '../../Firebase';
 import { NavLink } from 'react-router-dom';
+// import { set } from 'animejs';
 
 function Messages() {
 
@@ -30,6 +32,7 @@ function Messages() {
   const [sendBtn, setSendBtn] = useState("");
   const [msg, setMsg] = useState([]);
   const [chatingUser, setChatingUser] = useState([]);
+  const [username, setUsername] = useState("");
   console.log(chatingUser);
   // console.log(chatingUser[0]?.photoURL);
   // console.log(chatingUser[0]?.username);
@@ -81,6 +84,19 @@ function Messages() {
     }
     dataMsg ();
   },[firebase.messages]);
+
+   useEffect(() => {
+      const fetchUsername = async () => {
+        try {
+          const fetchedUsername = await firebase.getUsername(); 
+          setUsername(fetchedUsername); 
+        } catch (error) {
+          console.error("Error fetching username:", error);
+        }
+      };
+    
+      fetchUsername();
+    }, [firebase]);
 
   // useEffect(()=>{
   //   const autoStoreChating = async () => {
@@ -174,7 +190,7 @@ function Messages() {
         <div className="msg-left-container">
           <div className="msg-user-name">
             <div className="msg-username-box">
-              <h2>its_._.syedzada</h2>
+              <h2>{username}</h2>
               <span className="arr-down"><FaAngleDown /></span>
             </div>
             <div className="msg-search">
@@ -282,6 +298,9 @@ function Messages() {
                                   <div className="modal-overlay all-msgs-user">
                                   <div className="modal-content modal-msgg-name" >
                                     <h3>New message</h3>
+                                    <div className="cut-msg-search">
+                                       <p onClick={toggleModal}><FaXmark /></p>
+                                    </div>
                                     <div className="msgg-width-line">
 
                                     </div>

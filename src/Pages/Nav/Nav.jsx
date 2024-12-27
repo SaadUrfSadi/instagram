@@ -163,6 +163,7 @@ function Nav() {
    moreRef.current.classList.toggle('active');
    notificationRef.current.classList.remove('active');
    searchRef.current.classList.remove('active');
+   apparanceRef.current.classList.remove("active");
 
   };
 
@@ -202,7 +203,7 @@ const [photo, setPhoto] = useState([]);
 const [video, setVideo] = useState([]);
 const [mulPhoto, setMulPhoto] = useState("");
 const [videos, setVideos] = useState([]);
-const [isMsgActive, setIsMsgActive] = useState(false);
+// const [isMsgActive, setIsMsgActive] = useState(false);
 // const [likes, setLikes] = useState([]);
 // console.log(likes);
 // console.log(username)
@@ -443,6 +444,14 @@ const deleteVideo = (index) => {
       console.error("Error sending follow request:", error);
   }
 };
+
+const moreBoxClose = () => {
+  moreRef.current.classList.remove("active")
+};
+
+const switchAppClose = () => {
+  apparanceRef.current.classList.remove("active")
+}
   
   return (
     <>
@@ -535,15 +544,15 @@ const deleteVideo = (index) => {
         {/* more box */}
         <div className="more-box-container" ref={moreRef} >
            <div className="more-box-section">
-           <div className="more-pages">
+           <div className="more-pages" onClick={moreBoxClose}>
             <NavLink to="/setting" style={{textDecoration:"none", color:"black",  border:'none'}}><h3><FiSettings /></h3></NavLink>
             <NavLink to="/setting" style={{textDecoration:"none", color:"black",  border:'none'}}><p>Setting</p></NavLink>
            </div>
-           <div className="more-pages">
+           <div className="more-pages" onClick={moreBoxClose}>
             <h3><MdAutoGraph /></h3>
             <p>Your Activity</p>
            </div>
-           <div className="more-pages">
+           <div className="more-pages" onClick={moreBoxClose}>
             <h3><FiBookmark /></h3>
             <p>Saved</p>
            </div>
@@ -551,18 +560,18 @@ const deleteVideo = (index) => {
             <h3><MdOutlineLightMode /></h3>
             <p>Switch Appearance</p>
            </div>
-           <div className="more-pages">
+           <div className="more-pages" onClick={moreBoxClose}>
             <h3><MdOutlineReport /></h3>
             <p>Report a problem</p>
            </div>
-           <div className="more-pages">
+           <div className="more-pages" onClick={moreBoxClose}>
             <h3><MdOutlineSwitchAccessShortcut /></h3>
             <p>Switch account</p>
            </div>
            <div className="hr-line">
            <hr />
            </div>
-           <div className="more-pages">
+           <div className="more-pages" onClick={moreBoxClose}>
             <h3><MdLogout /></h3>
             <p onClick={logout}>Logout</p>
            </div>
@@ -570,12 +579,12 @@ const deleteVideo = (index) => {
         </div>
         
         <div className="apparance-container" ref={apparanceRef}>
-        <div className="switch-apparance">
+        <div className="switch-apparance" onClick={switchAppClose}>
             <p>Switch Appearance</p>
             <h3><MdOutlineLightMode /></h3>
            </div>
            <hr />
-         <div className="dark-light-mode">
+         <div className="dark-light-mode" onClick={switchAppClose}>
              <p>Dark Mode</p>
          </div>
         </div>
