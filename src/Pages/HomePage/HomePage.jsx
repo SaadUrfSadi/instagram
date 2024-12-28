@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './HomePage.css'
 import { useFirebase } from '../../Firebase'
-// import { NavLink } from 'react-router-dom';
-// import { dpData, newsReels } from '../../Data';
 import emptyImg from "../../images/empty.jpeg" 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -24,9 +22,6 @@ function HomePage() {
   const [username, setUsername] = useState("");
   const [randomProfiles, setRandomProfiles] = useState([]);
   const [userFollow ,setUserFollow] = useState("");
-  // console.log(firebase.allPostsAndReels)
-
-  // const [storyFetch ,setStoryFetch] = useState([]);
 
   useEffect(() => {
     if (firebase.frds.length > 5) {
@@ -118,7 +113,6 @@ function HomePage() {
       Array.isArray(post.postURL) &&
       post.postURL.some((url) => url.includes('.jpg') && url.includes('.jpg'))
   );
-  // console.log(videoPosts)
 
   return (
     <>

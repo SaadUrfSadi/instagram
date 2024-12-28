@@ -18,7 +18,7 @@ import { MdOutlineReport } from "react-icons/md";
 import { MdOutlineSwitchAccessShortcut } from "react-icons/md";
 import { MdLogout } from "react-icons/md";
 import { FaAngleRight } from "react-icons/fa6";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { MdOutlineInsertPhoto } from "react-icons/md";
 import { FaXmark } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
@@ -43,7 +43,6 @@ import { FaArrowLeft } from "react-icons/fa6";
 import { FaAngleDown } from 'react-icons/fa';
 import { CiLocationOn } from "react-icons/ci";
 import PostLoader from '../../Components/PostLoader/PostLoader';
-import { use } from 'react';
 
 
 function Nav() {
@@ -83,6 +82,7 @@ function Nav() {
    pagesNameEightRef.current.classList.remove('active')
    pagesNameNineRef.current.classList.remove('active')
    heightRef.current.classList.remove('active');
+   notificationRef.current.classList.remove('active');
  };
 
  const searchActive = async () => {
@@ -104,6 +104,8 @@ function Nav() {
    pagesNameSevenRef.current.classList.remove('active')
    pagesNameEightRef.current.classList.remove('active')
    pagesNameNineRef.current.classList.remove('active')
+   searchRef.current.classList.remove('active');
+   notificationRef.current.classList.remove('active');
   };
 
   const reelsActive = () => {
@@ -118,6 +120,8 @@ function Nav() {
    pagesNameSevenRef.current.classList.remove('active')
    pagesNameEightRef.current.classList.remove('active')
    pagesNameNineRef.current.classList.remove('active')
+   searchRef.current.classList.remove('active');
+   notificationRef.current.classList.remove('active');
   };
 
   const msgActive = () => {
@@ -133,8 +137,8 @@ function Nav() {
    pagesNameNineRef.current.classList.add('active')
    heightRef.current.classList.add('active');
    hoverRef.current.classList.toggle('active');
-  //  setIsMessagesActive(!isMessagesActive);
-  //  setIsMsgActive((prev)=> !prev)
+   searchRef.current.classList.remove('active');
+   notificationRef.current.classList.remove('active');
 
  };
 
@@ -157,6 +161,8 @@ function Nav() {
    pagesNameSevenRef.current.classList.remove('active')
    pagesNameEightRef.current.classList.remove('active')
    pagesNameNineRef.current.classList.remove('active')
+   searchRef.current.classList.remove('active');
+   notificationRef.current.classList.remove('active');
   };
 
   const moreActive = () => {
@@ -203,14 +209,25 @@ const [photo, setPhoto] = useState([]);
 const [video, setVideo] = useState([]);
 const [mulPhoto, setMulPhoto] = useState("");
 const [videos, setVideos] = useState([]);
-// const [isMsgActive, setIsMsgActive] = useState(false);
-// const [likes, setLikes] = useState([]);
-// console.log(likes);
-// console.log(username)
-// console.log(mulPhoto);
+
+const location = useLocation();
 
 useEffect(()=>{
-
+  const path = location.pathname.startsWith("/messages")
+     if (path) {
+      setSearchIcon(true);
+      pagesNameFirstRef.current.classList.add('active');
+      pagesNameSecRef.current.classList.add('active')
+      pagesNameThirdRef.current.classList.add('active')
+      pagesNameFourthRef.current.classList.add('active')
+      pagesNameFifthRef.current.classList.add('active')
+      pagesNameSixRef.current.classList.add('active')
+      pagesNameSevenRef.current.classList.add('active')
+      pagesNameEightRef.current.classList.add('active')
+      pagesNameNineRef.current.classList.add('active')
+      heightRef.current.classList.add('active');
+      hoverRef.current.classList.toggle('active');
+     }
 },[])
 
 useEffect(()=>{
@@ -292,10 +309,6 @@ const toggleModalDel = () => {
   setPhotos([]);
 };
 
-// const handlerSelect = () => {
-//    setSelected((prev)=> !prev);
-// };
-
 const handlerSelectChange = () => {
   setSelectChange((prev)=> !prev);
 };
@@ -368,8 +381,8 @@ const deleteImage = (index) => {
  const handlePost = async (photo, video, detail, input, photoURL, username) => {
   setIsLoading(true);
   setSharePost(true); 
-  console.log(photos);
-  console.log(videos)
+  // console.log(photos);
+  // console.log(videos)
 
  await firebase.postData(photo, video, detail, input, photoURL, username)
   
@@ -390,7 +403,7 @@ const deleteImage = (index) => {
 
 const handleDiscard = () => {
   setSelected(false);
-  setModalActive(null)
+  setModalActive(false)
 };
 
 const deleteVideo = (index) => {

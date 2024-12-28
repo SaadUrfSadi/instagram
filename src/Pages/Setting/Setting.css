@@ -1,8 +1,8 @@
 .setting-container{
     padding: 10px 0px;
-    margin: 0 auto;
+    margin: 20px auto;
     width: 100%;
-    max-width:900px;
+    max-width:800px;
     height: auto;
 }
 .edit-profile h2{
@@ -123,10 +123,10 @@
     bottom: 0px;
 }
 .help{
-    margin-top: 32px;
+    margin-top: 42px;
+    margin: 0 auto;
+    max-width: 800px;
 }
-
-/* ======================================== */
 
   .set-modal-content{
     background-color: white;
@@ -188,11 +188,11 @@
         padding: 90px 0px;
         margin: 0 auto;
         width: 96%;
-        /* max-width:900px; */
     }
      .help{
         margin-top: 0px;
         width: 100%;
+        margin: 0 auto;
     }
     .edit-profile h2{
         margin-left: 16px;

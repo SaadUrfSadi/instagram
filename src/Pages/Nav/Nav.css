@@ -604,7 +604,7 @@
     position: absolute;
     right: 30px;
     top: 30px;
-    z-index: 1;
+    z-index: 1002;
     cursor: pointer;
     color: #fff;
   }

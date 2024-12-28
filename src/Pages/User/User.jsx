@@ -20,6 +20,7 @@ import { FiSettings } from "react-icons/fi";
 import { FiBookmark } from "react-icons/fi";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { FiCamera } from "react-icons/fi";
+import { IoMdLogOut } from "react-icons/io";
 import { FaRegComment } from "react-icons/fa";
 import { useFirebase } from '../../Firebase';
 // import { MdOutlineCameraAlt } from "react-icons/md";
@@ -71,16 +72,20 @@ function User() {
   const [followingTrim, setFollowingTrim] = useState("");
   const [videoModal, setVideoModal] = useState([]);
 
-
-  useEffect(()=>{
+  useEffect(() => {
     const fetchPost = async () => {
-      const data = await firebase.listAllPost();
-      setListPost(data);
+      try {
+        const data = await firebase.listAllPost(); // Fetch posts
+        console.log("Fetched Posts:", data); // Log to check duplicates
+        const uniquePosts = [...new Set(data)]; // Ensure no duplicates
+        setListPost(uniquePosts);
+      } catch (error) {
+        console.log("Error fetching posts:", error);
+      }
     };
-    fetchPost()
-  },[]);
-
-  console.log(post)
+    fetchPost();
+  }, []);
+  
 
 
   // getUsername k useEffect ha
@@ -204,10 +209,6 @@ const handleShare = async () => {
     setSelected(false);
     setPhotos([]);
   };
-
-  // const handlerSelect = () => {
-  //    setSelected((prev)=> !prev);
-  // };
 
   const handlerSelectChange = () => {
     setSelectChange((prev)=> !prev);
@@ -372,9 +373,9 @@ const handleShare = async () => {
                    <div className="profile-container">
                    <div className="user-username-detail">
                     <h4>{username}</h4>
-                   <NavLink to="/setting" className="edit-btn" style={{textDecoration:'none', color:'black', whiteSpace:"nowrap"}}><button>Edit Profile</button></NavLink>
+                   <NavLink to="/setting" className="edit-btn" style={{textDecoration:'none', color:'black', whiteSpace:"nowrap", border:"none"}}><button>Edit Profile</button></NavLink>
                     <button className='view-btn'>View archive</button>
-                    <NavLink to="/setting" style={{textDecoration:"none", color:"black"}}><h3><FiSettings /></h3></NavLink>
+                    <h3 onClick={()=> firebase.logout()}><IoMdLogOut /></h3>
                    </div>
 
                    <div className="set-btns">
@@ -527,7 +528,7 @@ const handleShare = async () => {
                             {items.posts.map((post, postIndex) => (
                                 <div key={postIndex}  onClick={()=> handlerListedData(post)}>
                                     {/* Check if postURL contains multiple images */}
-                                    {post.postURL.length > 0 ? (
+                                    {post.postURL.length > 1 ? (
                                         <div className="image-slider">
                                             <Swiper
                                                 modules={[Navigation, Pagination]}
@@ -833,7 +834,7 @@ const handleShare = async () => {
               
                                    </div>
                                     <div className="set-box remove-dp">
-                                    <h3>Discard</h3>
+                                    <h3 onClick={handleDiscard}>Discard</h3>
                                     </div>
                                     <div className="set-width-line">
                                     

@@ -33,9 +33,6 @@ function Messages() {
   const [msg, setMsg] = useState([]);
   const [chatingUser, setChatingUser] = useState([]);
   const [username, setUsername] = useState("");
-  console.log(chatingUser);
-  // console.log(chatingUser[0]?.photoURL);
-  // console.log(chatingUser[0]?.username);
 
   useEffect(() => {
     const fetch = async () => {
@@ -48,14 +45,6 @@ function Messages() {
     };
     fetch();
   }, [firebase.chatingUser]);
-  
-  // useEffect(() => {
-  //   if (chatingUser.length > 0) {
-  //     console.log(chatingUser); 
-  //     console.log(chatingUser?.photoURL); 
-  //     console.log(chatingUser?.username); 
-  //   }
-  // }, [chatingUser]);
   
 
   useEffect(()=>{
@@ -167,7 +156,6 @@ function Messages() {
    useEffect(()=>{
           const fetchMsg = async () => {
          const data =  await firebase.fetchMessages();
-        //  setChatingUser(data);
           }
           fetchMsg();
         },[])

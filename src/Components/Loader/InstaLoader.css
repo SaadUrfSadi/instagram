@@ -12,8 +12,8 @@
     /* gap: 290px; */
 }
 .icon img{
-    width: 67px;
-    height: 67px;
+    width: 65px;
+    height: 65px;
 }
 .meta{
     position: absolute;
@@ -28,4 +28,10 @@
     width: 90px;
     height: auto;
     object-fit: cover;
+}
+@media(max-width:830px){
+    .icon img{
+        width: 40px;
+        height: 40px;
+    }
 }
