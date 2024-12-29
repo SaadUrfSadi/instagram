@@ -31,3 +31,14 @@
         margin-left: -18px;
     }
 }
+@media(max-width:500px){
+    .postview-line-width-sec{
+        display: none;
+    }
+    .postview-liks-other-box{
+        display: none;
+    }
+    .likes-post{
+        display: none;
+    }
+}

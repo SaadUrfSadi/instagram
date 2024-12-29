@@ -11,15 +11,15 @@ import { useFirebase } from '../../Firebase';
 function Story() {
   const firebase = useFirebase();
   const navigate = useNavigate();
-  const { storyId } = useParams();
+  const { storyId } = useParams(); // Get storyId from the route
   const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
-  const [currentUserIndex, setCurrentUserIndex] = useState(0); // Track the current user
+  const [currentUserIndex, setCurrentUserIndex] = useState(null); // Track the current user
   const [likedStory, setLikedStory] = useState(false);
 
   // Get all stories
   const stories = firebase.allStory;
-  const currentStoryUser = stories[currentUserIndex]; // Get current user's stories
 
+  // Fetch stories when the component mounts
   useEffect(() => {
     const fetchStoryData = async () => {
       try {
@@ -31,7 +31,25 @@ function Story() {
     fetchStoryData();
   }, [firebase]);
 
+  // Map storyId to currentUserIndex when stories are loaded
   useEffect(() => {
+    if (storyId && stories.length > 0) {
+      const userIndex = stories.findIndex((user) => user.id === storyId || user.username === storyId);
+      if (userIndex !== -1) {
+        setCurrentUserIndex(userIndex);
+        setCurrentStoryIndex(0); // Reset to the first story
+      } else {
+        console.error("Invalid storyId or user not found");
+        navigate('/'); // Redirect to home if storyId is invalid
+      }
+    }
+  }, [storyId, stories, navigate]);
+
+  // Automatically cycle through stories
+  useEffect(() => {
+    if (currentUserIndex === null || !stories[currentUserIndex]) return;
+
+    const currentStoryUser = stories[currentUserIndex];
     if (!currentStoryUser || currentStoryUser.storyURL.length === 0) return;
 
     const intervalId = setInterval(() => {
@@ -54,7 +72,7 @@ function Story() {
     }, 15000); // 15 seconds per story
 
     return () => clearInterval(intervalId); // Cleanup interval on unmount
-  }, [currentStoryUser, currentUserIndex, navigate, stories]);
+  }, [currentUserIndex, stories, navigate]);
 
   const MsgLikeStory = async (URL, photoURL, username) => {
     setLikedStory((prev) => !prev);
@@ -66,12 +84,11 @@ function Story() {
   };
 
   // Redirect to home if no stories are available
-  if (!currentStoryUser || currentStoryUser.storyURL.length === 0) {
-    navigate('/');
-    return (
-      <p>Loading story...</p> // Keep this section for loading state
-    );
+  if (currentUserIndex === null || !stories[currentUserIndex]) {
+    return <p>Loading story...</p>; // Keep this section for loading state
   }
+
+  const currentStoryUser = stories[currentUserIndex];
 
   return (
     <div className="story-page-conti">
@@ -146,15 +163,6 @@ function Story() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="input-share-other story-msg-box-second">
-          <input type="text" placeholder={`Reply to ${currentStoryUser.username}...`} />
-          <div className="story-like-and-share">
-            <h3 className="story-status-like" onClick={() => MsgLikeStory(currentStoryUser.storyURL[currentStoryIndex], currentStoryUser.photoURL, currentStoryUser.username)}>
-              {likedStory ? <FaHeart style={{ color: "#e637ec" }} /> : <FaRegHeart />}
-            </h3>
-            <h3><FaRegShareSquare /></h3>
           </div>
         </div>
       </div>

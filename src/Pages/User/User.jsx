@@ -618,8 +618,9 @@ const handleShare = async () => {
     )
 }
 
-            {isModalOpen && (
-                <div className="postview-modal" onClick={closeModal}>
+            {
+                isModalOpen && (
+                 <div className="postview-modal" onClick={closeModal}>
                     <div className="postview-content" onClick={(e) => e.stopPropagation()}>
                         <img src={modalImage} alt="Clicked Image" />
         
@@ -669,7 +670,7 @@ const handleShare = async () => {
                                 <div className="postview-users-comments like-post-img">
                                    <img src={Dp} alt="" />
                                      <div className="post-likes-username">
-                                       <h5>Liked by <span>Talha_rajpot</span> and <span>25 others</span></h5>
+                                       <h5>Liked by <span>its_._.syedzada</span> and <span>5 others</span></h5>
                                        <p>7 h</p>
                                      </div>
                                 </div>
@@ -691,6 +692,7 @@ const handleShare = async () => {
                           <p>Post</p>
                         </div>
                       </div>
+                      
                         </div>
                        </div>
                     </div>
