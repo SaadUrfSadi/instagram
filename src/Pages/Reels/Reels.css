@@ -38,23 +38,21 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-  
+} 
 .reel-video {
     width: 100%;
     cursor: pointer;
 }
-  
-  .music-icon {
+.music-icon {
     position: absolute;
     top: 20px;
     right: 10px;
     font-size: 24px;
     color: white;
     cursor: pointer;
-  }
+}
   
-  .user-info {
+.user-info {
     position: absolute;
     bottom: 40px;
     left: 10px;
@@ -62,22 +60,20 @@
     display: flex;
     align-items: center;
     gap: 16px;
-  }
-  .user-info img{
+}
+.user-info img{
     height: 35px;
     width: 35px;
     border-radius: 50%;
     object-fit: cover;
-  }
-  
-  .user-name {
+}  
+.user-name {
     margin-right: 10px;
     font-weight: 500;
     font-size: 15px;
     margin-top: 1px;
-  }
-  
-  .follow-btn {
+}
+.follow-btn {
     background: none;
     border: 0.05px solid #ccc;
     color: #fff;
@@ -85,35 +81,35 @@
     cursor: pointer;
     border-radius: 5px;
     margin-top: 4px;
-  }
-  .reel-other-icon-box{
+}
+.reel-other-icon-box{
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: flex-end;
     gap: 20px;
     padding: 4px;
-  }
-  .reel-icon-box{
+}
+.reel-icon-box{
     width: 100%;
     display: flex;
     flex-direction: column;
     margin-top: -2px;
     cursor: pointer;
-  }
-  .reel-icon-box p{
+}
+.reel-icon-box p{
    font-size: 24px ;
-  }
-  .reel-icon-box span{
+}
+.reel-icon-box span{
     font-size: 12px;
     font-weight: 390;
-  }
-  .ico{
+}
+.ico{
     margin-left: -4px;
-  }
-  @media(max-width:830px){
+}
+@media(max-width:830px){
     .reel-container{
       margin-top: 60px;
       margin-bottom: 40px;
     }
-  }
+}

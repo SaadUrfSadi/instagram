@@ -4,12 +4,8 @@ import { initializeApp } from "firebase/app";
 import { getAuth , createUserWithEmailAndPassword , signInWithEmailAndPassword , GoogleAuthProvider, signInWithPopup,  onAuthStateChanged, signOut, sendPasswordResetEmail, updateProfile, signInWithPhoneNumber, RecaptchaVerifier} from 'firebase/auth';
 import { getStorage , ref , getDownloadURL, uploadBytes} from 'firebase/storage'
 import { getFirestore , collection , addDoc, getDocs, doc, getDoc,query, where, updateDoc, arrayUnion, arrayRemove, serverTimestamp} from 'firebase/firestore';
-// import { getDatabase, set, ref} from "firebase/database";
 import { getMessaging } from "firebase/messaging";
 import emptyImg from "./images/empty.jpeg"
-// import Story from "./Pages/Story/Story";
-
-
 
 // ==================================================
 const FirebaseContext = createContext(null);
@@ -31,8 +27,6 @@ export const useFirebase = () => useContext(FirebaseContext);
   const googleProvider = new GoogleAuthProvider();
   const storage = getStorage(firebaseApp);
   const firestore = getFirestore(firebaseApp);
-//   const messaging = getMessaging(firebaseApp);
-//   const database = getDatabase(firebaseApp);
 
 //   =================================================
 export const messaging = getMessaging(firebaseApp);
@@ -58,15 +52,9 @@ export const FirebaseProvider = (props) => {
     const [allMessage,  setAllMessage] = useState([]);
     const [otherMsg , setOtherMsg] = useState([]);
     const [chatingUser, setchatingUsers] = useState([]);
-    // console.log(otherMsg)
-    // console.log(allMessage)
-    // console.log(users)
-    // console.log(usernameUser)
-    // console.log(allPostsAndReels);
 
 const fetchUsername = async () => {
     try {
-        // if (!user) return;
 
         const q = query(
             collection(firestore, "instagram username"),

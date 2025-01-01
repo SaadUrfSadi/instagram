@@ -317,9 +317,6 @@
     .third-box{
       display: none;
     }
-    /* .story{
-      margin-left: 22px;
-    } */
     .reels{
       margin-top: -22px;
     }
@@ -374,7 +371,6 @@
     .reels-videos {
       height: 410px;
       background: rgb(0, 0, 0);
-      /* overflow: hidden; */
     }
     .home-pg-img-video video{
       max-height: auto;
@@ -398,14 +394,4 @@
        padding: 0 12px;
     } */
   }
-  /* @media(max-width:430px){
-    .story {
-      min-width:227px;
-    }
-  } */
-  /* @media(max-width:360px){
-    .story {
-      max-width:140px;
-    }
-  } */
 

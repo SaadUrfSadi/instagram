@@ -13,6 +13,7 @@ import { FaRegComment } from "react-icons/fa";
 import { BsShare } from "react-icons/bs";
 import { FaRegBookmark } from "react-icons/fa6";
 import { NavLink, useParams } from 'react-router-dom';
+
 function HomePage() {
 
   const firebase = useFirebase();

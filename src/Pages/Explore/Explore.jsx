@@ -1,6 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
 import './Explore.css'
-import { dpData} from '../../Data';
 import { useFirebase } from '../../Firebase';
 import { GoUnmute, GoMute } from "react-icons/go";
 import { FaRegCircleXmark } from "react-icons/fa6";
@@ -19,10 +18,6 @@ function Explore() {
     const searchBoxRef = useRef();
     const videoRefs = useRef([]);
 
-  const shuffleArray = (array) => {
-    return array.sort(() => Math.random() - 0.5);
-  };
-
 
   const isTargetImage = (index) => {
     const position = index + 1; 
@@ -33,7 +28,6 @@ function Explore() {
   
     return false;
   };
-    const shuffledData = shuffleArray([...dpData]);
 
     useEffect(() => {
       const fetchReels = async () => {
@@ -178,32 +172,8 @@ function Explore() {
           )
               }
               )}              
-        
-        
-        
-        
-        
-        
-        
-          {/* {
-                     videoPosts.map((items, index)=> (
-                        <div  className={`explore-box ${isTargetImage(index) ? "span-box" : ""}`}
-                            key={index}>
-                             <video 
-                             src={items}
-                             muted
-                            //  autoPlay
-                             loop
-                             playsInline
-                             className="reel-video"
-                             >
-                             </video>
-                        </div>
-                    ))
-                } */}
             </div>
         </div>
-    {/* </main> */}
     
     </>
   )

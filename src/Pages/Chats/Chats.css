@@ -10,9 +10,6 @@
     padding: 10px;
     background-color: #fff;
     height: auto;
-    /* height: 100vh; */
-    /* position: fixed;
-    top: 0; */
 }
 .user-chats-section{
     height: 100vh;
@@ -23,7 +20,6 @@
     align-items: center;
     justify-content: center;
     gap: 7px;
-    /* margin-top: 16px; */
     margin: 20px 0;
 }
 .user-chats-username{
@@ -58,9 +54,6 @@
 .view-btn button:hover{
     background-color: #ececec;
 } 
-/* .handler-msg-send{
-    overflow: auto;
-} */
 .msgg-in-user{
     overflow-y: auto;
     height: 75vh;
@@ -121,46 +114,3 @@
         height: 77vh;
     }
 }
-
-
-/* .chat-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 10px;
-    overflow-y: auto;
-    height: 77vh;
-  }
-  
-  .chat-me {
-    align-self: flex-end;
-    padding: 10px 16px;
-    background: #0084ff;
-    border-radius: 25px;
-    color: #fff;
-    margin: 10px 0;
-    max-width: 300px;
-    word-wrap: break-word;
-  }
-  
-  .photo-chat-user {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 10px 0;
-  }
-  
-  .photo-chat-user img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-  }
-  
-  .photo-chat-user p {
-    background: #eeeded;
-    padding: 10px 16px;
-    border-radius: 25px;
-    max-width: 300px;
-    word-wrap: break-word;
-  }
-   */

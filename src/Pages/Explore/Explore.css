@@ -1,6 +1,4 @@
 .explore-section-container{
-  /* display: flex; */
-    /* margin-top: 162px; */
     margin: 50px auto;
     width: 100%;
     max-width: 1000px;
@@ -15,7 +13,6 @@
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-template-rows: minmax(100px , 1fr);
   gap: 3px; 
-  /* margin-top: 65px; */
   width: 100%;
 } 
 .exp-search-box{
@@ -30,7 +27,6 @@
     transition: 0.5s;
     width: 100%;
 }
-
 .explore-box video {
     width: 100%;
     height: 100%; 
@@ -41,15 +37,6 @@
 .search-all-usernames-show-box{
   display: none;
 }
-/* .recent-explore-name{
-  display: none;
-} */
-/* .search-all-usernames-show-box{
-  position: absolute;
-  width: 100%;
-  max-width: 340px;
-  height: 280px;
-} */
 @keyframes fadeIn {
   0% {
     opacity: 0;

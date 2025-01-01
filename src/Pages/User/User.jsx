@@ -16,14 +16,13 @@ import { FaRegHeart } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa6";
 import { NavLink } from 'react-router-dom';
 import { FiPlusSquare } from "react-icons/fi";
-import { FiSettings } from "react-icons/fi";
+// import { FiSettings } from "react-icons/fi";
 import { FiBookmark } from "react-icons/fi";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { FiCamera } from "react-icons/fi";
 import { IoMdLogOut } from "react-icons/io";
 import { FaRegComment } from "react-icons/fa";
 import { useFirebase } from '../../Firebase';
-// import { MdOutlineCameraAlt } from "react-icons/md";
 import { FaCamera } from "react-icons/fa6";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaAngleDown } from 'react-icons/fa';
@@ -31,7 +30,6 @@ import { FaRegShareSquare } from "react-icons/fa";
 import { CiLocationOn } from "react-icons/ci";
 import PostLoader from '../../Components/PostLoader/PostLoader';
 import emptyImg from "../../images/empty.jpeg"
-import { dpData } from '../../Data';
 
 function User() {
 
@@ -75,9 +73,9 @@ function User() {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const data = await firebase.listAllPost(); // Fetch posts
-        console.log("Fetched Posts:", data); // Log to check duplicates
-        const uniquePosts = [...new Set(data)]; // Ensure no duplicates
+        const data = await firebase.listAllPost(); 
+        console.log("Fetched Posts:", data); 
+        const uniquePosts = [...new Set(data)]; 
         setListPost(uniquePosts);
       } catch (error) {
         console.log("Error fetching posts:", error);
@@ -86,8 +84,6 @@ function User() {
     fetchPost();
   }, []);
   
-
-
   // getUsername k useEffect ha
   useEffect(() => {
     const fetchBio = async () => {
@@ -168,14 +164,12 @@ function User() {
     if (imageUrl.includes("mp4")) {
       setVideoModal(imageUrl)
     }
-    // console.log(imageUrl);
 };
 
 const closeModal = () => {
     setModalImage(null); 
     setModalOpen(false); 
 };
-
 
 const handlerListedData = (post) => {
   setPostLoct(post.postLocation);
@@ -203,8 +197,7 @@ const handleShare = async () => {
   }
 };
 
-
-  const toggleModal = () => {
+const toggleModal = () => {
     setModalActive(prevState => !prevState); 
     setSelected(false);
     setPhotos([]);
@@ -215,7 +208,6 @@ const handleShare = async () => {
   };
 
   const uploadPhoto = (e) => {
-    // const file = e.target.files;
     const files = Array.from(e.target.files);
     setPhoto(prevPhotos=> [...prevPhotos, ...files])
 
@@ -399,6 +391,7 @@ const handleShare = async () => {
                 </div>
               </div>
               </div>
+
               {/* followers modal */}
 
               {
@@ -588,10 +581,6 @@ const handleShare = async () => {
                                                 : 
                                                 <video src={videoModal}></video>
                                               }
-                                            {/* <img 
-                                            src={post.postURL[0]} 
-                                            alt="Single Image" 
-                                            /> */}
                                         </div>
                                     )}
                                 </div>
@@ -645,7 +634,7 @@ const handleShare = async () => {
                                 <img src={firebase.user.photoURL || emptyImg} alt="" />
                                   <div className="post-view-city">
                                     <h5>{username}</h5>
-                                    <p>7 h</p>
+                                    <p>2 min</p>
                                  </div>
                                  </div>
                                  <div className="postview-detail">
@@ -671,7 +660,7 @@ const handleShare = async () => {
                                    <img src={Dp} alt="" />
                                      <div className="post-likes-username">
                                        <h5>Liked by <span>its_._.syedzada</span> and <span>5 others</span></h5>
-                                       <p>7 h</p>
+                                       <p>2 min</p>
                                      </div>
                                 </div>
                         </div>

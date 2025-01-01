@@ -11,15 +11,13 @@ import { useFirebase } from '../../Firebase';
 function Story() {
   const firebase = useFirebase();
   const navigate = useNavigate();
-  const { storyId } = useParams(); // Get storyId from the route
+  const { storyId } = useParams();
   const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
-  const [currentUserIndex, setCurrentUserIndex] = useState(null); // Track the current user
+  const [currentUserIndex, setCurrentUserIndex] = useState(null); 
   const [likedStory, setLikedStory] = useState(false);
 
-  // Get all stories
   const stories = firebase.allStory;
 
-  // Fetch stories when the component mounts
   useEffect(() => {
     const fetchStoryData = async () => {
       try {
@@ -31,21 +29,19 @@ function Story() {
     fetchStoryData();
   }, [firebase]);
 
-  // Map storyId to currentUserIndex when stories are loaded
   useEffect(() => {
     if (storyId && stories.length > 0) {
       const userIndex = stories.findIndex((user) => user.id === storyId || user.username === storyId);
       if (userIndex !== -1) {
         setCurrentUserIndex(userIndex);
-        setCurrentStoryIndex(0); // Reset to the first story
+        setCurrentStoryIndex(0); 
       } else {
         console.error("Invalid storyId or user not found");
-        navigate('/'); // Redirect to home if storyId is invalid
+        navigate('/');
       }
     }
   }, [storyId, stories, navigate]);
 
-  // Automatically cycle through stories
   useEffect(() => {
     if (currentUserIndex === null || !stories[currentUserIndex]) return;
 
@@ -55,23 +51,21 @@ function Story() {
     const intervalId = setInterval(() => {
       setCurrentStoryIndex((prevIndex) => {
         if (prevIndex < currentStoryUser.storyURL.length - 1) {
-          return prevIndex + 1; // Move to the next story
+          return prevIndex + 1;
         } else {
-          // Move to the next user if available
           if (currentUserIndex < stories.length - 1) {
-            setCurrentStoryIndex(0); // Reset story index for the new user
-            setCurrentUserIndex((prevUserIndex) => prevUserIndex + 1); // Move to the next user
+            setCurrentStoryIndex(0);
+            setCurrentUserIndex((prevUserIndex) => prevUserIndex + 1); 
           } else {
-            // Redirect to home if no more users
             navigate('/');
           }
           clearInterval(intervalId);
           return prevIndex;
         }
       });
-    }, 15000); // 15 seconds per story
+    }, 15000); 
 
-    return () => clearInterval(intervalId); // Cleanup interval on unmount
+    return () => clearInterval(intervalId); 
   }, [currentUserIndex, stories, navigate]);
 
   const MsgLikeStory = async (URL, photoURL, username) => {
@@ -83,9 +77,8 @@ function Story() {
     }
   };
 
-  // Redirect to home if no stories are available
   if (currentUserIndex === null || !stories[currentUserIndex]) {
-    return <p>Loading story...</p>; // Keep this section for loading state
+    return <p>Loading story...</p>; 
   }
 
   const currentStoryUser = stories[currentUserIndex];

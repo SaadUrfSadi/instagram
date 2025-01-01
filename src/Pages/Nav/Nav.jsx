@@ -23,10 +23,7 @@ import { MdOutlineInsertPhoto } from "react-icons/md";
 import { FaXmark } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
 import { FaAngleLeft } from "react-icons/fa6";
-// import DpImg from '../../images/dp3.png'
-import DpImg6 from '../../images/dp6.png'
 import emptyImg from "../../images/empty.jpeg"
-import { dpData } from '../../Data';
 import { useFirebase } from '../../Firebase';
 // ========================================================
 
@@ -63,10 +60,7 @@ function Nav() {
    const redNotiRef = useRef();
    const redNotiRefMob = useRef();
    const hoverRef = useRef();
-  //  const storyId = useParams();
-  //  const blueRef = useRef();
-
-
+   
    const [searchIcon, setSearchIcon] = useState(false);
    const [modalActive, setModalActive] = useState(false); 
 
@@ -83,6 +77,7 @@ function Nav() {
    pagesNameNineRef.current.classList.remove('active')
    heightRef.current.classList.remove('active');
    notificationRef.current.classList.remove('active');
+   searchRef.current.classList.remove('active');
  };
 
  const searchActive = async () => {
@@ -234,7 +229,6 @@ useEffect(()=>{
   if (firebase.followRequests.length > 0) {
        const data = firebase.followRequests;
        setMulPhoto(data.photoURL);
-      //  setNotiUser(data.username)
   };
 },[])
 
@@ -295,7 +289,6 @@ useEffect(()=>{
    const fetchLikesData = async () => {
     try {
     const likes = await firebase.fetchLikes();
-    //  setLikes(likes);
     } catch (error) {
       console.log("not fetch data error", error)
     }
@@ -381,8 +374,6 @@ const deleteImage = (index) => {
  const handlePost = async (photo, video, detail, input, photoURL, username) => {
   setIsLoading(true);
   setSharePost(true); 
-  // console.log(photos);
-  // console.log(videos)
 
  await firebase.postData(photo, video, detail, input, photoURL, username)
   
@@ -415,7 +406,7 @@ const deleteVideo = (index) => {
 // }
 
 
-  // =========================================
+  // ==============================
 
   const handleFollowReq = () => {
      setFollowReq((prev)=> !prev)
@@ -541,12 +532,10 @@ const switchAppClose = () => {
             </div>
   
             </div>
-            {/* <div className="second-page-box"> */}
             <div className="pages bar">
                <h3 onClick={moreActive}><FaBars /></h3>
                <p className='pages-name-none' ref={pagesNameNineRef} onClick={moreActive}>More</p>
             </div>
-            {/* </div> */}
            </div>
             
         </div>

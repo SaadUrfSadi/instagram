@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import './Messages.css';
 import { FaAngleDown } from "react-icons/fa6";
 import { BsPencilSquare } from "react-icons/bs";
-// import { dpData } from '../../Data';
 import { RiMessengerLine } from "react-icons/ri";
 import { FiPhoneCall } from "react-icons/fi";
 import { BsCameraVideo } from "react-icons/bs";
@@ -14,8 +13,6 @@ import { FaRegHeart } from "react-icons/fa";
 import emptyImg from "../../images/empty.jpeg";
 import { useFirebase } from '../../Firebase';
 import { NavLink } from 'react-router-dom';
-// import { set } from 'animejs';
-
 function Messages() {
 
   const firebase = useFirebase();
@@ -86,13 +83,6 @@ function Messages() {
     
       fetchUsername();
     }, [firebase]);
-
-  // useEffect(()=>{
-  //   const autoStoreChating = async () => {
-  //     await firebase.chatStore(chatingUser[0]?.photoURL, chatingUser[0]?.username, chatingUser[0]?.displayName, chatingUser[0]?.senderUID)
-  //   }
-  //   autoStoreChating();
-  // },[])
   
 
   const startChat = async () => {
@@ -148,10 +138,10 @@ function Messages() {
   }, [userSelect]);
   
  
-  const searchtermRemove = () => {
-    setFilteredUsers([]); 
-    setSearchTerm("");
-  };
+  // const searchtermRemove = () => {
+  //   setFilteredUsers([]); 
+  //   setSearchTerm("");
+  // };
 
    useEffect(()=>{
           const fetchMsg = async () => {
@@ -205,7 +195,7 @@ function Messages() {
                     </div>
                     <div className="msg-username-active">
                       <p>{items.username}</p>
-                      <span>Active 12h ago</span>
+                      <span>{items?.fullName || "Active 5h ago"}</span>
                     </div>
                   </div>
                  </NavLink>
@@ -225,7 +215,7 @@ function Messages() {
                 </div>
                 <div className="msg-username-active">
                   <p>{selectedUser.username}</p>
-                  <span>Active 12h ago</span>
+                  <span>{selectedUser.fullName}</span>
                 </div>
               </div>
               <div className="handler-user-icon">

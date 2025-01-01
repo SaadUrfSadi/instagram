@@ -30,7 +30,6 @@
     }
   }
   
-  /* Fade in and fade out effect */
   @keyframes fadeInOut {
     0% {
       opacity: 0.4;

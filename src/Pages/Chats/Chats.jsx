@@ -1,7 +1,5 @@
 import React, {useEffect , useState} from 'react';
 import './Chats.css';
-import dp from '../../images/dp1.png';
-// import { RiMessengerLine } from "react-icons/ri";
 import { RiInformationLine } from "react-icons/ri";
 import { FiPhoneCall } from "react-icons/fi";
 import { BsCameraVideo } from "react-icons/bs";
@@ -20,9 +18,6 @@ function Chats() {
     const [chatText, setChatText] = useState("");
     const [sendBtn, setSendBtn] = useState("");
     const [username, setUsername] = useState("");
-    // const [combinedMessages, setCombinedMessages] = useState([]);
-
-    console.log(firebase.otherMsg)
 
     useEffect(()=>{
         const fetchChating = async () => {
@@ -36,27 +31,10 @@ function Chats() {
       useEffect(()=>{
         const filterUser = () => {
             const userData = chatUser.find((e)=> e.username === chatsId);
-            console.log(userData)
             setUserSelect(userData || null);
         }
         filterUser();
       },[chatUser, chatsId])
-
-    //   useEffect(() => {
-    //     const fetchMessages = async () => {
-    //         try {
-    //             const messages = await firebase.fetchMessages(); // Fetch all messages
-    //             // setMsg(messages.sentMessages); // Sent messages
-    //             // firebase.otherMsg = messages.receivedMessages; // Received messages
-    //         } catch (error) {
-    //             console.error("Error fetching messages:", error);
-    //         }
-    //     };
-    
-    //     fetchMessages();
-    // }, [firebase]);
-    
-
 
      useEffect(()=>{
          const dataMsg = () => {
@@ -78,33 +56,6 @@ function Chats() {
           fetchUsername();
         }, [firebase]);
 
-        // useEffect(()=>{
-        //   const fetchMsg = async () => {
-        //     await firebase.fetchMessages();
-        //   }
-        //   fetchMsg();
-        // },[firebase])
-
-        
-        // useEffect(() => {
-        //   const mergeAndSortMessages = () => {
-        //     // Combine messages
-        //     const allMessages = [
-        //       ...msg.map((message) => ({ ...message, type: "sent" })), // Mark sent messages
-        //       ...(firebase.otherMsg || []).map((message) => ({ ...message, type: "received" })), // Mark received messages
-        //     ];
-        
-        //     // Sort messages by timestamp
-        //     allMessages.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-        
-        //     return allMessages;
-        //   };
-        
-        //   setCombinedMessages(mergeAndSortMessages());
-        // }, [msg, firebase.otherMsg]);
-        
-
-
     const handleChange = (e) => {
         const input = e.target.value;
         setChatText(input)
@@ -115,20 +66,13 @@ function Chats() {
         }
       };
 
-
-      // const combinedMessages = [...msg, ...(firebase.otherMsg || [])].sort(
-      //   (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
-      // );
-
     const chatSend = async (e) => {
         e.preventDefault();
       
         const newMessage = {
           chatText: chatText,
           sender: userSelect.username,
-          // timestamp: new Date().toISOString(),
           photoURL: userSelect.photoURL,
-          // timestamp: new Date().toISOString(),
         };
       
         setMsg((prevChat) => [...prevChat, newMessage]);
@@ -153,7 +97,7 @@ function Chats() {
                         </div>
                         <div className="msg-username-active">
                           <p>{userSelect?.username}</p>
-                          <span>Active 12h ago</span>
+                          <span>{userSelect?.fullName || "Active 5h ago"}</span>
                         </div>
                       </div>
                       <div className="handler-user-icon">
@@ -173,20 +117,6 @@ function Chats() {
                    </div>
                  </div>
                   </div>
-
-                  {/* <div className="chat-frds">
-        {combinedMessages.map((chat, index) => (
-          <div
-            key={index}
-            className={`chat-bubble ${
-              chat.senderUID === firebase.user.UID ? "chat-sent" : "chat-received"
-            }`}
-          >
-            {chat.senderUID !== firebase.user.UID && <img src={chat.photoURL} alt="" />}
-            <p>{chat.chatText}</p>
-          </div>
-        ))}
-      </div> */}
                   <div className="chat-frds">
                   
                       {

@@ -1,13 +1,8 @@
 .msg-user-container{
     margin: 0 auto;
     width: 83%;
-    /* width: calc(100% - 215px); */
-    /* max-width: 1200px; */
-    /* position: relative; */
-    /* left: 80px; */
     display: flex;
     height: 100vh;
-    /* z-index: 1001; */
 }
 .msg-main{
     display: flex;
@@ -24,16 +19,8 @@
  border-left: none;
  position: sticky;
  top: 0;
- /* z-index: 1001; */
- /* position: fixed; */
 
 }
-/* .fixed-user-name{
-    position: relative;
-    top: 0;
-    background-color: #af0000;
-    width: 350px;
-} */
  .msg-user-name{
     display: flex;
     align-items: center;
@@ -41,7 +28,6 @@
  }
 .msg-username-box{
     display: flex;
-    /* justify-content: space-between; */
     align-items: center;
     background-color: #fff;
     width: 330px;
@@ -52,9 +38,6 @@
 .arr-down{
     font-weight: 500;
 }
-/* .msg-username-box span{
-    margin-top: 12px;
-} */
 .msg-username-box h2{
     font-size: 20px;
     font-weight: 700;
@@ -167,7 +150,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    /* margin-top: 6px; */
 }
 .msgg-icon h1{
     margin-top: 4px;
@@ -189,17 +171,13 @@
     height: 100vh;
     margin-top: -20px;
 }
-/* .msgg-others{
-    margin-top: 15px;
-} */
- .msgg-others{
+.msgg-others{
     display: flex;
     align-items: center;
     flex-direction: column;
     flex-wrap: wrap;
-    /* gap: 8px; */
  }
- .msgg-others h1{
+.msgg-others h1{
     margin-bottom: 8px;
  }
 .msgg-others h3{
@@ -309,8 +287,6 @@
     height: 300px;
     overflow-y: auto;
     padding: 12px 16px;
-    /* margin-top: 10px; */
-    /* border: 1px solid #ccc; */
 }
 .serches-user {
     display: flex;
@@ -344,7 +320,6 @@
     border-radius: 50%;
     font-size: 28px;
 }
-/* Hide the default checkbox */
 .custom-checkbox {
     appearance: none;
     width: 24px;
@@ -375,7 +350,6 @@
     transform: translate(-50%, -50%);
 }
 .msgg-user-fullname span{
-    /* display: flex; */
     text-align: start;
     display: flex;
     justify-content: flex-start;
@@ -383,45 +357,11 @@
 .btn-msgg-chat.active{
     background-color: rgb(3, 138, 248);
 }
-/* .msgg-in-user{
-   display: flex;
-   flex-direction: column;
-   gap: 12px;
-   margin-top: 22px;
-} */
 .msgg-in-user img{
     width: 80px;
     height: 80px;
     border-radius: 50%;
 }
-/* .type-users{
-    margin-right: 250px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-} */
-/* .msgg-in-user button{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    float: 1;
-    border: none;
-    outline: none;
-    background: none;
-    padding: 8px;
-    background-color: #ccc9c9;
-    border-radius: 8px;
-    cursor: pointer;
-    width: 100%;
-    max-width: 100px;
-    transition: 0.8s ease-in-out;
-}
-.msgg-in-user button:hover{
-    background-color: #b3b0b0;
-} */
 .msgg-icons-box button{
     border: none;
     outline: none;
@@ -439,7 +379,6 @@
     position: absolute;
     top: 5px;
     left: 26px;
-    /* right: 0; */
 }
 .msg-count p{
     height: 18px;
@@ -474,4 +413,3 @@
     margin-left: -15px;
    }
 }
-/* @media(max-width:677) */

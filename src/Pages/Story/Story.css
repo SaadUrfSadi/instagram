@@ -44,7 +44,6 @@
     width: 100%;
     z-index: 999;
     border-radius: 8px;
-    /* max-width: 900px; */
 }
 .real-story-users{
     max-width: 900px;
@@ -85,7 +84,6 @@
     position: relative;
     overflow: hidden;
 }
-
 .status-timer-flow {
     position: absolute;
     top: 0;
@@ -175,14 +173,12 @@
 .story-status-like:hover{
     color: #ccc;
 }
-
-  .status-timers-container {
+.status-timers-container {
     width: 100%;
     display: flex;
     gap: 5px; 
-  }
-  
-  .status-timer::after {
+}  
+.status-timer::after {
     content: '';
     position: absolute;
     top: 0;
@@ -191,11 +187,12 @@
     background-color: #fff; 
     width: 0%;
     transition: width 15s linear;
-  }
-  .story-msg-box-second{
+}
+.story-msg-box-second{
     display: none;
-  }
-  @media(max-width:830px){
+}
+
+@media(max-width:830px){
     .story-instagram-name{
         display: none;
     }
@@ -206,7 +203,6 @@
         display: block;
     }
     .real-story-box{
-        /* height: 100%; */
         margin-top: 0px;
     }
     .story-pages-box-main{
@@ -229,14 +225,12 @@
         max-width: 100%;
         padding: 14px 20px;
     }
-  }
-
-    
-  @keyframes fill-status-timer {
+}
+@keyframes fill-status-timer {
     from {
-        width: 0%; /* Start at 0% */
+        width: 0%; 
     }
     to {
-        width: 100%; /* End at 100% */
+        width: 100%;
     }
 }
